@@ -1,2 +1,2 @@
 # Urchin
-A light-weight 3D renderer for JavaScript using HTML Canvas 2D
+A lightweight 3D renderer for JavaScript using HTML Canvas 2D
