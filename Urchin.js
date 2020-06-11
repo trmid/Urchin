@@ -2839,7 +2839,7 @@ var FocalPointController = (function (_super) {
         _this.velocity = new Vector();
         _this.dMouse = new Vector();
         _this.sensitivity = sensitivity;
-        _this.frition = Num.constrain(friction, 0, 1);
+        _this.friction = Num.constrain(friction, 0, 1);
         _this.zoomMultiplier = zoomMultiplier;
         _this.focalPoint = focalPoint;
         _this.minDist = minDist;
@@ -2875,7 +2875,7 @@ var FocalPointController = (function (_super) {
             .add(this.focalPoint);
         var diff = Vector.sub(this.focalPoint, camera.position), diffXY = new Vector(diff.x, diff.y, 0), diffZ = new Vector(diffXY.mag(), 0, diff.z);
         camera.orientation = Quaternion.fromVector(diffZ).rotateZ(diffXY.angleBetween(Vector.axis(Vector.X_AXIS)) * (diffXY.y > 0 ? 1 : -1));
-        this.velocity.mult(1 - this.frition);
+        this.velocity.mult(1 - this.friction);
         this.timer.startTimer();
     };
     FocalPointController.prototype.mouseDown = function (e) {

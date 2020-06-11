@@ -1,5 +1,5 @@
+URCHIN_PATH = "../../Urchin.js";
 window.addEventListener("load", function () {
-    URCHIN_PATH = "../../Urchin.js";
     var scene = new Scene();
     var camera = new Camera();
     var ring = Mesh.cylinder({

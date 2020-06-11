@@ -125,7 +125,7 @@
     <div id="header">
         <h1>Urchin 3D</h1>
         <canvas width="60" height="60" id="spinning-cube-canvas"></canvas>
-        <script src="examples/spinning_cube/render.js"></script>
+        <script src="./examples/spinning_cube/render.js"></script>
         <br>
     </div>
     <h4>Lightweight 3D Rendering with JavaScript and Canvas2D</h4>
@@ -136,22 +136,22 @@
 
         <div id="examples">
 
-            <a class="example" href="examples/hello_world/index.html">
+            <a class="example" href="./examples/hello_world/index.html">
                 <h3>Hello World!</h3>
                 <canvas width="720" height="480" id="hello-world-canvas"></canvas>
-                <script src="examples/hello_world/render.js"></script>
+                <script src="./examples/hello_world/render.js"></script>
             </a>
 
-            <a class="example" href="examples/color_cube/index.html">
+            <a class="example" href="./examples/color_cube/index.html">
                 <h3>Color Cube</h3>
                 <canvas width="720" height="480" id="color-cube-canvas"></canvas>
-                <script src="examples/color_cube/render.js"></script>
+                <script src="./examples/color_cube/render.js"></script>
             </a>
 
-            <a class="example" href="examples/focal_point_controller/index.html">
+            <a class="example" href="./examples/focal_point_controller/index.html">
                 <h3>Focal Point Controller</h3>
                 <canvas width="720" height="480" id="focal-point-controller-canvas"></canvas>
-                <script src="examples/focal_point_controller/render.js"></script>
+                <script src="./examples/focal_point_controller/render.js"></script>
             </a>
 
         </div>
@@ -220,6 +220,7 @@
         function scrollTo(id) {
             document.getElementById(id).scrollIntoView({ behavior: "smooth" });
         }
+        var URCHIN_PATH = "./Urchin.js";
     </script>
 </body>
 

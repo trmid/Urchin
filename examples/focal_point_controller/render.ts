@@ -1,15 +1,12 @@
 /// <reference path="../../src/index.ts" />
 
+/****************************************
+ * Point to the current location of the library for our Web Workers to find it. Default is "/Urchin/Urchin.js"
+ */
+
+URCHIN_PATH = "../../Urchin.js";
+
 window.addEventListener("load", function () {
-
-    /****************************************
-     * Point to the current location of the library for our Web Workers to find it. Default is "/Urchin/Urchin.js"
-     */
-
-    URCHIN_PATH = "../../Urchin.js";
-
-
-
 
     /****************************************
      * Make a Scene
@@ -76,12 +73,15 @@ window.addEventListener("load", function () {
     }));
 
 
+
+
     /****************************************
      * Add a Directional Light and an Ambient Light
      */
 
     scene.add(new DirectionalLight());
     scene.add(new AmbientLight());
+
 
 
 

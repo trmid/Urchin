@@ -10,7 +10,7 @@ class FocalPointController extends Controller {
     private velocity = new Vector();
     private dist: number;
     private sensitivity: number;
-    private frition: number;
+    private friction: number;
     private zoomMultiplier: number;
     private focalPoint: Vector;
     private minDist: number;
@@ -38,7 +38,7 @@ class FocalPointController extends Controller {
     } = {}) {
         super(Controller.FOCAL_POINT);
         this.sensitivity = sensitivity;
-        this.frition = Num.constrain(friction, 0, 1);
+        this.friction = Num.constrain(friction, 0, 1);
         this.zoomMultiplier = zoomMultiplier;
         this.focalPoint = focalPoint;
         this.minDist = minDist;
@@ -90,7 +90,7 @@ class FocalPointController extends Controller {
 
         camera.orientation = Quaternion.fromVector(diffZ).rotateZ(diffXY.angleBetween(Vector.axis(Vector.X_AXIS)) * (diffXY.y > 0 ? 1 : -1));
 
-        this.velocity.mult(1 - this.frition);
+        this.velocity.mult(1 - this.friction);
 
         this.timer.startTimer();
 
