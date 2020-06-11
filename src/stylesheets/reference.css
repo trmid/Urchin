@@ -1,0 +1,156 @@
+html,
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f8f8f8;
+    color: #222;
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h4,
+p {
+    margin: 2rem;
+}
+
+h4 {
+    font-weight: normal;
+}
+
+h3 {
+    margin: 0.5rem;
+}
+
+nav {
+    margin: 2em;
+}
+
+nav a {
+    margin-right: 1em;
+}
+
+note {
+    color: #888;
+}
+
+div {
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    margin: 1em;
+}
+
+#examples {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: fit-content;
+}
+
+.example {
+    display: block;
+    position: relative;
+    flex: 0 1 auto;
+    width: 30rem;
+    max-height: fit-content;
+    margin: 1rem;
+}
+
+.example:hover canvas {
+    box-shadow: 5px 5px 1rem #444;
+    transform: scale(1.05);
+}
+
+.example h3 {
+    position: absolute;
+    display: block;
+    top: -1px;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0.5em;
+    background-color: #444;
+    color: white;
+}
+
+.example canvas {
+    background-color: black;
+    width: 100%;
+}
+
+#reference {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.reference-col {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.reference-col a {
+    display: block;
+    margin: 1em;
+}
+
+#header {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#header h1,
+#header canvas {
+    display: inline-block;
+}
+
+.code,
+.code th{
+    font-family: monospace;
+}
+
+.table-scroll{
+    overflow-x: auto;
+}
+
+table{
+    text-align: left;
+    table-layout: fixed;
+    width: 100%;
+}
+
+th{
+    width: 25%;
+}
+
+td, th{
+    padding: 0.5em;
+    vertical-align: top;
+}
+
+@media only screen and (max-width: 768px) {
+
+    table {
+        table-layout: auto;
+    }
+
+    th,td{
+        display: block;
+        width: auto;
+    }
+
+    td{
+        margin-bottom: 2em;
+    }
+
+}
