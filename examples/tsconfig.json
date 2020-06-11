@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "module": "none",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "sourceMap": false
+    },
+    "include": [
+        "**/*.ts"
+    ]
+}

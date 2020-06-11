@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Urchin 3D</title>
+    <script src="Urchin.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html,
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f8f8;
+            color: #222;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1,
+        h2,
+        h4,
+        p {
+            margin: 2rem;
+        }
+
+        h4 {
+            font-weight: normal;
+        }
+
+        h3 {
+            margin: 0.5rem;
+        }
+
+        nav {
+            margin: 2em;
+        }
+
+        nav a {
+            margin-right: 1em;
+        }
+
+        div {
+            border-top: 1px solid #aaa;
+            border-bottom: 1px solid #aaa;
+            margin: 1em;
+        }
+
+        #examples {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: fit-content;
+        }
+
+        .example {
+            display: block;
+            position: relative;
+            flex: 0 1 auto;
+            width: 30rem;
+            max-height: fit-content;
+            margin: 1rem;
+        }
+
+        .example:hover canvas {
+            box-shadow: 5px 5px 1rem #444;
+            transform: scale(1.05);
+        }
+
+        .example h3 {
+            position: absolute;
+            display: block;
+            top: -1px;
+            left: 0;
+            right: 0;
+            margin: 0;
+            padding: 0.5em;
+            background-color: #444;
+            color: white;
+        }
+
+        .example canvas {
+            background-color: black;
+            width: 100%;
+        }
+
+        #reference {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+
+        .reference-col {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .reference-col a {
+            display: block;
+            margin: 1em;
+        }
+
+        #header {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        #header h1,
+        #header canvas {
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <h1>Urchin 3D</h1>
+        <canvas width="60" height="60" id="spinning-cube-canvas"></canvas>
+        <script src="examples/spinning_cube/render.js"></script>
+        <br>
+    </div>
+    <h4>Lightweight 3D Rendering with JavaScript and Canvas2D</h4>
+    <nav><a href="javascript:scrollTo('examples-start');">Examples</a><a href="javascript:scrollTo('reference-start');">Reference</a></nav>
+    <div>
+
+        <h2 id="examples-start">Examples</h2>
+
+        <div id="examples">
+
+            <a class="example" href="examples/hello_world/index.html">
+                <h3>Hello World!</h3>
+                <canvas width="720" height="480" id="hello-world-canvas"></canvas>
+                <script src="examples/hello_world/render.js"></script>
+            </a>
+
+            <a class="example" href="examples/color_cube/index.html">
+                <h3>Color Cube</h3>
+                <canvas width="720" height="480" id="color-cube-canvas"></canvas>
+                <script src="examples/color_cube/render.js"></script>
+            </a>
+
+            <a class="example" href="examples/focal_point_controller/index.html">
+                <h3>Focal Point Controller</h3>
+                <canvas width="720" height="480" id="focal-point-controller-canvas"></canvas>
+                <script src="examples/focal_point_controller/render.js"></script>
+            </a>
+
+        </div>
+
+        <h2 id="reference-start">Reference</h2>
+
+        <div id="reference">
+
+            <div class="reference-col">
+                <h3>Utilities</h3>
+                <a href="">Color</a>
+                <a href="">Fragment</a>
+                <a href="">FrameInstance</a>
+                <a href="">Interpolate</a>
+                <a href="">List</a>
+                <a href="">Material</a>
+                <a href="">Mesh</a>
+                <a href="">Num</a>
+                <a href="">Scene</a>
+                <a href="">Stats</a>
+                <a href="">Trigon</a>
+                <a href="">Vector</a>
+                <a href="">Quaternion</a>
+            </div>
+
+            <div class="reference-col">
+                <h3>Urbjects</h3>
+                <a href="">AmbientLight</a>
+                <a href="">Camera</a>
+                <a href="">DirectionalLight</a>
+                <a href="">MeshUrbject</a>
+                <a href="">PointLight</a>
+                <a href="">Urbject</a>
+            </div>
+
+            <div class="reference-col">
+                <h3>Controllers</h3>
+                <a href="">Controller</a>
+                <a href="">DefaultCameraController</a>
+                <a href="">FocalPointController</a>
+            </div>
+
+            <div class="reference-col">
+                <h3>Renderers</h3>
+                <a href="">PerformanceRenderer</a>
+                <a href="">Renderer</a>
+            </div>
+
+            <div class="reference-col">
+                <h3>Workers</h3>
+                <a href="">LightingWorker</a>
+                <a href="">ProjectingWorker</a>
+                <a href="">RenderWorker</a>
+                <a href="">SortingWorker</a>
+                <a href="">UrchinWorker</a>
+            </div>
+
+        </div>
+
+        <p>
+            Copyright &copy; 2020 Trevor Richard
+        </p>
+
+    </div>
+    <script>
+        function scrollTo(id) {
+            document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+        }
+    </script>
+</body>
+
+</html>
