@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Urchin Reference - Interpolate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../src/stylesheets/reference.css">
+</head>
+
+<body>
+    <h1>Interpolate</h1>
+    <p><a href="../../">Home</a></p>
+    <div>
+        <p>Interpolate is a static class that provides a way to interpolate between a range of values with different easing functions.</p>
+        <h3>Constants</h3>
+        <div>
+            <table class="code">
+                <tr>
+                    <th>Interpolate.EASE = 0</th>
+                    <td>The non-explicit value used to represent the ease-in-out interpolation function.</td>
+                </tr>
+                <tr>
+                    <th>Interpolate.EASE_IN = 1</th>
+                    <td>The non-explicit value used to represent the ease-in interpolation function.</td>
+                </tr>
+                <tr>
+                    <th>Interpolate.EASE_OUT = 2</th>
+                    <td>The non-explicit value used to represent the ease-out interpolation function.</td>
+                </tr>
+                <tr>
+                    <th>Interpolate.LINEAR = 3</th>
+                    <td>The non-explicit value used to represent the linear interpolation function.</td>
+                </tr>
+            </table>
+        </div>
+        <h3>Static Functions</h3>
+        <div class="code">
+            <table>
+                <tr>
+                    <th>Interpolate.range(t: number, start: number, end: number, type?: number): number</th>
+                    <td>Returns a value within the range [start, end] relative to the value of <i>t</i> and the type of function requested. <i>t</i> should be within the range [0, 1] and <i>type</i> should be one of the following: (Interpolate.EASE, Interpolate.EASE_IN, Interpolate.EASE_OUT, Interpolate.LINEAR). If <i>type</i> is not provided, Interpolate.LINEAR is used. <note>Note: if the value of <i>t</i> is less than 0, the value of <i>start</i> will be returned. Similarly, if the value of <i>t</i> is greater than 0, the value of <i>end</i> will be returned.</note>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <p><a href="../../">Home</a></p>
+        <p>
+            Copyright &copy; 2020 Trevor Richard
+        </p>
+    </div>
+</body>
+
+</html>

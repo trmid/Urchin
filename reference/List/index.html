@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Urchin Reference - </title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../src/stylesheets/reference.css">
+</head>
+
+<body>
+    <h1>List</h1>
+    <p><a href="../../">Home</a></p>
+    <div>
+        <p>
+            A List is an object used to store ordered or unordered nodes that contain some form of data. Multiple Lists are efficient to combine with the <span class="code">linkLast()</span> and <span class="code">linkFirst()</span> functions which are used in the Urchin rendering process to sort Fragments based on distance with a bucket sort algorithm.
+        </p>
+        <p>
+            <note>See also: <a href="./ListNode/">ListNode</a></note>
+        </p>
+        <h3>Constructors</h3>
+        <div class="table-scroll">
+            <table class="code">
+                <tr>
+                    <th>List&lt;T&gt;( ): List&lt;T&gt;</th>
+                    <td>Standard constructor that initializes the list. All nodes are expected to have type: T. <note>See also: <a href="./ListNode/">ListNode</a></note>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <h3>Variables</h3>
+        <div>
+            <table class="code">
+                <tr>
+                    <th>count: number</th>
+                    <td>The number of nodes in the list.</td>
+                </tr>
+                <tr>
+                    <th>head: ListNode&lt;T&gt;</th>
+                    <td>The first node in the list.</td>
+                </tr>
+                <tr>
+                    <th>minPriority: number</th>
+                    <td>The minimum priority value of some node in the list.</td>
+                </tr>
+                <tr>
+                    <th>maxPriority: number</th>
+                    <td>The maximum priority value of some node in the list.</td>
+                </tr>
+                <tr>
+                    <th>tail: ListNode&lt;T&gt;</th>
+                    <td>The last node in the list.</td>
+                </tr>
+            </table>
+        </div>
+        <h3>Functions</h3>
+        <div class="table-scroll">
+            <table class="code">
+                <tr>
+                    <th>private updatePriority(priority: number): void</th>
+                    <td>A private function used by the list to updated the minPriority and maxPriority values when a new addition is made to the list.</td>
+                </tr>
+                <tr>
+                    <th>addByPriority(data: T | any, priority?: number): void</th>
+                    <td>Creates a ListNode with the given data and priority and adds it to the list based on the node's priority. Higher priority nodes (those with greater values) will be at the front of the list while lower priority nodes will be at the end. The default value for priority is 0.</td>
+                </tr>
+                <tr>
+                    <th>addFirst(data: T | any, priority?: number): void</th>
+                    <td>Creates a ListNode with the given data and priority and adds it to the beginning of the list. The default value for priority is 0.</td>
+                </tr>
+                <tr>
+                    <th>addLast(data: T | any, priority?: number): void</th>
+                    <td>Creates a ListNode with the given data and priority and adds it to the end of the list. The default value for priority is 0.</td>
+                </tr>
+                <tr>
+                    <th>addListByPriority(list: List&lt;T&gt;): void</th>
+                    <td>Adds all of the nodes from the given list to the current list based on priority.</td>
+                </tr>
+                <tr>
+                    <th>copy(): List&lt;T&gt;</th>
+                    <td>Returns a copy of the list. Any data in the ListNodes will be a copy of the original data when possible.</td>
+                </tr>
+                <tr>
+                    <th>linkFirst(list List&lt;T&gt;): void</th>
+                    <td>Links the given list to the beginning of the current list and updates the count, minPriority and maxPriority values.</td>
+                </tr>
+                <tr>
+                    <th>linkLast(list List&lt;T&gt;): void</th>
+                    <td>Links the given list to the end of the current list and updates the count, minPriority, and maxPriority values.</td>
+                </tr>
+            </table>
+        </div>
+        <p><a href="../../">Home</a></p>
+        <p>
+            Copyright &copy; 2020 Trevor Richard
+        </p>
+    </div>
+</body>
+
+</html>

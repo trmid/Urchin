@@ -40,7 +40,7 @@ class List<T> {
         this.count++;
     }
 
-    updatePriority(priority: number) {
+    private updatePriority(priority: number) {
         if (!this.maxPriority && !this.minPriority) {
             this.maxPriority = priority;
             this.minPriority = priority;
@@ -81,16 +81,6 @@ class List<T> {
         while (current) {
             this.addByPriority(current.data, current.priority);
             current = current.nxt;
-        }
-    }
-
-    remove() {
-        if (this.head !== undefined && this.head !== null) {
-            if (this.head == this.tail) {
-                this.tail = undefined;
-            }
-            this.head = this.head.nxt;
-            this.count--;
         }
     }
 

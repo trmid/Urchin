@@ -277,7 +277,7 @@ class Vector {
         return V[maxIndex];
     }
 
-    static copy(v: Vector) {
+    static copy(v: Vector | { x: number, y: number, z: number }) {
         return new Vector(v.x, v.y, v.z);
     }
 
@@ -366,7 +366,7 @@ class Vector {
     }
 
     static qRotate(v: Vector, q: Quaternion) {
-        return this.quaternionRotate(v, q);
+        return Vector.quaternionRotate(v, q);
     }
 
     static quaternionRotate(v: Vector, q: Quaternion) {
@@ -377,7 +377,7 @@ class Vector {
         return v.copy().transform(M);
     }
 
-    static rotateAxis(v: Vector, axis: number, angle: number) {
+    static rotateAxis(v: Vector, axis: number | Vector, angle: number) {
         return v.copy().rotateAxis(axis, angle);
     }
 
@@ -417,5 +417,17 @@ class Vector {
         }
         console.error(`Axis [${a}] is not a valid axis number.`);
         return new Vector();
+    }
+
+    static xAxis() {
+        return Vector.axis(Vector.X_AXIS);
+    }
+
+    static yAxis() {
+        return Vector.axis(Vector.Y_AXIS);
+    }
+
+    static zAxis() {
+        return Vector.axis(Vector.Z_AXIS);
     }
 }

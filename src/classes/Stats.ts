@@ -9,14 +9,18 @@ class Stats {
     suspended = false;
 
     constructor({
-        show = false
+        show = false,
+        suspendOnBlur = true
     }: {
-        show?: boolean
+        show?: boolean,
+        suspendOnBlur?: boolean
     } = {}) {
         this.show = show;
         this.stats = {};
         this.getStatBox();
-        this.addSleepListener();
+        if (suspendOnBlur) {
+            this.addSleepListener();
+        }
     }
 
     private getStatBox() {
@@ -39,6 +43,14 @@ class Stats {
             this.timer = now;
             this.lastRead = now;
         });
+    }
+
+    getStat(name: string) {
+        if (this.stats[name]) {
+            return this.stats[name].value;
+        } else {
+            return undefined;
+        }
     }
 
     setStat(name: string, value: string | number, bias = 1, fractionDigits = 3) {

@@ -17,12 +17,29 @@
         <div class="table-scroll">
             <table class="code">
                 <tr>
-                    <th>Vector( ):</th>
+                    <th>Vector( ): Vector</th>
                     <td>Initializes with 0's for x, y, and z components.</td>
                 </tr>
                 <tr>
-                    <th>Vector( x: number, y: number, z: number ):</th>
+                    <th>Vector( x: number, y: number, z: number ): Vector</th>
                     <td>Initializes with the given values.</td>
+                </tr>
+            </table>
+        </div>
+        <h3>Variables</h3>
+        <div class="code">
+            <table class="code">
+                <tr>
+                    <th>public x: number</th>
+                    <td>The position of the vector along the X-axis.</td>
+                </tr>
+                <tr>
+                    <th>public y: number</th>
+                    <td>The position of the vector along the Y-axis.</td>
+                </tr>
+                <tr>
+                    <th>public z: number</th>
+                    <td>The position of the vector along the Z-axis.</td>
                 </tr>
             </table>
         </div>
@@ -135,6 +152,15 @@
                     <td>Normalizes the current vector so that its magnitude is 1. Returns <i>this</i>.</td>
                 </tr>
                 <tr>
+                    <th>qRotate(q: Quaternion): Vector</th>
+                    <td>Shorthand for quaternionRotate()</td>
+                </tr>
+                <tr>
+                    <th>quaternionRotate(q: Quaternion): Vector</th>
+                    <td>Applies the given quaternion rotation to the current vector and returns <i>this</i>. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
+                    </td>
+                </tr>
+                <tr>
                     <th>rotateAxis(axis: number | Vector, angle: number): Vector</th>
                     <td>Rotates the current vector around the given axis by the angle in radians and returns <i>this</i>. One of the following number constants can also be given as the axis: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS).</td>
                 </tr>
@@ -170,18 +196,166 @@
                     <th>transform(M: Array&lt;Array&lt;number&gt;&gt;): Vector</th>
                     <td>Applies the given 3 or 4 dimensional matrix transformation to the current vector and returns <i>this</i>.</td>
                 </tr>
+            </table>
+        </div>
+        <h3>Static Functions</h3>
+        <div class="code">
+            <table>
                 <tr>
-                    <th>qRotate(q: Quaternion): Vector</th>
-                    <td>Shorthand for quaternionRotate()</td>
+                    <th>Vector.add(v: Vector, a: number | Vector): Vector</th>
+                    <td>Returns the addition of a number or Vector to a <strong>copy</strong> of the given vector.</td>
                 </tr>
                 <tr>
-                    <th>quaternionRotate(q: Quaternion): Vector</th>
-                    <td>Applies the given quaternion rotation to the current vector and returns <i>this</i>. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
+                    <th>Vector.addX(v: Vector, a: number): Vector</th>
+                    <td>Returns the addition of a number to the X component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.addY(v: Vector, a: number): Vector</th>
+                    <td>Returns the addition of a number to the Y component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.addZ(v: Vector, a: number): Vector</th>
+                    <td>Returns the addition of a number to the Z component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.angleBetween(v0: Vector, v1: Vector): number</th>
+                    <td>Returns the angle in radians between the two given vectors. Range: [0, PI].</td>
+                </tr>
+                <tr>
+                    <th>Vector.axis(a: number): Vector</th>
+                    <td>Returns the corresponding unit vector that represents the given axis constant. Any of the following are acceptable values for the axis number: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS).</td>
+                </tr>
+                <tr>
+                    <th>Vector.closest(v: Vector, V: Array&lt;Vector&gt;): Vector</th>
+                    <td>Returns the vector in the given array of vectors that has the smallest distance from the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.copy(v: Vector | {x: number, y: number, z: number}): Vector</th>
+                    <td>Returns a copy of the given vector or creates a vector from an object with x, y, z properties.</td>
+                </tr>
+                <tr>
+                    <th>Vector.cross(v0: Vector, v1: Vector): Vector</th>
+                    <td>Returns the cross product of a <strong>copy</strong> of the first given vector by the second given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.div(v: Vector, a: number | Vector): Vector</th>
+                    <td>Returns the division of a number or Vector from a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.divX(v: Vector, a: number): Vector</th>
+                    <td>Returns the division of a number from the X component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.divY(v: Vector, a: number): Vector</th>
+                    <td>Returns the division of a number from the Y component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.divZ(v: Vector, a: number): Vector</th>
+                    <td>Returns the division of a number from the Z component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.dot(v0: Vector, v1: Vector): number</th>
+                    <td>Returns the dot product of the two given vectors.</td>
+                </tr>
+                <tr>
+                    <th>Vector.equals(v0: Vector, v1: Vector): boolean</th>
+                    <td>Returns true if the two vectors have the same X, Y, Z components.</td>
+                </tr>
+                <tr>
+                    <th>Vector.furthest(v: Vector, V: Array&lt;Vector&gt;): Vector</th>
+                    <td>Returns the vector in the given array of vectors that has the largest distance from the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.mag(v: Vector): number</th>
+                    <td>Returns the magnitude of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.mult(v: Vector, a: number | Vector): Vector</th>
+                    <td>Returns the multiplication of a number or Vector by a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.multX(v: Vector, a: number): Vector</th>
+                    <td>Returns the multiplication of a number by the X component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.multY(v: Vector, a: number): Vector</th>
+                    <td>Returns the multiplication of a number by the Y component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.multZ(v: Vector, a: number): Vector</th>
+                    <td>Returns the multiplication of a number by the Z component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.neg(v: Vector): Vector</th>
+                    <td>Returns the negation of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.normalize(v: Vector): Vector</th>
+                    <td>Returns a normalized <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.qRotate(v: Vector, q: Quaternion): Vector</th>
+                    <td>Shorthand for Vector.quaternionRotate()</td>
+                </tr>
+                <tr>
+                    <th>Vector.quaternionRotate(v: Vector, q: Quaternion): Vector</th>
+                    <td>Returns a <strong>copy</strong> of the given vector rotated by the given quaternion. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
                     </td>
+                </tr>
+                <tr>
+                    <th>Vector.rotateAxis(v: Vector, axis: number | Vector, angle: number): Vector</th>
+                    <td>Returns a <strong>copy</strong> of the given vector rotated by the given angle around the given axis. One of the following number constants can also be given as the axis: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS).</td>
+                </tr>
+                <tr>
+                    <th>Vector.rotateX(v: Vector, xAngle: number): Vector</th>
+                    <td>Returns a <strong>copy</strong> of the given vector rotated around the X-axis by the given angle.</td>
+                </tr>
+                <tr>
+                    <th>Vector.rotateY(v: Vector, xAngle: number): Vector</th>
+                    <td>Returns a <strong>copy</strong> of the given vector rotated around the Y-axis by the given angle.</td>
+                </tr>
+                <tr>
+                    <th>Vector.rotateZ(v: Vector, xAngle: number): Vector</th>
+                    <td>Returns a <strong>copy</strong> of the given vector rotated around the Z-axis by the given angle.</td>
+                </tr>
+                <tr>
+                    <th>Vector.sub(v: Vector, a: number | Vector): Vector</th>
+                    <td>Returns the subtraction of a number or Vector from a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.subX(v: Vector, a: number): Vector</th>
+                    <td>Returns the subtraction of a number from the X component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.subY(v: Vector, a: number): Vector</th>
+                    <td>Returns the subtraction of a number from the Y component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.subZ(v: Vector, a: number): Vector</th>
+                    <td>Returns the subtraction of a number from the Z component of a <strong>copy</strong> of the given vector.</td>
+                </tr>
+                <tr>
+                    <th>Vector.transform(v: Vector, M: Array&lt;Array&lt;number&gt;&gt;): Vector</th>
+                    <td>Returns the transformation of a <strong>copy</strong> of the given vector by the given 3 or 4 dimensional Matrix.</td>
+                </tr>
+                <tr>
+                    <th>Vector.xAxis(): Vector</th>
+                    <td>Returns the unit vector that lies upon the X-axis.</td>
+                </tr>
+                <tr>
+                    <th>Vector.yAxis(): Vector</th>
+                    <td>Returns the unit vector that lies upon the Y-axis.</td>
+                </tr>
+                <tr>
+                    <th>Vector.zAxis(): Vector</th>
+                    <td>Returns the unit vector that lies upon the Z-axis.</td>
                 </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>
+        <p>
+            Copyright &copy; 2020 Trevor Richard
+        </p>
     </div>
 </body>
 

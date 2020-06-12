@@ -315,7 +315,7 @@ var Vector = (function () {
         return v0.dot(v1);
     };
     Vector.qRotate = function (v, q) {
-        return this.quaternionRotate(v, q);
+        return Vector.quaternionRotate(v, q);
     };
     Vector.quaternionRotate = function (v, q) {
         return v.copy().quaternionRotate(q);
@@ -355,6 +355,15 @@ var Vector = (function () {
         }
         console.error("Axis [" + a + "] is not a valid axis number.");
         return new Vector();
+    };
+    Vector.xAxis = function () {
+        return Vector.axis(Vector.X_AXIS);
+    };
+    Vector.yAxis = function () {
+        return Vector.axis(Vector.Y_AXIS);
+    };
+    Vector.zAxis = function () {
+        return Vector.axis(Vector.Z_AXIS);
     };
     Vector.X_AXIS = 0;
     Vector.Y_AXIS = 1;
@@ -439,15 +448,6 @@ var List = (function () {
             current = current.nxt;
         }
     };
-    List.prototype.remove = function () {
-        if (this.head !== undefined && this.head !== null) {
-            if (this.head == this.tail) {
-                this.tail = undefined;
-            }
-            this.head = this.head.nxt;
-            this.count--;
-        }
-    };
     List.prototype.linkLast = function (list) {
         if (list.tail !== undefined) {
             if (this.tail !== undefined) {
@@ -526,6 +526,12 @@ var Num = (function () {
             total += a[i];
         }
         return total / a.length;
+    };
+    Num.rad = function (deg) {
+        return deg * Math.PI / 180.0;
+    };
+    Num.deg = function (rad) {
+        return rad * 180.0 / Math.PI;
     };
     return Num;
 }());
@@ -1262,7 +1268,7 @@ var Quaternion = (function () {
         return q.copy().normalize();
     };
     Quaternion.qMult = function (q0, q1) {
-        return this.quaternionMult(q0, q1);
+        return Quaternion.quaternionMult(q0, q1);
     };
     Quaternion.quaternionMult = function (q0, q1) {
         return q0.copy().quaternionMult(q1);
@@ -1308,9 +1314,7 @@ var Quaternion = (function () {
         return (new Quaternion(a, i, j, k)).normalize();
     };
     Quaternion.fromVector = function (v, reference) {
-        if (reference === undefined) {
-            reference = Vector.axis(Vector.X_AXIS);
-        }
+        if (reference === void 0) { reference = Vector.xAxis(); }
         if (v.equals(reference)) {
             return new Quaternion(1, 0, 0, 0);
         }
@@ -1391,27 +1395,28 @@ var Controller = (function () {
 var Interpolate = (function () {
     function Interpolate() {
     }
-    Interpolate.range = function (t, startValue, endValue, type) {
+    Interpolate.range = function (t, start, end, type) {
         if (type === void 0) { type = Interpolate.LINEAR; }
         if (t <= 0)
-            return startValue;
+            return start;
         if (t >= 1)
-            return endValue;
-        var diff = endValue - startValue;
+            return end;
+        var diff = end - start;
         switch (type) {
             case Interpolate.EASE_IN:
-                return (startValue + diff * t * t);
+                return (start + diff * t * t);
             case Interpolate.EASE_OUT:
-                return (startValue + diff * (1 - (1 - t) * (1 - t)));
+                return (start + diff * (1 - (1 - t) * (1 - t)));
             case Interpolate.EASE:
-                return (startValue + diff * (t < 0.5 ? 2 * t * t : 1 - 2 * Math.pow((1 - t), 2)));
+                return (start + diff * (t < 0.5 ? 2 * t * t : 1 - 2 * Math.pow((1 - t), 2)));
+            default:
             case Interpolate.LINEAR:
-                return (startValue + diff * t);
+                return (start + diff * t);
         }
     };
-    Interpolate.EASE_OUT = 0;
+    Interpolate.EASE = 0;
     Interpolate.EASE_IN = 1;
-    Interpolate.EASE = 2;
+    Interpolate.EASE_OUT = 2;
     Interpolate.LINEAR = 3;
     return Interpolate;
 }());
@@ -1547,14 +1552,16 @@ var DefaultCameraController = (function (_super) {
 }(Controller));
 var Stats = (function () {
     function Stats(_a) {
-        var _b = (_a === void 0 ? {} : _a).show, show = _b === void 0 ? false : _b;
+        var _b = _a === void 0 ? {} : _a, _c = _b.show, show = _c === void 0 ? false : _c, _d = _b.suspendOnBlur, suspendOnBlur = _d === void 0 ? true : _d;
         this.timer = 0;
         this.lastRead = 0;
         this.suspended = false;
         this.show = show;
         this.stats = {};
         this.getStatBox();
-        this.addSleepListener();
+        if (suspendOnBlur) {
+            this.addSleepListener();
+        }
     }
     Stats.prototype.getStatBox = function () {
         this.statBox = document.getElementById("statBox");
@@ -1576,6 +1583,14 @@ var Stats = (function () {
             _this.timer = now;
             _this.lastRead = now;
         });
+    };
+    Stats.prototype.getStat = function (name) {
+        if (this.stats[name]) {
+            return this.stats[name].value;
+        }
+        else {
+            return undefined;
+        }
     };
     Stats.prototype.setStat = function (name, value, bias, fractionDigits) {
         if (bias === void 0) { bias = 1; }

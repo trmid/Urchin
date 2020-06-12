@@ -163,7 +163,7 @@ class Quaternion {
     }
 
     static qMult(q0: Quaternion, q1: Quaternion) {
-        return this.quaternionMult(q0, q1);
+        return Quaternion.quaternionMult(q0, q1);
     }
 
     static quaternionMult(q0: Quaternion, q1: Quaternion) {
@@ -198,7 +198,7 @@ class Quaternion {
         return q.getRotationMatrix();
     }
 
-    static copy(q: Quaternion) {
+    static copy(q: Quaternion | { a: number, i: number, j: number, k: number }) {
         return new Quaternion(q.a, q.i, q.j, q.k);
     }
 
@@ -218,11 +218,7 @@ class Quaternion {
         return (new Quaternion(a, i, j, k)).normalize();
     }
 
-    static fromVector(v: Vector, reference?: Vector) {
-        if (reference === undefined) {
-            reference = Vector.axis(Vector.X_AXIS); // X_Axis is default reference 
-        }
-
+    static fromVector(v: Vector, reference = Vector.xAxis()) {
         if (v.equals(reference)) {
             // if vector is same as reference
             return new Quaternion(1, 0, 0, 0);

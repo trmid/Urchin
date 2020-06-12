@@ -135,6 +135,7 @@ th{
 
 td, th{
     padding: 0.5em;
+    padding-bottom: 2em;
     vertical-align: top;
 }
 
