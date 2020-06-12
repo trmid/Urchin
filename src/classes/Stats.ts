@@ -3,8 +3,8 @@
 class Stats {
     private statBox: HTMLElement;
     private stats: { [key: string]: { elem: HTMLElement, value: string | number } };
-    private timer = 0;
-    private lastRead = 0;
+    private timer: number;
+    private lastRead: number;
     private show: boolean;
     suspended = false;
 
@@ -88,12 +88,15 @@ class Stats {
     }
 
     readTimer() {
-        this.lastRead = performance.now();
+        let now = performance.now();
+        if (!this.timer) this.timer = now;
+        this.lastRead = now;
         return this.lastRead - this.timer;
     }
 
     readCheckpoint() {
         let now = performance.now();
+        if (!this.lastRead) this.lastRead = now;
         let time = now - this.lastRead;
         this.lastRead = now;
         return time;

@@ -64,16 +64,16 @@ class Mesh {
     addTrigon(t: Trigon | Array<Trigon>) {
         if (Array.isArray(t)) {
             for (let i = 0; i < t.length; i++) {
-                this.trigons.push(t[i]);
+                this.trigons.push(t[i].copy());
             }
         } else {
-            this.trigons.push(t);
+            this.trigons.push(t.copy());
         }
         return t;
     }
 
     generateFromArrayData(v: Array<number>) {
-        // Increment by 9 since there are 9 values per trigon (3 verticies)
+        // Increment by 9 since there are 9 values per trigon (3 vertices)
         for (let i = 0; i < v.length; i += 9) {
             let t = new Trigon(
                 new Vector(v[i + 0], v[i + 1], v[i + 2]),
@@ -81,6 +81,14 @@ class Mesh {
                 new Vector(v[i + 6], v[i + 7], v[i + 8])
             );
             this.addTrigon(t);
+        }
+        return this;
+    }
+
+    inverseNormals() {
+        for (let i = 0; i < this.trigons.length; i++) {
+            let t = this.trigons[i];
+            this.trigons[i] = new Trigon(t.v1, t.v0, t.v2);
         }
         return this;
     }
@@ -136,6 +144,10 @@ class Mesh {
     static generateFromArrayData(v: Array<number>) {
         let m = new Mesh();
         return m.generateFromArrayData(v);
+    }
+
+    static inverseNormals(m: Mesh) {
+        return m.copy().inverseNormals();
     }
 
     static copy(m: Mesh) {

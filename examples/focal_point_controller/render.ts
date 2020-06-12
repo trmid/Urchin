@@ -20,7 +20,9 @@ window.addEventListener("load", function () {
      * Make a Camera looking at the origin
      */
 
-    let camera = new Camera();
+    let camera = new Camera({
+        position: new Vector(-20, 0, 0)
+    });
 
 
 
@@ -28,59 +30,81 @@ window.addEventListener("load", function () {
      * Make some inter-linked rings
      */
 
+    let ringSegments = new Array<Urbject>();
+
     let ring = Mesh.cylinder({
         innerRadius: 0.95,
         outerRadius: 1.05,
         height: 0.1,
-        resolution: 24
+        resolution: 16
+    });
+    let smallRing = Mesh.scale(ring, 0.75);
+
+    let ringMat = new Material({ fill: new Color("white") });
+
+    let centerRing = new MeshUrbject({
+        position: new Vector(0, 0, 4),
+        mesh: ring,
+        material: ringMat
     });
 
-    let silver = new Material({ fill: new Color("silver") });
+    let outerRings = new Urbject({
+        position: new Vector(0, 0, 4),
+    });
 
-    scene.add(new MeshUrbject({
-        position: new Vector(),
-        orientation: Quaternion.fromAxisRotation(Vector.Y_AXIS, Math.PI / 2),
-        mesh: ring,
-        material: silver
+    outerRings.addChild(new MeshUrbject({
+        position: new Vector(0.6, 0, 0),
+        orientation: Quaternion.fromAxisRotation(Vector.Y_AXIS, Num.rad(45)),
+        mesh: smallRing,
+        material: ringMat
     }));
 
-    scene.add(new MeshUrbject({
-        position: new Vector(0, 1.5, 0),
-        orientation: new Quaternion().rotateY(1),
-        mesh: ring,
-        material: silver
+    outerRings.addChild(new MeshUrbject({
+        position: new Vector(-0.6, 0, 0),
+        orientation: Quaternion.fromAxisRotation(Vector.Y_AXIS, Num.rad(-45)),
+        mesh: smallRing,
+        material: ringMat
     }));
 
-    scene.add(new MeshUrbject({
-        position: new Vector(0, -1.5, 0),
-        orientation: new Quaternion().rotateY(-1),
-        mesh: ring,
-        material: silver
-    }));
-
-    scene.add(new MeshUrbject({
-        position: new Vector(0, 0, 1.5),
-        orientation: Quaternion.fromAxisRotation(Vector.X_AXIS, Math.PI / 2).rotateZ(-1),
-        mesh: ring,
-        material: silver
-    }));
-
-    scene.add(new MeshUrbject({
-        position: new Vector(0, 0, -1.5),
-        orientation: Quaternion.fromAxisRotation(Vector.X_AXIS, Math.PI / 2).rotateZ(1),
-        mesh: ring,
-        material: silver
-    }));
-
+    let numSegments = 12;
+    for (let i = 0; i < numSegments; i++) {
+        let innerLink = new Urbject();
+        let outerLink = new Urbject();
+        let innerRingSegment = centerRing.copy();
+        let outerRingSegment = outerRings.copy();
+        ringSegments.push(innerRingSegment);
+        ringSegments.push(outerRingSegment);
+        innerLink.addChild(innerRingSegment);
+        outerLink.addChild(outerRingSegment);
+        innerLink.orientation = Quaternion.fromAxisRotation(Vector.X_AXIS, Num.rad((360.0 * i) / numSegments));
+        outerLink.orientation = Quaternion.fromAxisRotation(Vector.X_AXIS, Num.rad((360.0 * (i + 0.5)) / numSegments))
+        scene.add(innerLink);
+        scene.add(outerLink);
+    }
 
 
 
     /****************************************
-     * Add a Directional Light and an Ambient Light
+     * Add three Directional Lights that are all perpendicular to each other.
      */
 
-    scene.add(new DirectionalLight());
-    scene.add(new AmbientLight());
+    let lightRotation = Quaternion.fromVector(new Vector(1, -1, -1));
+
+    scene.add(new DirectionalLight({
+        color: new Color("yellow"),
+        direction: Vector.xAxis().qRotate(lightRotation),
+        brightness: 1
+    }));
+    scene.add(new DirectionalLight({
+        color: new Color("aqua"),
+        direction: Vector.yAxis().qRotate(lightRotation),
+        brightness: 1
+    }));
+    scene.add(new DirectionalLight({
+        color: new Color("fuchsia"),
+        direction: Vector.zAxis().qRotate(lightRotation),
+        brightness: 1
+    }));
 
 
 
@@ -93,9 +117,23 @@ window.addEventListener("load", function () {
 
     let controller = new FocalPointController({
         focalPoint: new Vector(0, 0, 0),
-        friction: 0.05,
+        friction: 0.03,
+        minDist: 5,
+        maxDist: 30,
+        zoomMultiplier: 1,
         controlFace: canvas || window
     });
+
+
+
+
+
+    /****************************************
+     * Create a Stats object to time each render frame.
+     */
+
+    let timer = new Stats();
+
 
 
 
@@ -104,8 +142,32 @@ window.addEventListener("load", function () {
      */
 
     let draw = function () {
+        let t = timer.readTimer() / 1000.0;
+
+
+
+
+        /****************************************
+         * Rotate each of the ring segments around their local Y-axis by 45 degrees per second.
+         */
+
+        for (let i = 0; i < ringSegments.length; i++) {
+            ringSegments[i].orientation.rotateY(Num.rad(45) * t);
+        }
+
+
+
+
+        /****************************************
+         * Move the camera with the FocalPointController
+         */
 
         controller.move(camera);
+
+
+
+
+        timer.startTimer();
 
     }
 
@@ -114,12 +176,13 @@ window.addEventListener("load", function () {
 
     /****************************************
      * Make a PerformanceRenderer with a callback to draw() on each frame.
+     * Set the background to a nearly-transparent color to add a "blur" effect.
      */
 
     let renderer = new PerformanceRenderer({
         canvas: canvas,
         frameCallback: draw,
-        backgroundColor: new Color("white")
+        backgroundColor: new Color(0, 0.05)
     });
 
 
@@ -127,7 +190,7 @@ window.addEventListener("load", function () {
 
     /* [IGNORE] CODE FOR EXAMPLE PAGE */
     if (canvas) {
-        canvas.addEventListener("mouseover", function () { renderer.start(scene, camera); });
+        canvas.addEventListener("mouseover", function () { timer.startTimer(); renderer.start(scene, camera); });
         canvas.addEventListener("mouseleave", function () { renderer.stop(); });
     }
     /* --------------------- */

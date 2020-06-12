@@ -45,7 +45,6 @@ class FocalPointController extends Controller {
         this.maxDist = maxDist;
         this.controlFace = controlFace;
         this.timer = new Stats();
-        this.dist = Num.avg([this.minDist, this.maxDist]);
 
         // Setup
         var controller = this;
@@ -66,21 +65,22 @@ class FocalPointController extends Controller {
         }
 
         let pos = Vector.sub(camera.position, this.focalPoint);
+
+        if (this.dist === undefined) {
+            this.dist = pos.mag();
+        }
+
         let XYAxis = new Vector(pos.x, pos.y, 0).normalize().rotateZ(Math.PI / 2);
-
-        camera.position = pos.normalize()
-            .rotateZ(-this.velocity.x / 360.0)
-
-        pos = camera.position.copy();
-
         camera.position.rotateAxis(XYAxis, -this.velocity.y / 360.0);
-
-        if (Num.getSign(camera.position.x) * Num.getSign(pos.x) != 1)
+        if (Num.getSign(camera.position.x * pos.x) != 1)
             camera.position.x = pos.x;
-        if (Num.getSign(camera.position.y) * Num.getSign(pos.y) != 1)
+        if (Num.getSign(camera.position.y * pos.y) != 1)
             camera.position.y = pos.y;
 
+        camera.position.rotateZ(-this.velocity.x / 360.0);
+
         camera.position
+            .normalize()
             .mult(this.dist)
             .add(this.focalPoint);
 

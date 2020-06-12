@@ -1553,8 +1553,6 @@ var DefaultCameraController = (function (_super) {
 var Stats = (function () {
     function Stats(_a) {
         var _b = _a === void 0 ? {} : _a, _c = _b.show, show = _c === void 0 ? false : _c, _d = _b.suspendOnBlur, suspendOnBlur = _d === void 0 ? true : _d;
-        this.timer = 0;
-        this.lastRead = 0;
         this.suspended = false;
         this.show = show;
         this.stats = {};
@@ -1629,11 +1627,16 @@ var Stats = (function () {
         this.lastRead = this.timer;
     };
     Stats.prototype.readTimer = function () {
-        this.lastRead = performance.now();
+        var now = performance.now();
+        if (!this.timer)
+            this.timer = now;
+        this.lastRead = now;
         return this.lastRead - this.timer;
     };
     Stats.prototype.readCheckpoint = function () {
         var now = performance.now();
+        if (!this.lastRead)
+            this.lastRead = now;
         var time = now - this.lastRead;
         this.lastRead = now;
         return time;
@@ -1789,11 +1792,11 @@ var Mesh = (function () {
     Mesh.prototype.addTrigon = function (t) {
         if (Array.isArray(t)) {
             for (var i = 0; i < t.length; i++) {
-                this.trigons.push(t[i]);
+                this.trigons.push(t[i].copy());
             }
         }
         else {
-            this.trigons.push(t);
+            this.trigons.push(t.copy());
         }
         return t;
     };
@@ -1801,6 +1804,13 @@ var Mesh = (function () {
         for (var i = 0; i < v.length; i += 9) {
             var t = new Trigon(new Vector(v[i + 0], v[i + 1], v[i + 2]), new Vector(v[i + 3], v[i + 4], v[i + 5]), new Vector(v[i + 6], v[i + 7], v[i + 8]));
             this.addTrigon(t);
+        }
+        return this;
+    };
+    Mesh.prototype.inverseNormals = function () {
+        for (var i = 0; i < this.trigons.length; i++) {
+            var t = this.trigons[i];
+            this.trigons[i] = new Trigon(t.v1, t.v0, t.v2);
         }
         return this;
     };
@@ -1844,6 +1854,9 @@ var Mesh = (function () {
     Mesh.generateFromArrayData = function (v) {
         var m = new Mesh();
         return m.generateFromArrayData(v);
+    };
+    Mesh.inverseNormals = function (m) {
+        return m.copy().inverseNormals();
     };
     Mesh.copy = function (m) {
         var copy = new Mesh();
@@ -2861,7 +2874,6 @@ var FocalPointController = (function (_super) {
         _this.maxDist = maxDist;
         _this.controlFace = controlFace;
         _this.timer = new Stats();
-        _this.dist = Num.avg([_this.minDist, _this.maxDist]);
         var controller = _this;
         controlFace.addEventListener("mousedown", function (e) { controller.mouseDown(e); });
         controlFace.addEventListener("mouseup", function (e) { controller.mouseUp(e); });
@@ -2876,16 +2888,18 @@ var FocalPointController = (function (_super) {
             this.dMouse = new Vector();
         }
         var pos = Vector.sub(camera.position, this.focalPoint);
+        if (this.dist === undefined) {
+            this.dist = pos.mag();
+        }
         var XYAxis = new Vector(pos.x, pos.y, 0).normalize().rotateZ(Math.PI / 2);
-        camera.position = pos.normalize()
-            .rotateZ(-this.velocity.x / 360.0);
-        pos = camera.position.copy();
         camera.position.rotateAxis(XYAxis, -this.velocity.y / 360.0);
-        if (Num.getSign(camera.position.x) * Num.getSign(pos.x) != 1)
+        if (Num.getSign(camera.position.x * pos.x) != 1)
             camera.position.x = pos.x;
-        if (Num.getSign(camera.position.y) * Num.getSign(pos.y) != 1)
+        if (Num.getSign(camera.position.y * pos.y) != 1)
             camera.position.y = pos.y;
+        camera.position.rotateZ(-this.velocity.x / 360.0);
         camera.position
+            .normalize()
             .mult(this.dist)
             .add(this.focalPoint);
         var diff = Vector.sub(this.focalPoint, camera.position), diffXY = new Vector(diff.x, diff.y, 0), diffZ = new Vector(diffXY.mag(), 0, diff.z);
