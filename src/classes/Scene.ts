@@ -17,7 +17,7 @@ class Scene {
     }
 
     remove(urbject: Urbject) {
-        return this.root.remove(urbject);
+        return this.root.removeChild(urbject);
     }
 
     copy() {

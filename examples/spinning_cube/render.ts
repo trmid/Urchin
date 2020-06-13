@@ -34,7 +34,7 @@ window.addEventListener("load", function () {
 
     let cube = new MeshUrbject({
         mesh: Mesh.cube().rotateAxis(new Vector(1, 1, 1), Math.PI / 4),
-        material: new Material({ fill: new Color(0, 100, 50) }),
+        material: new Material({ fill: new Color(0, 100, 50) })
     });
     scene.add(cube);
 

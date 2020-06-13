@@ -123,6 +123,20 @@ div {
     overflow-x: auto;
 }
 
+.value-table{
+    table-layout: fixed;
+}
+
+.value-table th, .value-table td{
+    border: 1px solid #aaa;
+    padding-bottom: 0.5em;
+    width: 20%;
+}
+
+.value-table td:nth-child(odd){
+    width: 60%;
+}
+
 table{
     text-align: left;
     table-layout: fixed;
@@ -140,6 +154,16 @@ td, th{
 }
 
 @media only screen and (max-width: 768px) {
+
+    .value-table{
+        table-layout: auto;
+    }
+
+    .value-table th, .value-table td, .value-table td:nth-child(odd){
+        border: 1px solid #aaa;
+        padding-bottom: 0.5em;
+        width: auto;
+    }
 
     table {
         table-layout: auto;

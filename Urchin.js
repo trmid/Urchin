@@ -821,17 +821,17 @@ var Urbject = (function () {
     };
     Urbject.prototype.setScale = function (a) {
         this.scaleVector = (typeof a === "number" ? new Vector(a, a, a) : a);
-        return a;
+        return this;
     };
     Urbject.prototype.addChild = function (c) {
         if (c.parent) {
-            c.parent.remove(c);
+            c.parent.removeChild(c);
         }
         c.parent = this;
         this.children.push(c);
         return c;
     };
-    Urbject.prototype.remove = function (c) {
+    Urbject.prototype.removeChild = function (c) {
         var removed = null;
         this.children = this.children.filter(function (urb) {
             var found = (urb === c);
@@ -864,7 +864,7 @@ var Urbject = (function () {
                 case Urbject.AMBIENT_LIGHT:
                     childInstance = this.children[i].getInstance(camera);
                     break;
-                case Urbject.SPOT_LIGHT:
+                case Urbject.POINT_LIGHT:
                     childInstance = this.children[i].getInstance(camera);
                     break;
                 case Urbject.CAMERA:
@@ -934,7 +934,7 @@ var Urbject = (function () {
                     case Urbject.AMBIENT_LIGHT:
                         copy.addChild(child.copy());
                         break;
-                    case Urbject.SPOT_LIGHT:
+                    case Urbject.POINT_LIGHT:
                         copy.addChild(child.copy());
                         break;
                     case Urbject.CAMERA:
@@ -945,11 +945,20 @@ var Urbject = (function () {
         }
         return copy;
     };
+    Urbject.addChild = function (u, c) {
+        return u.copy().addChild(c);
+    };
+    Urbject.removeChild = function (u, c) {
+        return u.copy().removeChild(c);
+    };
     Urbject.applyTransform = function (target, transform) {
         return target.copy().applyTransform(transform);
     };
     Urbject.getWorldTransform = function (u) {
         return u.getWorldTransform();
+    };
+    Urbject.getInstance = function (u, camera) {
+        return u.getInstance(camera);
     };
     Urbject.translate = function (u, v) {
         return u.translate(v);
@@ -968,7 +977,7 @@ var Urbject = (function () {
                 case Urbject.MESH_URBJECT: return MeshUrbject.copy(u, options);
                 case Urbject.DIRECTIONAL_LIGHT: return DirectionalLight.copy(u, options);
                 case Urbject.AMBIENT_LIGHT: return AmbientLight.copy(u, options);
-                case Urbject.SPOT_LIGHT: return PointLight.copy(u, options);
+                case Urbject.POINT_LIGHT: return PointLight.copy(u, options);
                 case Urbject.CAMERA: return Camera.copy(u, options);
             }
         }
@@ -996,7 +1005,7 @@ var Urbject = (function () {
                     case Urbject.AMBIENT_LIGHT:
                         copy.addChild(AmbientLight.copy(child, options));
                         break;
-                    case Urbject.SPOT_LIGHT:
+                    case Urbject.POINT_LIGHT:
                         copy.addChild(PointLight.copy(child, options));
                         break;
                     case Urbject.CAMERA:
@@ -1011,7 +1020,7 @@ var Urbject = (function () {
     Urbject.MESH_URBJECT = 1;
     Urbject.AMBIENT_LIGHT = 2;
     Urbject.DIRECTIONAL_LIGHT = 3;
-    Urbject.SPOT_LIGHT = 4;
+    Urbject.POINT_LIGHT = 4;
     Urbject.CAMERA = 5;
     Urbject.DYNAMIC = 100;
     Urbject.STATIC = 101;
@@ -2184,31 +2193,30 @@ var MeshUrbject = (function (_super) {
         }
         var frags = new List();
         var trigons = this.mesh.trigons;
+        var trigonRotation = this.orientation;
+        switch (this.state) {
+            default:
+            case Urbject.DYNAMIC:
+                break;
+            case Urbject.BILLBOARD:
+            case Urbject.X_BILLBOARD:
+            case Urbject.Y_BILLBOARD:
+            case Urbject.Z_BILLBOARD:
+                var norm = Vector.axis(Vector.X_AXIS);
+                var center = this.position;
+                var diff = Vector.sub(camera.position, center);
+                if (this.state == Urbject.X_BILLBOARD)
+                    diff.x = 0;
+                if (this.state == Urbject.Y_BILLBOARD)
+                    diff.y = 0;
+                if (this.state == Urbject.Z_BILLBOARD)
+                    diff.z = 0;
+                var axis = (new Trigon(new Vector(), norm, diff)).getNormal();
+                trigonRotation.quaternionRotate(Quaternion.fromAxisRotation(axis, diff.angleBetween(norm)));
+                break;
+        }
         for (var n = 0; n < trigons.length; n++) {
-            switch (this.state) {
-                default:
-                case Urbject.DYNAMIC:
-                    var t = Trigon.scale(trigons[n], this.scaleVector).quaternionRotate(this.orientation).translate(this.position);
-                    break;
-                case Urbject.BILLBOARD:
-                case Urbject.X_BILLBOARD:
-                case Urbject.Y_BILLBOARD:
-                case Urbject.Z_BILLBOARD:
-                    var t = Trigon.scale(trigons[n], this.scaleVector).quaternionRotate(this.orientation);
-                    var norm = Vector.axis(Vector.X_AXIS);
-                    var center = this.position;
-                    var diff = Vector.sub(camera.position, center);
-                    if (this.state == Urbject.X_BILLBOARD)
-                        diff.x = 0;
-                    if (this.state == Urbject.Y_BILLBOARD)
-                        diff.y = 0;
-                    if (this.state == Urbject.Z_BILLBOARD)
-                        diff.z = 0;
-                    var axis = (new Trigon(new Vector(), norm, diff)).getNormal();
-                    t.quaternionRotate(Quaternion.fromAxisRotation(axis, diff.angleBetween(norm)));
-                    t.translate(this.position);
-                    break;
-            }
+            var t = Trigon.scale(trigons[n], this.scaleVector).quaternionRotate(trigonRotation).translate(this.position);
             frags.addFirst(new Fragment(t, this.material, this.group + Urbject.DEFAULT_GROUP));
         }
         var childrenInstance = _super.prototype.getInstance.call(this, camera);
@@ -2240,7 +2248,7 @@ var Scene = (function () {
         return this.root.addChild(urbject);
     };
     Scene.prototype.remove = function (urbject) {
-        return this.root.remove(urbject);
+        return this.root.removeChild(urbject);
     };
     Scene.prototype.copy = function () {
         return new Scene({ urbject: this.root.copy() });
@@ -2809,7 +2817,7 @@ var PointLight = (function (_super) {
     __extends(PointLight, _super);
     function PointLight(_a) {
         var _b = _a === void 0 ? {} : _a, _c = _b.radius, radius = _c === void 0 ? 10.0 : _c, _d = _b.position, position = _d === void 0 ? new Vector() : _d, _e = _b.brightness, brightness = _e === void 0 ? 1.0 : _e, _f = _b.color, color = _f === void 0 ? new Color("WHITE") : _f, superCopy = _b.superCopy, state = _b.state, group = _b.group;
-        var _this = _super.call(this, { position: position, type: Urbject.SPOT_LIGHT, superCopy: superCopy, state: state, group: group }) || this;
+        var _this = _super.call(this, { position: position, type: Urbject.POINT_LIGHT, superCopy: superCopy, state: state, group: group }) || this;
         _this.radius = radius;
         _this.brightness = brightness;
         _this.color = color;

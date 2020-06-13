@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Urchin Reference - Light</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../src/stylesheets/reference.css">
+</head>
+
+<body>
+    <h1>Light</h1>
+    <p><a href="../../">Home</a></p>
+    <div>
+        <p>
+            Light is an Interface that all light Urbjects implement to maintain a standard process during the rendering process.
+        </p>
+        <p>
+            <note>
+                See also: <a href="../Urbject/">Urbject</a>, <a href="../AmbientLight/">AmbientLight</a>, <a href="../DirectionalLight/">DirectionalLight</a>, <a href="../PointLight/">PointLight</a>
+            </note>
+        </p>
+        <h3>Interface</h3>
+        <div class="table-scroll">
+            <table class="code">
+                <tr>
+                    <th>brightness: number</th>
+                    <td>The brightness of the light. Any value above 1 is considered "overexposed".</td>
+                </tr>
+                <tr>
+                    <th>color: Color</th>
+                    <td>The color of the light. <note>See also: <a href="../Color/">Color</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>intensityOn(t: Trigon): number</th>
+                    <td>The intensity that the light would shine on the given Trigon. This could be affected by distance, the normal of the Trigon, and other factors. Any value returned above 1 is considered "overexposed".</td>
+                </tr>
+            </table>
+        </div>
+        <p><a href="../../">Home</a></p>
+        <p>
+            Copyright &copy; 2020 Trevor Richard
+        </p>
+    </div>
+</body>
+
+</html>

@@ -2,39 +2,296 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - Urbject</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>Urbject</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            An Urbject is an object that can be added to a Scene. There are many sub-classes of an Urbject such as MeshUrbject, AmbientLight, DirectionalLight, PointLight, and Camera. The base Urbject class holds positional and classification data, and on its own can be used as a "parent" object to contain children Urbjects and transform them locally to itself.
+        </p>
+        <p>
+            <note>See also: <a href="../Scene/">Scene</a>, <a href="../MeshUrbject/">MeshUrbject</a>, <a href="../AmbientLight/">AmbientLight</a>, <a href="../DirectionalLight/">DirectionalLight</a>, <a href="../PointLight/">PointLight</a>, <a href="../Camera/">Camera</a></note>
+        </p>
+        <p>
+            <note>Urbjects are named after Urchin to avoid confusion with the basic JavaScript "Object".</note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>Urbject( ): Urbject</th>
+                    <td>Creates an Urbject with default attributes.</td>
+                </tr>
+                <tr>
+                    <th>Urbject( { type?: number, position?: Vector, orientation?: Quaternion, scale?: number | Vector, state?: number, group?: number, superCopy?: Urbject } ): Urbject</th>
+                    <td>Creates an Urbject with the given values. The default values are:<br><br>
+                        <table class="value-table">
+                            <tr>
+                                <th>type</th>
+                                <td>Urbject.PARENT</td>
+                                <td>Specifies the type of Urbject. <note>Note: If you need to construct a sub-type of the Urbject class, it is best to use the constructor of the sub-type rather than setting this value. <br><br>See also: <a href="../MeshUrbject/">MeshUrbject</a>, <a href="../AmbientLight/">AmbientLight</a>, <a href="../DirectionalLight/">DirectionalLight</a>, <a href="../PointLight/">PointLight</a>, <a href="../Camera/">Camera</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>position</th>
+                                <td>new Vector()</td>
+                                <td>The position of the Urbject in 3D space. <note>See also: <a href="../Vector/">Vector</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>orientation</th>
+                                <td>new Quaternion()</td>
+                                <td>The orientation of the Urbject in 3D space. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>scale</th>
+                                <td>1</td>
+                                <td>The scale of the Urbject in 3D space. If a vector is provided, each individual axis will be multiplied by the corresponding component of the vector.</td>
+                            </tr>
+                            <tr>
+                                <th>state</th>
+                                <td>Urbject.DYNAMIC</td>
+                                <td>The state of the Urbject used to determine the way the FrameInstance for the Urbject is calculated. <note>See also: <a href="../FrameInstance/">FrameInstance</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>group</th>
+                                <td>0</td>
+                                <td>The render group that the Urbject is a part of. Smaller group numbers are rendered first. <note>Note: The minimum group that can be assigned is -100, and the maximum is equal to 2<sup>32</sup> - 101.</note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>superCopy</th>
+                                <td>undefined</td>
+                                <td>A Urbject to copy values from. This is used by sub-classes of Urbject to copy data to a new sub-class.</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Constants</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th style="text-decoration: underline;">
+                        Urbject Types
+                    </th>
+                </tr>
+                <tr>
+                    <th>Urbject.PARENT = 0</th>
+                    <td>A non-explicit value used to classify an Urbject as a standard Urbject.</td>
+                </tr>
+                <tr>
+                    <th>Urbject.MESH_URBJECT = 1</th>
+                    <td>A non-explicit value used to classify an Urbject as a MeshUrbject. <note>See also: <a href="../MeshUrbject/">MeshUrbject</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Urbject.AMBIENT_LIGHT = 2</th>
+                    <td>A non-explicit value used to classify an Urbject as an AmbientLight. <note>See also: <a href="../AmbientLight/">AmbientLight</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Urbject.DIRECTIONAL_LIGHT = 3</th>
+                    <td>A non-explicit value used to classify an Urbject as a DirectionalLight. <note>See also: <a href="../DirectionalLight/">DirectionalLight</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Urbject.SPOT_LIGHT = 4</th>
+                    <td>A non-explicit value used to classify an Urbject as a PointLight. <note>See also: <a href="../PointLight/">PointLight</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Urbject.CAMERA = 5</th>
+                    <td>A non-explicit value used to classify an Urbject as a Camera. <note>See also: <a href="../Camera/">Camera</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th style="text-decoration: underline;">
+                        Urbject States
+                    </th>
+                </tr>
+                <tr>
+                    <th>Urbject.DYNAMIC = 100</th>
+                    <td>A non-explicit value used to classify the state of the Urbject as Dynamic. A Dynamic Urbject will assume that it has moved or changed visual properties in some way since the last frame render. This is the default state of all Urbjects.</td>
+                </tr>
+                <tr>
+                    <th>Urbject.STATIC = 101</th>
+                    <td>A non-explicit value used to classify the state of the Urbject as Static. A Static Urbject will assume that it and any of its children have NOT moved or changed visual properties in any way since the last frame render. When a FrameInstance is calculated, this object's FrameInstance will be pulled from the instanceCache if it exists, or calculated and then stored in the instanceCache if it does not exist. <note>See also: <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Urbject.BILLBOARD = 102</th>
+                    <td>A non-explicit value used to classify the state of the Urbject as a Billboard. A Billboard Urbject will always rotate so that its default orientation faces the camera. i.e. The local X-Axis of the Urbject will rotate to point towards the camera.</td>
+                </tr>
+                <tr>
+                    <th>Urbject.Z_BILLBOARD = 103</th>
+                    <td>A non-explicit value used to classify the state of the Urbject as a Billboard about the Z-Axis. A Z-Billboard Urbject will always rotate so that its default orientation rotates around the Z-Axis to face the camera.</td>
+                </tr>
+                <tr>
+                    <th>Urbject.X_BILLBOARD = 104</th>
+                    <td>A non-explicit value used to classify the state of the Urbject as a Billboard about the X-Axis. A X-Billboard Urbject will always rotate so that its default orientation rotates around the X-Axis to face the camera.</td>
+                </tr>
+                <tr>
+                    <th>Urbject.Y_BILLBOARD = 105</th>
+                    <td>A non-explicit value used to classify the state of the Urbject as a Billboard about the Y-Axis. A Y-Billboard Urbject will always rotate so that its default orientation rotates around the Y-Axis to face the camera.</td>
+                </tr>
+                <tr>
+                    <th style="text-decoration: underline;">
+                        Other
+                    </th>
+                </tr>
+                <tr>
+                    <th>Urbject.DEFAULT_GROUP = 100</th>
+                    <td>The translation that is added to a group number of an Urbject when calculating its position in the render queue. This allows all Urbjects to be positioned at group 0, and there can be up to 100 groups that come before group 0.</td>
+                </tr>
+            </table>
+        </div>
+        <h3>Variables</h3>
+        <div>
+            <table class="code">
+                <tr>
+                    <th>protected instanceCache: FrameInstance</th>
+                    <td>A protected variable that stores the FrameInstance for Static Urbjects. <note>See also: <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>children: Array&lt;Urbject&gt;</th>
+                    <td>An Array of Urbjects that are positioned relatively to this Urbject.</td>
+                </tr>
+                <tr>
+                    <th>group: number</th>
+                    <td>The render group that the Urbject is a part of. Smaller group numbers are rendered first. <note>Note: The minimum group that can be assigned is -100, and the maximum is equal to 2<sup>32</sup> - 101.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>orientation: Quaternion</th>
+                    <td>The orientation of the Urbject in 3D space. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>parent: Urbject</th>
+                    <td>This Urbject's parent Urbject. If this Urbject does not have a parent, then it is undefined.</td>
+                </tr>
+                <tr>
+                    <th>position: Vector</th>
+                    <td>The position of the Urbject in 3D space. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>scaleVector: Vector</th>
+                    <td>The scale of the Urbject in 3D space. <note>See also: <a href="../Vector/">Vector</a></td>
+                </tr>
+                <tr>
+                    <th>state: number</th>
+                    <td>The state of the Urbject used to determine the way the FrameInstance for the Urbject is calculated. Must be one of the Urbject states listed above under "Constants".<note>See also: <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>type: number</th>
+                    <td>The type of the Urbject. Must be one of the Urbject types listed above under "Constants".</td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>addChild(c: Urbject): Urbject</th>
+                    <td>Sets this Urbject as the given Urbject's parent and adds it as a child. If the child had a previous parent, it is removed as a child from that parent.</td>
+                </tr>
+                <tr>
+                    <th>applyTransform(transform: Urbject): Urbject</th>
+                    <td>Converts this Urbject's relative positional data to absolute positional data in the domain of the given transformation Urbject. <note>For example, if an Urbject that is located 1 unit down the X-Axis is applied a transform that has a scale of 2 on the X-axis, then the Urbject will now be located 2 units down the X-Axis.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>copy(options?: { shallow: boolean }): Urbject</th>
+                    <td>Returns a copy of the Urbject. If <i>shallow</i> is <i>true</i>, then a "shallow" copy of the Urbject will be returned without any children. <i>shallow</i> is <i>false</i> by default.</td>
+                </tr>
+                <tr>
+                    <th>getInstance(camera: Camera): FrameInstance</th>
+                    <td>Returns the FrameInstance for this Urbject and its children. <note>See also: <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>getWorldTransform(): Urbject</th>
+                    <td>Returns a "shallow" copy of the Urbject with its absolute position, orientation, and scale in the scene. <note>See the implementation of copy() for more information on a "shallow" copy.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>removeChild(c: Urbject): Urbject</th>
+                    <td>Attempts to remove the given Urbject as a child from this Urbject and return it if found. If the child does not exist, <i>null</i> is returned.</td>
+                </tr>
+                <tr>
+                    <th>scale(a: number | Vector): Urbject</th>
+                    <td>Multiplies this Urbject's scale by the given number or vector. Returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>setScale(a: number | Vector): Urbject</th>
+                    <td>Sets this Urbject's scale to the given vector or a new vector with all components equal to the number given. Returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>translate(v: Vector): Urbject</th>
+                    <td>Adds the given vector to this Urbject's position. Returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
-
+                <tr>
+                    <th>Urbject.addChild(u: Urbject, c: Urbject): Urbject</th>
+                    <td>Returns a <strong>copy</strong> of the first Urbject with the second Urbject added as a child.</td>
+                </tr>
+                <tr>
+                    <th>Urbject.applyTransform(target: Urbject, transform: Urbject): Urbject</th>
+                    <td>Returns a <strong>copy</strong> of the target Urbject with the transform Urbject applied.</td>
+                </tr>
+                <tr>
+                    <th>Urbject.copy(u: Urbject, options?: { typeCheck?: boolean, shallow?: boolean } ): Urbject</th>
+                    <td>Returns a <strong>copy</strong> of the given Urbject or makes a new Urbject from an Object that contains all public Urbject attributes. <i>typeCheck</i> is true by default and determines whether the type of the Urbject will be considered when copied. <i>shallow</i> is false by default and, if true, will prevent the Urbject's children from being copied as well.</td>
+                </tr>
+                <tr>
+                    <th>Urbject.getInstance(u: Urbject, camera: Camera): FrameInstance</th>
+                    <td>Returns the FrameInstance for the given Urbject and its children. <note>See also: <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Urbject.getWorldTransform(u: Urbject): Urbject</th>
+                    <td>Returns a "shallow" copy of the Urbject with its absolute position, orientation, and scale in the scene. <note>See the implementation of copy() for more information on a "shallow" copy.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Urbject.removeChild(u: Urbject, c: Urbject): Urbject</th>
+                    <td>Returns a <strong>copy</strong> of the first Urbject with the second Urbject removed as a child.</td>
+                </tr>
+                <tr>
+                    <th>Urbject.scale(u: Urbject, a: number | Vector): Urbject</th>
+                    <td>Returns a <strong>copy</strong> of the given Urbject, scaled by the given number or vector. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Urbject.setScale(u: Urbject, a: number | Vector): Urbject</th>
+                    <td>Returns a <strong>copy</strong> of the given Urbject with the scale set to the given vector or a new vector with all components equal to the number given. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Urbject.transform(u: Urbject, v: Vector): Urbject</th>
+                    <td>Returns a <strong>copy</strong> of the given Urbject transformed by the given vector. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>

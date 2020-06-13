@@ -6,12 +6,6 @@
 
 class AmbientLight extends Urbject implements Light {
 
-    /**
-     * The Ambient Light that can be specified for a Uorld. If brightness is 0, there will be no light added from this object
-     * @param brightness The scalar brightness of the light
-     * @param color The color of the light
-     */
-
     brightness: number;
     color: Color;
 
@@ -55,6 +49,10 @@ class AmbientLight extends Urbject implements Light {
             superCopy: superCopy
         });
         return copy;
+    }
+
+    static getInstance(l: AmbientLight, camera: Camera) {
+        return l.getInstance(camera);
     }
 
     static intensityOn(l: Light, t: Trigon) {

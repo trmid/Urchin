@@ -2,39 +2,117 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - AmbientLight</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>AmbientLight</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            An AmbientLight is an Urbject that implements the Light interface and shines evenly across all Trigons in the Scene regardless of distance or orientation.
+        </p>
+        <p>
+            <note>See also: <a href="../Urbject/">Urbject</a>, <a href="../Light/">Light</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>AmbientLight( ): AmbientLight</th>
+                    <td>Initializes with default attribute values.</td>
+                </tr>
+                <tr>
+                    <th>AmbientLight( { brightness?: number, color?: Color, state?: number, group?: number, superCopy?: Urbject } ): AmbientLight</th>
+                    <td>Initializes with the given values or default values if not provided. The default values are:<br><br>
+                        <table class="value-table">
+                            <tr>
+                                <th>brightness</th>
+                                <td>0.6</td>
+                                <td>The brightness of the light. Any value over 1 is considered "overexposed".</td>
+                            </tr>
+                            <tr>
+                                <th>color</th>
+                                <td>new Color("WHITE")</td>
+                                <td>The color of the light. <note>See also: <a href="../Color/">Color</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>state</th>
+                                <td>undefined</td>
+                                <td>The state of the Urbject. <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>group</th>
+                                <td>undefined</td>
+                                <td>The render group of the Urbject. <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>superCopy</th>
+                                <td>undefined</td>
+                                <td>The superCopy that was provided for the Urbject. <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>brightness: number</th>
+                    <td>The brightness of the light. Any value over 1 is considered "overexposed".</td>
+                </tr>
+                <tr>
+                    <th>color: Color</th>
+                    <td>The color of the light. <note>See also: <a href="../Color/">Color</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>copy(options?: { shallow: boolean } ): AmbientLight</th>
+                    <td>Returns a copy of the AmbientLight. If <i>shallow</i> is true, the children of this Urbject will not be included in the copy.</td>
+                </tr>
+                <tr>
+                    <th>getInstance(camera: Camera): FrameInstance</th>
+                    <td>Returns the FrameInstance of the Urbject with this light added. <note>See also: <a href="../Urbject/">Urbject</a>, <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>intensityOn(t: Trigon): number</th>
+                    <td>Returns the intensity of the light on the given Trigon. <note>See also: <a href="../Trigon/">Trigon</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
-
+                <tr>
+                    <th>AmbientLight.copy(l: AmbientLight, options?: { shallow: boolean } ): AmbientLight</th>
+                    <td>Returns a copy of the AmbientLight or a new AmbientLight from an Object with all of the necessary AmbientLight and Urbject public attributes. If <i>shallow</i> is true, the children of the Urbject will not be included in the copy.</td>
+                </tr>
+                <tr>
+                    <th>AmbientLight.getInstance(l: AmbientLight, camera: Camera): FrameInstance</th>
+                    <td>Returns the FrameInstance of the given AmbientLight with its light added. <note>See also: <a href="../Urbject/">Urbject</a>, <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>AmbientLight.intensityOn(l: Light, t: Trigon): number</th>
+                    <td>Returns the intensity of the light on the given Trigon. <note>See also: <a href="../Trigon/">Trigon</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>

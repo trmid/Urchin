@@ -51,28 +51,28 @@ class MeshUrbject extends Urbject {
         }
         let frags = new List<Fragment>();
         let trigons = this.mesh.trigons;
+        let trigonRotation = this.orientation;
+        switch (this.state) {
+            default:
+            case Urbject.DYNAMIC:
+                // nothing
+                break;
+            case Urbject.BILLBOARD:
+            case Urbject.X_BILLBOARD:
+            case Urbject.Y_BILLBOARD:
+            case Urbject.Z_BILLBOARD:
+                var norm = Vector.axis(Vector.X_AXIS);
+                let center = this.position;
+                var diff = Vector.sub(camera.position, center);
+                if (this.state == Urbject.X_BILLBOARD) diff.x = 0;
+                if (this.state == Urbject.Y_BILLBOARD) diff.y = 0;
+                if (this.state == Urbject.Z_BILLBOARD) diff.z = 0;
+                var axis = (new Trigon(new Vector(), norm, diff)).getNormal();
+                trigonRotation.quaternionRotate(Quaternion.fromAxisRotation(axis, diff.angleBetween(norm)));
+                break;
+        }
         for (let n = 0; n < trigons.length; n++) {
-            switch (this.state) {
-                default:
-                case Urbject.DYNAMIC:
-                    var t = Trigon.scale(trigons[n], this.scaleVector).quaternionRotate(this.orientation).translate(this.position);
-                    break;
-                case Urbject.BILLBOARD:
-                case Urbject.X_BILLBOARD:
-                case Urbject.Y_BILLBOARD:
-                case Urbject.Z_BILLBOARD:
-                    var t = Trigon.scale(trigons[n], this.scaleVector).quaternionRotate(this.orientation);
-                    var norm = Vector.axis(Vector.X_AXIS);
-                    let center = this.position;
-                    var diff = Vector.sub(camera.position, center);
-                    if (this.state == Urbject.X_BILLBOARD) diff.x = 0;
-                    if (this.state == Urbject.Y_BILLBOARD) diff.y = 0;
-                    if (this.state == Urbject.Z_BILLBOARD) diff.z = 0;
-                    var axis = (new Trigon(new Vector(), norm, diff)).getNormal();
-                    t.quaternionRotate(Quaternion.fromAxisRotation(axis, diff.angleBetween(norm)));
-                    t.translate(this.position);
-                    break;
-            }
+            var t = Trigon.scale(trigons[n], this.scaleVector).quaternionRotate(trigonRotation).translate(this.position);
             frags.addFirst(new Fragment(t, this.material, this.group + Urbject.DEFAULT_GROUP));
         }
         let childrenInstance = super.getInstance(camera);

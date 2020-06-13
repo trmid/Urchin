@@ -9,7 +9,7 @@ class Urbject {
     static MESH_URBJECT = 1;
     static AMBIENT_LIGHT = 2;
     static DIRECTIONAL_LIGHT = 3;
-    static SPOT_LIGHT = 4;
+    static POINT_LIGHT = 4;
     static CAMERA = 5;
 
     static DYNAMIC = 100;
@@ -26,10 +26,11 @@ class Urbject {
     orientation: Quaternion;
     scaleVector: Vector;
     children: Array<Urbject>;
-    parent: Urbject | any;
+    parent: Urbject;
     state: number;
     group: number;
-    instanceCache: FrameInstance;
+
+    protected instanceCache: FrameInstance;
 
     constructor({
         type = Urbject.PARENT,
@@ -81,19 +82,19 @@ class Urbject {
 
     setScale(a: number | Vector) {
         this.scaleVector = (typeof a === "number" ? new Vector(a, a, a) : a);
-        return a;
+        return this;
     }
 
     addChild(c: Urbject) {
         if (c.parent) {
-            c.parent.remove(c);
+            c.parent.removeChild(c);
         }
         c.parent = this;
         this.children.push(c);
         return c;
     }
 
-    remove(c: Urbject) {
+    removeChild(c: Urbject) {
         var removed: Urbject = null;
         this.children = this.children.filter(function (urb) {
             let found = (urb === c);
@@ -133,7 +134,7 @@ class Urbject {
                     childInstance = (<AmbientLight>this.children[i]).getInstance(camera);
                     break;
 
-                case Urbject.SPOT_LIGHT:
+                case Urbject.POINT_LIGHT:
                     childInstance = (<PointLight>this.children[i]).getInstance(camera);
                     break;
 
@@ -205,12 +206,20 @@ class Urbject {
                     case Urbject.MESH_URBJECT: copy.addChild((<MeshUrbject>child).copy()); break;
                     case Urbject.DIRECTIONAL_LIGHT: copy.addChild((<DirectionalLight>child).copy()); break;
                     case Urbject.AMBIENT_LIGHT: copy.addChild((<AmbientLight>child).copy()); break;
-                    case Urbject.SPOT_LIGHT: copy.addChild((<PointLight>child).copy()); break;
+                    case Urbject.POINT_LIGHT: copy.addChild((<PointLight>child).copy()); break;
                     case Urbject.CAMERA: copy.addChild((<Camera>child).copy()); break;
                 }
             }
         }
         return copy;
+    }
+
+    static addChild(u: Urbject, c: Urbject) {
+        return u.copy().addChild(c);
+    }
+
+    static removeChild(u: Urbject, c: Urbject) {
+        return u.copy().removeChild(c);
     }
 
     static applyTransform(target: Urbject, transform: Urbject) {
@@ -219,6 +228,10 @@ class Urbject {
 
     static getWorldTransform(u: Urbject) {
         return u.getWorldTransform();
+    }
+
+    static getInstance(u: Urbject, camera: Camera) {
+        return u.getInstance(camera);
     }
 
     static translate(u: Urbject, v: Vector) {
@@ -241,7 +254,7 @@ class Urbject {
                 case Urbject.MESH_URBJECT: return MeshUrbject.copy(<MeshUrbject>u, options);
                 case Urbject.DIRECTIONAL_LIGHT: return DirectionalLight.copy(<DirectionalLight>u, options);
                 case Urbject.AMBIENT_LIGHT: return AmbientLight.copy(<AmbientLight>u, options);
-                case Urbject.SPOT_LIGHT: return PointLight.copy(<PointLight>u, options);
+                case Urbject.POINT_LIGHT: return PointLight.copy(<PointLight>u, options);
                 case Urbject.CAMERA: return Camera.copy(<Camera>u, options);
             }
         }
@@ -263,7 +276,7 @@ class Urbject {
                     case Urbject.MESH_URBJECT: copy.addChild(MeshUrbject.copy(<MeshUrbject>child, options)); break;
                     case Urbject.DIRECTIONAL_LIGHT: copy.addChild(DirectionalLight.copy(<DirectionalLight>child, options)); break;
                     case Urbject.AMBIENT_LIGHT: copy.addChild(AmbientLight.copy(<AmbientLight>child, options)); break;
-                    case Urbject.SPOT_LIGHT: copy.addChild(PointLight.copy(<PointLight>child, options)); break;
+                    case Urbject.POINT_LIGHT: copy.addChild(PointLight.copy(<PointLight>child, options)); break;
                     case Urbject.CAMERA: copy.addChild(Camera.copy(<Camera>child, options)); break;
                 }
             }

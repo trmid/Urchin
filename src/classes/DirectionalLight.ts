@@ -8,13 +8,6 @@
 
 class DirectionalLight extends Urbject implements Light {
 
-    /**
-     * A Directional Light that can be added to a Uorld and will be add to the color computation of Urbjects at render.
-     * @param direction The vector direction that the light is shining
-     * @param brightness The scalar brightness of the light
-     * @param color The color of the light
-     */
-
     brightness: number;
     color: Color;
 

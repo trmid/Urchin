@@ -23,7 +23,7 @@ class PointLight extends Urbject implements Light {
         state?: number,
         group?: number
     } = {}) {
-        super({ position: position, type: Urbject.SPOT_LIGHT, superCopy: superCopy, state: state, group: group });
+        super({ position: position, type: Urbject.POINT_LIGHT, superCopy: superCopy, state: state, group: group });
         this.radius = radius;
         this.brightness = brightness;
         this.color = color;
@@ -61,6 +61,10 @@ class PointLight extends Urbject implements Light {
             radius: this.radius
         });
         return copy;
+    }
+
+    static getInstance(a: AmbientLight, camera: Camera) {
+        return a.getInstance(camera);
     }
 
     static intensityOn(l: Light, t: Trigon) {
