@@ -35,8 +35,8 @@ class MeshUrbject extends Urbject {
         this.material = material;
     }
 
-    copy() {
-        let superCopy = super.copy();
+    copy(options = { shallow: false }) {
+        let superCopy = super.copy(options);
         let copy = new MeshUrbject({
             superCopy: superCopy,
             mesh: this.mesh.copy(),
@@ -84,6 +84,10 @@ class MeshUrbject extends Urbject {
             this.instanceCache = instance;
         }
         return instance;
+    }
+
+    static getInstance(u: MeshUrbject, camera: Camera) {
+        return u.getInstance(camera);
     }
 
     static copy(u: MeshUrbject, options = { shallow: false }) {

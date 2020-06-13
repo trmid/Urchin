@@ -39,7 +39,6 @@ class PointLight extends Urbject implements Light {
     }
 
     intensityOn(t: Trigon) {
-        // let diff = Vector.sub(this.position.closest([t.v0, t.v1, t.v2]), this.position);
         let diff = Vector.sub(t.getCenter(), this.position);
         let diffMag = Vector.quaternionRotate(diff, Quaternion.conjugate(this.orientation)).div(this.scaleVector).mag();
 
@@ -63,11 +62,11 @@ class PointLight extends Urbject implements Light {
         return copy;
     }
 
-    static getInstance(a: AmbientLight, camera: Camera) {
-        return a.getInstance(camera);
+    static getInstance(l: PointLight, camera: Camera) {
+        return l.getInstance(camera);
     }
 
-    static intensityOn(l: Light, t: Trigon) {
+    static intensityOn(l: PointLight, t: Trigon) {
         return l.intensityOn(t);
     }
 

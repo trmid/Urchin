@@ -2,39 +2,127 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - DirectionalLight</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>DirectionalLight</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            A DirectionalLight is an Urbject that implements the Light interface and shines in a specified direction in 3D space, taking into account Trigon normal vector orientation when calculating intensity.
+        </p>
+        <p>A DirectionalLight is similar to the way sunlight works on Earth and shines with the same intensity and direction across the entire Scene. However, since there is no light reflection in Urchin, a DirectionalLight will not light any Trigons that face greater than 90 degrees away from the light. To compensate this, consider adding multiple DirectionalLights that face in different directions, or one AmbientLight to the scene to obtain more "natural" lighting.</p>
+        <p>
+            <note>See also: <a href="../Urbject/">Urbject</a>, <a href="../AmbientLight/">AmbientLight</a>, <a href="../Light/">Light</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>DirectionalLight( ): DirectionalLight</th>
+                    <td>Initializes with default attribute values.</td>
+                </tr>
+                <tr>
+                    <th>DirectionalLight( { direction?: Vector, brightness?: number, color?: Color, state?: number, group?: number, superCopy?: Urbject } ): DirectionalLight</th>
+                    <td>Initializes with the given values or default values if not provided. The default values are:<br><br>
+                        <table class="value-table">
+                            <tr>
+                                <th>direction</th>
+                                <td>new Vector(1, 1, -4)</td>
+                                <td>The direction that the light shines everywhere in the Scene. <note>This value is converted into a default Urbject orientation during construction. To modify the direction of an existing DirectionalLight, simply rotate the Urbject's orientation.<br><br> See also: <a href="../Vector/">Vector</a>, <a href="../Urbject/">Urbject</a>, <a href="../Scene/">Scene</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>brightness</th>
+                                <td>1.1</td>
+                                <td>The brightness of the light. Any value over 1 is considered "overexposed".</td>
+                            </tr>
+                            <tr>
+                                <th>color</th>
+                                <td>new Color("WHITE")</td>
+                                <td>The color of the light. <note>See also: <a href="../Color/">Color</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>state</th>
+                                <td>Default from Urbject constructor</td>
+                                <td>
+                                    <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>group</th>
+                                <td>Default from Urbject constructor</td>
+                                <td>
+                                    <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>superCopy</th>
+                                <td>Default from Urbject constructor</td>
+                                <td>
+                                    <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>brightness: number</th>
+                    <td>The brightness of the light. Any value over 1 is considered "overexposed".</td>
+                </tr>
+                <tr>
+                    <th>color: Color</th>
+                    <td>The color of the light. <note>See also: <a href="../Color/">Color</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>copy(options?: { shallow: boolean } ): DirectionalLight</th>
+                    <td>Returns a copy of the DirectionalLight. If <i>shallow</i> is true, the children of this Urbject will not be included in the copy.</td>
+                </tr>
+                <tr>
+                    <th>getInstance(camera: Camera): FrameInstance</th>
+                    <td>Returns the FrameInstance of the Urbject with this light added. <note>See also: <a href="../Urbject/">Urbject</a>, <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>intensityOn(t: Trigon): number</th>
+                    <td>Returns the intensity of the light on the given Trigon, taking into account the normal orientation of the Trigon. Any Trigons with a normal vector that faces more than 90 degrees away from the light will not be lit. <note>See also: <a href="../Trigon/">Trigon</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
-
+                <tr>
+                    <th>DirectionalLight.copy(l: DirectionalLight, options?: { shallow: boolean } ): DirectionalLight</th>
+                    <td>Returns a copy of the DirectionalLight or a new DirectionalLight from an Object with all of the necessary DirectionalLight and Urbject public attributes. If <i>shallow</i> is true, the children of the Urbject will not be included in the copy.</td>
+                </tr>
+                <tr>
+                    <th>DirectionalLight.getInstance(l: DirectionalLight, camera: Camera): FrameInstance</th>
+                    <td>Returns the FrameInstance of the given DirectionalLight with its light added. <note>See also: <a href="../Urbject/">Urbject</a>, <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>DirectionalLight.intensityOn(l: DirectionalLight, t: Trigon): number</th>
+                    <td>Returns the intensity of the light on the given Trigon, taking into account the normal orientation of the Trigon. Any Trigons with a normal vector that faces more than 90 degrees away from the light will not be lit. <note>See also: <a href="../Trigon/">Trigon</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>

@@ -2154,15 +2154,18 @@ var AmbientLight = (function (_super) {
         });
         return copy;
     };
+    AmbientLight.getInstance = function (l, camera) {
+        return l.getInstance(camera);
+    };
     AmbientLight.intensityOn = function (l, t) {
         return l.intensityOn(t);
     };
-    AmbientLight.copy = function (a, options) {
+    AmbientLight.copy = function (l, options) {
         if (options === void 0) { options = { shallow: false }; }
-        var superCopy = Urbject.copy(a, { typeCheck: false, shallow: options.shallow });
+        var superCopy = Urbject.copy(l, { typeCheck: false, shallow: options.shallow });
         var copy = new AmbientLight({
-            brightness: a.brightness,
-            color: Color.copy(a.color),
+            brightness: l.brightness,
+            color: Color.copy(l.color),
             superCopy: superCopy
         });
         return copy;
@@ -2850,6 +2853,9 @@ var PointLight = (function (_super) {
             radius: this.radius
         });
         return copy;
+    };
+    PointLight.getInstance = function (l, camera) {
+        return l.getInstance(camera);
     };
     PointLight.intensityOn = function (l, t) {
         return l.intensityOn(t);

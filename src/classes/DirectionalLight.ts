@@ -55,16 +55,20 @@ class DirectionalLight extends Urbject implements Light {
         return copy;
     }
 
-    static intensityOn(l: Light, t: Trigon) {
+    static getInstance(l: DirectionalLight, camera: Camera) {
+        return l.getInstance(camera);
+    }
+
+    static intensityOn(l: DirectionalLight, t: Trigon) {
         return l.intensityOn(t);
     }
 
-    static copy(d: DirectionalLight, options = { shallow: false }) {
-        let superCopy = Urbject.copy(d, { typeCheck: false, shallow: options.shallow });
+    static copy(l: DirectionalLight, options = { shallow: false }) {
+        let superCopy = Urbject.copy(l, { typeCheck: false, shallow: options.shallow });
         let copy = new DirectionalLight({
             superCopy: superCopy,
-            color: Color.copy(d.color),
-            brightness: d.brightness
+            color: Color.copy(l.color),
+            brightness: l.brightness
         });
         return copy;
     }

@@ -55,15 +55,15 @@ class AmbientLight extends Urbject implements Light {
         return l.getInstance(camera);
     }
 
-    static intensityOn(l: Light, t: Trigon) {
+    static intensityOn(l: AmbientLight, t: Trigon) {
         return l.intensityOn(t);
     }
 
-    static copy(a: AmbientLight, options = { shallow: false }) {
-        let superCopy = Urbject.copy(a, { typeCheck: false, shallow: options.shallow });
+    static copy(l: AmbientLight, options = { shallow: false }) {
+        let superCopy = Urbject.copy(l, { typeCheck: false, shallow: options.shallow });
         let copy = new AmbientLight({
-            brightness: a.brightness,
-            color: Color.copy(a.color),
+            brightness: l.brightness,
+            color: Color.copy(l.color),
             superCopy: superCopy
         });
         return copy;

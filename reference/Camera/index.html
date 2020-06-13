@@ -2,39 +2,111 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - Camera</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>Camera</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            A Camera is an Urbject that is used to represent the physical location, orientation, and field of view of a camera in the Scene.
+        </p>
+        <p>
+            <note>See also: <a href="../Urbject/">Urbject</a>, <a href="../Scene/">Scene</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>Camera( ): Camera</th>
+                    <td>Initializes with default attribute values.</td>
+                </tr>
+                <tr>
+                    <th>Camera( { fov?: number, position?: Vector, orientation?: Quaternion, scale?: number | Vector, state?: number, group?: number, superCopy?: Urbject } ): Camera</th>
+                    <td>Initializes with the given values or default values if not provided. The default values are:<br><br>
+                        <table class="value-table">
+                            <tr>
+                                <th>fov</th>
+                                <td>60</td>
+                                <td>The field of view of the Camera in degrees. Range: [1, 360]</td>
+                            </tr>
+                            <tr>
+                                <th>position</th>
+                                <td>new Vector(-10, 0, 0)</td>
+                                <td>
+                                    The position of the Camera in 3D space. by default, this is set to be located at -10 units on the X-Axis so the Camera has a clear view of the origin of the scene.
+                                    <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>orientation</th>
+                                <td>Default from Urbject constructor</td>
+                                <td>
+                                    <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>scale</th>
+                                <td>Default from Urbject constructor</td>
+                                <td>
+                                    <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>state</th>
+                                <td>Default from Urbject constructor</td>
+                                <td>
+                                    <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>group</th>
+                                <td>Default from Urbject constructor</td>
+                                <td>
+                                    <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>superCopy</th>
+                                <td>Default from Urbject constructor</td>
+                                <td>
+                                    <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>fov: number</th>
+                    <td>The field of view of the Camera in degrees. Expected range: [1, 360]</td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>copy(options?: { shallow: boolean } ): Camera</th>
+                    <td>Returns a copy of the Camera. If <i>shallow</i> is true, the children of this Urbject will not be included in the copy.</td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
-
+                <tr>
+                    <th>Camera.copy(c: Camera, options?: { shallow: boolean } ): Camera</th>
+                    <td>Returns a copy of the Camera or a new Camera from an Object with all of the necessary Camera and Urbject public attributes. If <i>shallow</i> is true, the children of the Urbject will not be included in the copy.</td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>
