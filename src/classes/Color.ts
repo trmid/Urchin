@@ -119,9 +119,9 @@ class Color {
     }
 
     applyLight(color: Color, intensity: number) {
-        if (this.type != Color.RGBA) {
-            console.error("Could not apply light to non-rgb color.");
-            return this;
+        this.toRGB();
+        if (color.type != Color.RGBA) {
+            color = Color.toRGB(color);
         }
         intensity = (intensity < 0 ? 0 : intensity);
         this.r = Num.constrain(Math.floor(this.r * (color.r / 255.0) * intensity), 0, 255);
@@ -149,16 +149,18 @@ class Color {
         let r = hueSplit(hue + (1.0 / 3.0)) * 255.0;
         let g = hueSplit(hue) * 255.0;
         let b = hueSplit(hue - (1.0 / 3.0)) * 255.0;
-        return new Color(r, g, b, 1.0);
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = 1.0;
+        this.type = Color.RGBA;
+        return this;
     }
 
     add(color: Color) {
-        if (this.type != Color.RGBA) {
-            console.error("Could not add to non-RGB color.");
-            return this;
-        }
+        this.toRGB();
         if (color.type != Color.RGBA) {
-            color = color.toRGB();
+            color = Color.toRGB(color);
         }
         this.r = Num.constrain(this.r + color.r, 0, 255);
         this.g = Num.constrain(this.g + color.g, 0, 255);
@@ -168,9 +170,7 @@ class Color {
     }
 
     mult(intensity: number) {
-        if (this.type != Color.RGBA) {
-            console.log("Could not mult non-RGB color.");
-        }
+        this.toRGB();
         this.r = Num.constrain(Math.floor(this.r * intensity), 0, 255);
         this.g = Num.constrain(Math.floor(this.g * intensity), 0, 255);
         this.b = Num.constrain(Math.floor(this.b * intensity), 0, 255);
@@ -197,11 +197,11 @@ class Color {
         return c0.copy().add(c1);
     }
 
-    static applyLight(c: Color, l: Color, i: number) {
-        return c.copy().applyLight(l, i);
+    static applyLight(c: Color, l: Color, intensity: number) {
+        return c.copy().applyLight(l, intensity);
     }
 
-    static mult(c0: Color, i: number) {
-        return c0.copy().mult(i);
+    static mult(c: Color, intensity: number) {
+        return c.copy().mult(intensity);
     }
 }

@@ -5,11 +5,11 @@ class Scene {
     public root: Urbject;
 
     constructor({
-        urbject = new Urbject()
+        root = new Urbject()
     }: {
-        urbject?: Urbject
+        root?: Urbject
     } = {}) {
-        this.root = urbject;
+        this.root = root;
     }
 
     add(urbject: Urbject) {
@@ -21,12 +21,24 @@ class Scene {
     }
 
     copy() {
-        return new Scene({ urbject: this.root.copy() });
+        return new Scene({ root: this.root.copy() });
+    }
+
+    static add(s: Scene, urbject: Urbject) {
+        let scene = s.copy();
+        scene.add(urbject);
+        return scene;
+    }
+
+    static remove(s: Scene, urbject: Urbject) {
+        let scene = s.copy();
+        scene.remove(urbject);
+        return scene;
     }
 
     static copy(u: Scene) {
         return new Scene({
-            urbject: Urbject.copy(u.root)
+            root: Urbject.copy(u.root)
         });
     }
 }

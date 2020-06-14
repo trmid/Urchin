@@ -2,39 +2,87 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - Scene</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>Scene</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            A Scene is a container for all Urbjects added to it.
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>Scene( ): Scene</th>
+                    <td>Initializes with default attribute values.</td>
+                </tr>
+                <tr>
+                    <th>Scene( { root?: Urbject } ): Scene</th>
+                    <td>Initializes with the given attribute values. Default values are:<br><br>
+                        <table class="value-table">
+                            <tr>
+                                <th>root</th>
+                                <td>new Urbject()</td>
+                                <td>The root Urbject of the Scene that contains all other Urbjects as children. <note>See also: <a href="../Urbject/">Urbject</a></note>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>root: Urbject</th>
+                    <td>The root Urbject of the Scene that contains all other Urbjects as children. <note>See also: <a href="../Urbject/">Urbject</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>add(urbject: Urbject): Urbject</th>
+                    <td>Adds the given Urbject to the root Urbject of the Scene and returns the added Urbject. <note>See also: <a href="../Urbject/">Urbject</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>remove(urbject: Urbject): Urbject</th>
+                    <td>Removes the given Urbject from the root Urbject of the Scene and returns the removed Urbject or <i>undefined</i> if it does not exist. <note>See also: <a href="../Urbject/">Urbject</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>copy(): Scene</th>
+                    <td>Returns a copy of the current Scene.</td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
-
+                <tr>
+                    <th>Scene.add(s: Scene, urbject: Urbject): Scene</th>
+                    <td>Adds the given Urbject to the root Urbject of a <strong>copy</strong> of the given Scene and returns the new Scene. <note>See also: <a href="../Urbject/">Urbject</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Scene.remove(s: Scene, urbject: Urbject): Scene</th>
+                    <td>Removes the given Urbject from the root Urbject of a <strong>copy</strong> of the given Scene and returns the new Scene. <note>See also: <a href="../Urbject/">Urbject</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Scene.copy(s: Scene): Scene</th>
+                    <td>Returns a copy of the current Scene or a new Scene constructed from an object with all of the public attributes of the Scene object.</td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>

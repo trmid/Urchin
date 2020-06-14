@@ -2,39 +2,168 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference, Color</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>Color</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            Color is a class used make it easy to create and modify colors consistently across all aspects of Urchin.
+        </p>
         <h3>Constructors</h3>
+        <p>
+            <note>Note: All number-based constructors will floor all non-alpha values to the nearest integer and then constrain every value to its respective range.</note>
+        </p>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>Color( ): Color</th>
+                    <td>Returns a black, transparent RGBA color with all values equal to 0.</td>
+                </tr>
+                <tr>
+                    <th>Color( color: string ): Color</th>
+                    <td>Returns a RGBA color of one of the 16 basic colors identified in HTML 4.01 specification (Case <strong>Insensitive</strong>): White, Silver, Gray, Black, Red, Maroon, Yellow, Olive, Lime, Green, Aqua, Teal, Blue, Navy, Fuchsia, and Purple. If the string provided is not in the list, the color Lime is returned.</td>
+                </tr>
+                <tr>
+                    <th>Color( hex: string ): Color</th>
+                    <td>Returns a RGBA color based off of a 3-digit, 4-digit, 6-digit, or 8-digit RGB/RGBA hex value. <note>The string must start with '#' or the previous constructor will preside.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Color( grayscale: number ): Color</th>
+                    <td>Returns a grayscale, RGBA color based off of the given value. Range: [0, 255]</td>
+                </tr>
+                <tr>
+                    <th>Color( grayscale: number, alpha: number ): Color</th>
+                    <td>Returns a grayscale, RGBA color with an alpha channel based off of the given value. <i>grayscale</i> range: [0-255]. <i>alpha</i> range: [0.0, 1.0]</td>
+                </tr>
+                <tr>
+                    <th>Color( hue: number, saturation: number, lightness: number ): Color</th>
+                    <td>Returns a HSL color with the given values. <i>hue</i> range: [0, 360]. <i>saturation</i> and <i>lightness</i> range: [0, 100]. </td>
+                </tr>
+                <tr>
+                    <th>Color( red: number, green: number, blue: number, alpha: number): Color</th>
+                    <td>Returns a RGBA color from the values specified. <i>red, green, blue</i> range: [0, 255]. <i>alpha</i> range: [0.0, 1.0].</td>
+                </tr>
             </table>
         </div>
         <h3>Constants</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>Color.RGBA = 0</th>
+                    <td>A non-explicit value used to represent the RGBA color type.</td>
+                </tr>
+                <tr>
+                    <th>Color.HSL = 1</th>
+                    <td>A non-explicit value used to represent the HSL color type.</td>
+                </tr>
+            </table>
+        </div>
+        <h3>Variables</h3>
+        <div>
+            <table class="code">
+                <tr>
+                    <th>type: number</th>
+                    <td>The type of Color object. Expected values are Color.RGBA or Color.HSL.</td>
+                </tr>
+                <tr>
+                    <th>r: number</th>
+                    <td>The red-channel of a RGBA Color. Expected range: Integer[0, 255].</td>
+                </tr>
+                <tr>
+                    <th>g: number</th>
+                    <td>The green-channel of a RGBA Color. Expected range: Integer[0, 255].</td>
+                </tr>
+                <tr>
+                    <th>b: number</th>
+                    <td>The blue-channel of a RGBA Color. Expected range: Integer[0, 255].</td>
+                </tr>
+                <tr>
+                    <th>a: number</th>
+                    <td>The alpha-channel of a RGBA Color. Expected range: Decimal[0.0, 1.0].</td>
+                </tr>
+                <tr>
+                    <th>h: number</th>
+                    <td>The hue-channel of a HSL Color. Expected range: Integer[0, 360].</td>
+                </tr>
+                <tr>
+                    <th>s: number</th>
+                    <td>The saturation-channel of a HSL Color. Expected range: Integer[0, 100].</td>
+                </tr>
+                <tr>
+                    <th>l: number</th>
+                    <td>The lightness-channel of a HSL Color. Expected range: Integer[0, 100].</td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>add(color: Color): Color</th>
+                    <td>Adds the given color to the current color and constrains the output values to their expected ranges. Returns <i>this</i>. <note>Note: If either the given or current color are not RGBA type, then they are converted to RGBA before addition. The given color is <strong>copied</strong> beforehand to ensure that its original object is not altered.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>applyLight(color: Color, intensity: number): Color</th>
+                    <td>Modifies the Color object as if a light of given color and intensity is shining directly on it. Returns <i>this</i>. <note>Note: If the current Color or given Color type is HSL, they are converted to an RGBA color before applying the light. The given color is <strong>copied</strong> beforehand to ensure that its original object is not altered.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>copy(): Color</th>
+                    <td>Returns a copy of the Color object.</td>
+                </tr>
+                <tr>
+                    <th>mult(intensity: number): Color</th>
+                    <td>Multiplies the current color's red, green, and blue channels by the given intensity and constrains the resulting values to their expected ranges. Returns <i>this</i>. <note>If the current color is not RGBA type, it is first converted to an RGBA color and then multiplied.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>toRGB(): Color</th>
+                    <td>Converts the current Color to the RGBA type. Returns <i>this</i>.</td>
+                </tr>
+                <tr>
+                    <th>toString(): string</th>
+                    <td>Returns a CSS-compatible color function as a string. If the Color type is RGBA, the 'rgba()' function is returned. Likewise, if the color type is HSL, the 'hsl()' function is returned.</td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
-
+                <tr>
+                    <th>Color.add(c0: Color, c1: Color): Color</th>
+                    <td>Adds the two given colors, constrains the output values to their expected ranges, and returns the resulting RGBA Color.
+                    </td>
+                </tr>
+                <tr>
+                    <th>Color.applyLight(c: Color, l: Color, intensity: number): Color</th>
+                    <td>Returns a modified RGBA <strong>copy</strong> of the first Color object as if a light of given color and intensity is shining directly on it.
+                    </td>
+                </tr>
+                <tr>
+                    <th>Color.copy(c: Color): Color</th>
+                    <td>Returns a copy of the Color object or Object with all the required public attributes of either a RGBA or HSL type Color.</td>
+                </tr>
+                <tr>
+                    <th>Color.mult(c: Color, intensity: number): Color</th>
+                    <td>Multiplies a <strong>copy</strong> of the given color's red, green, and blue channels by the given intensity, constrains the resulting values to their expected ranges, and returns the resulting RGBA Color.
+                    </td>
+                </tr>
+                <tr>
+                    <th>Color.toRGB(c: Color): Color</th>
+                    <td>Returns a <strong>copy</strong> of the given Color to the RGBA type.</td>
+                </tr>
+                <tr>
+                    <th>Color.toString(c: Color): string</th>
+                    <td>Returns a CSS-compatible color function of the given Color as a string. If the Color type is RGBA, the 'rgba()' function is returned. Likewise, if the color type is HSL, the 'hsl()' function is returned.</td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>
