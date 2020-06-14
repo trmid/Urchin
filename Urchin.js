@@ -637,9 +637,9 @@ var Color = (function () {
         }
     };
     Color.prototype.applyLight = function (color, intensity) {
-        if (this.type != Color.RGBA) {
-            console.error("Could not apply light to non-rgb color.");
-            return this;
+        this.toRGB();
+        if (color.type != Color.RGBA) {
+            color = Color.toRGB(color);
         }
         intensity = (intensity < 0 ? 0 : intensity);
         this.r = Num.constrain(Math.floor(this.r * (color.r / 255.0) * intensity), 0, 255);
@@ -672,15 +672,17 @@ var Color = (function () {
         var r = hueSplit(hue + (1.0 / 3.0)) * 255.0;
         var g = hueSplit(hue) * 255.0;
         var b = hueSplit(hue - (1.0 / 3.0)) * 255.0;
-        return new Color(r, g, b, 1.0);
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = 1.0;
+        this.type = Color.RGBA;
+        return this;
     };
     Color.prototype.add = function (color) {
-        if (this.type != Color.RGBA) {
-            console.error("Could not add to non-RGB color.");
-            return this;
-        }
+        this.toRGB();
         if (color.type != Color.RGBA) {
-            color = color.toRGB();
+            color = Color.toRGB(color);
         }
         this.r = Num.constrain(this.r + color.r, 0, 255);
         this.g = Num.constrain(this.g + color.g, 0, 255);
@@ -689,9 +691,7 @@ var Color = (function () {
         return this;
     };
     Color.prototype.mult = function (intensity) {
-        if (this.type != Color.RGBA) {
-            console.log("Could not mult non-RGB color.");
-        }
+        this.toRGB();
         this.r = Num.constrain(Math.floor(this.r * intensity), 0, 255);
         this.g = Num.constrain(Math.floor(this.g * intensity), 0, 255);
         this.b = Num.constrain(Math.floor(this.b * intensity), 0, 255);
@@ -713,11 +713,11 @@ var Color = (function () {
     Color.add = function (c0, c1) {
         return c0.copy().add(c1);
     };
-    Color.applyLight = function (c, l, i) {
-        return c.copy().applyLight(l, i);
+    Color.applyLight = function (c, l, intensity) {
+        return c.copy().applyLight(l, intensity);
     };
-    Color.mult = function (c0, i) {
-        return c0.copy().mult(i);
+    Color.mult = function (c, intensity) {
+        return c.copy().mult(intensity);
     };
     Color.RGBA = 0;
     Color.HSL = 1;
@@ -2109,16 +2109,19 @@ var DirectionalLight = (function (_super) {
         });
         return copy;
     };
+    DirectionalLight.getInstance = function (l, camera) {
+        return l.getInstance(camera);
+    };
     DirectionalLight.intensityOn = function (l, t) {
         return l.intensityOn(t);
     };
-    DirectionalLight.copy = function (d, options) {
+    DirectionalLight.copy = function (l, options) {
         if (options === void 0) { options = { shallow: false }; }
-        var superCopy = Urbject.copy(d, { typeCheck: false, shallow: options.shallow });
+        var superCopy = Urbject.copy(l, { typeCheck: false, shallow: options.shallow });
         var copy = new DirectionalLight({
             superCopy: superCopy,
-            color: Color.copy(d.color),
-            brightness: d.brightness
+            color: Color.copy(l.color),
+            brightness: l.brightness
         });
         return copy;
     };
@@ -2181,8 +2184,9 @@ var MeshUrbject = (function (_super) {
         _this.material = material;
         return _this;
     }
-    MeshUrbject.prototype.copy = function () {
-        var superCopy = _super.prototype.copy.call(this);
+    MeshUrbject.prototype.copy = function (options) {
+        if (options === void 0) { options = { shallow: false }; }
+        var superCopy = _super.prototype.copy.call(this, options);
         var copy = new MeshUrbject({
             superCopy: superCopy,
             mesh: this.mesh.copy(),
@@ -2230,6 +2234,9 @@ var MeshUrbject = (function (_super) {
         }
         return instance;
     };
+    MeshUrbject.getInstance = function (u, camera) {
+        return u.getInstance(camera);
+    };
     MeshUrbject.copy = function (u, options) {
         if (options === void 0) { options = { shallow: false }; }
         var superCopy = Urbject.copy(u, { typeCheck: false, shallow: options.shallow });
@@ -2244,8 +2251,8 @@ var MeshUrbject = (function (_super) {
 }(Urbject));
 var Scene = (function () {
     function Scene(_a) {
-        var _b = (_a === void 0 ? {} : _a).urbject, urbject = _b === void 0 ? new Urbject() : _b;
-        this.root = urbject;
+        var _b = (_a === void 0 ? {} : _a).root, root = _b === void 0 ? new Urbject() : _b;
+        this.root = root;
     }
     Scene.prototype.add = function (urbject) {
         return this.root.addChild(urbject);
@@ -2254,11 +2261,21 @@ var Scene = (function () {
         return this.root.removeChild(urbject);
     };
     Scene.prototype.copy = function () {
-        return new Scene({ urbject: this.root.copy() });
+        return new Scene({ root: this.root.copy() });
+    };
+    Scene.add = function (s, urbject) {
+        var scene = s.copy();
+        scene.add(urbject);
+        return scene;
+    };
+    Scene.remove = function (s, urbject) {
+        var scene = s.copy();
+        scene.remove(urbject);
+        return scene;
     };
     Scene.copy = function (u) {
         return new Scene({
-            urbject: Urbject.copy(u.root)
+            root: Urbject.copy(u.root)
         });
     };
     return Scene;
