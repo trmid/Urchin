@@ -15,28 +15,249 @@
         <p>
             The PerformanceRenderer object is an extension of the Renderer class and provides improved real time animation capabilities through the use of synchronized WebWorkers, event sequencing, and optional offscreenCanvas rendering with a seamless standard canvas fallback.
         </p>
+        <p>
+            <note>See also: <a href="../Renderer/">Renderer</a>, <a href="../UrchinWorker/">UrchinWorker</a>, <a href="../SortingWorker/">SortingWorker</a>, <a href="../LightingWorker/">LightingWorker</a>, <a href="../ProjectingWorker/">ProjectingWorker</a>, <a href="../RenderWorker/">RenderWorker</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
+                <tr>
+                    <th>PerformanceRenderer( ): PerformanceRenderer</th>
+                    <td>Initializes with default attribute values.</td>
+                </tr>
+                <tr>
+                    <th>PerformanceRenderer( { canvas?: HTMLCanvasElement, backgroundColor?: Color, frameCallback?: Function, fullscreen?: boolean, superSampling?: number, showPerformance?: boolean, offscreenDraw?: boolean } ): PerformanceRenderer</th>
+                    <td>
+                        Initializes with the given attribute values if set. Default values are:
+                        <br><br>
+                        <table class="value-table">
+                            <tr>
+                                <th>canvas</th>
+                                <td>
+                                    Default from Renderer constructor.
+                                </td>
+                                <td>
+                                    <note>See also: <a href="../Renderer/">Renderer</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>backgroundColor</th>
+                                <td>
+                                    Default from Renderer constructor.
+                                </td>
+                                <td>
+                                    <note>See also: <a href="../Renderer/">Renderer</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>frameCallback</th>
+                                <td>
+                                    <i>undefined</i>
+                                </td>
+                                <td>
+                                    The callback function that will be called after every frame render. This can be used to move animations or queue events and often replaces the need for window.requestAnimationFrame.
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>fullscreen</th>
+                                <td>
+                                    <i>false</i>
+                                </td>
+                                <td>
+                                    If true, the canvas element will be resized to fit the size of the window on initialization as well as every time the window is resized.
+                                    <br><br>
+                                    <note>Note: If a RenderWorker exists, a message will be sent to the RenderWorker to resize the canvas instead.
+                                        <br><br>
+                                        See also: <a href="../RenderWorker/">RenderWorker</a>
+                                    </note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>superSampling</th>
+                                <td>
+                                    Default from Renderer constructor.
+                                </td>
+                                <td>
+                                    <note>See also: <a href="../Renderer/">Renderer</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>showPerformance</th>
+                                <td>
+                                    Default from Renderer constructor.
+                                </td>
+                                <td>
+                                    <note>See also: <a href="../Renderer/">Renderer</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>offscreenDraw</th>
+                                <td>
+                                    <i>true</i>
+                                </td>
+                                <td>
+                                    If true and the browser supports transferControlToOffscreen for canvas elements, a RenderWorker will be created and given control of the canvas element so that all of the drawing can be done off of the main thread.
+                                    <br><br>
+                                    <note>
+                                        Note: If the browser does not support the feature, the constructor will automatically fallback to a standard canvas and drawing procedure.
+                                        <br><br>
+                                        See also: <a href="../RenderWorker/">RenderWorker</a></note>
+                                </td>
+                            </tr>
+                        </table>
 
+                    </td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>private callbackCount: number</th>
+                    <td>Keeps track of the number of callbacks this object has received from the WebWorkers. When the callback count reaches 3, the data is drawn.</td>
+                </tr>
+                <tr>
+                    <th>private camera: Camera</th>
+                    <td>Stores the current Camera Urbject that is being rendered. <note>See also: <a href="../Camera/">Camera</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private drawing: boolean</th>
+                    <td>Used by the renderer to keep track of when data is being drawn to the canvas.</td>
+                </tr>
+                <tr>
+                    <th>private height: number</th>
+                    <td>The current height of the canvas in pixels. This data is stored in its own variable since we may not have access to the canvas in the DOM if it is being controlled offscreen.</td>
+                </tr>
+                <tr>
+                    <th>private instanceQueue: FrameInstance</th>
+                    <td>Acts as a "most frequent request" for frame renders that is pulled when the pre-rendering workers are ready for a new frame. Some frames will be lost if a new frame is requested before an older frame is pulled, but this promoted a lower latency system. <note>See also: <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private lastFrameTime: number</th>
+                    <td>The millisecond timestamp for the last frame render used to calculate FPS for render stats.</td>
+                </tr>
+                <tr>
+                    <th>private lightCache: Float32Array</th>
+                    <td>The results of the current LightingWorker pre-render data. <note>See also: <a href="../LightingWorker/">LightingWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private lightingWorker: LightingWorker</th>
+                    <td>The LightingWorker object used to calculate pre-render lighting data. <note>See also: <a href="../LightingWorker/">LightingWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private preRendering: boolean</th>
+                    <td>A variable to keep track of when the workers are working on pre-render tasks.</td>
+                </tr>
+                <tr>
+                    <th>private projectCache: Float32Array</th>
+                    <td>The results of the current ProjectingWorker pre-render data. <note>See also: <a href="../ProjectingWorker/">ProjectingWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private projectingWorker: ProjectingWorker</th>
+                    <td>The ProjectingWorker object used to calculate pre-render point-projection data. <note>See also: <a href="../ProjectingWorker/">ProjectingWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private renderWorker: RenderWorker</th>
+                    <td>The RenderWorker object used to draw frames to an offscreenCanvas element.
+                        <note>See also: <a href="../RenderWorker/">RenderWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private scene: Scene</th>
+                    <td>Stores the current Scene that is being rendered. <note>See also: <a href="../Scene/">Scene</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private sortCache: Float32Array</th>
+                    <td>The results of the current SortingWorker pre-render data. <note>See also: <a href="../SortingWorker/">SortingWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private sortingWorker: SortingWorker</th>
+                    <td>The SortingWorker object used to sort pre-render data. <note>See also: <a href="../SortingWorker/">SortingWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private width: number</th>
+                    <td>The current width of the canvas in pixels. This data is stored in its own variable since we may not have access to the canvas in the DOM if it is being controlled offscreen.</td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
-            </table>
-        </div>
-        <h3>Static Functions</h3>
-        <div class="code">
-            <table>
-
+                <tr>
+                    <th>lightCallback(data: Float32Array): void</th>
+                    <td>Callback for LightingWorker. <note>See also: <a href="../LightingWorker/">LightingWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>project(v: Vector, camera: Camera, superSamplePosition?: boolean): Vector</th>
+                    <td>Projects a given 3D Vector onto screen coordinates as seen through the given Camera. If <i>superSamplePosition</i> is true, then the image pixel coordinates are returned instead of canvas screen coordinates. <i>superSamplePosition</i> is false by default. <note>See also: <a href="../Vector/">Vector</a>, <a href="../Camera/">Camera</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>projectCallback(data: Float32Array): void</th>
+                    <td>Callback for ProjectingWorker. <note>See also: <a href="../ProjectingWorker/">ProjectingWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>sortCallback(data: Float32Array): void</th>
+                    <td>Callback for SortingWorker. <note>See also: <a href="../SortingWorker/">SortingWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>render(scene: Scene, camera: Camera): void</th>
+                    <td>Requests the workers to render one frame of a Scene through the given Camera view. This should only be used for single-frame renders or controlled frame-rate animations. <note>See also: <a href="../Scene/">Scene</a>, <a href="../Camera/">Camera</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>renderCallback(): void</th>
+                    <td>Callback for RenderWorker. <note>See also: <a href="../RenderWorker/">RenderWorker</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>resize(width?: number, height?: number): void</th>
+                    <td>Resizes the canvas image size to the given values or the window size if values are omitted.</td>
+                </tr>
+                <tr>
+                    <th>start(scene: Scene, camera: Camera): void</th>
+                    <td>Starts rendering the Scene through the perspective of the given Camera. The renderer will draw frames as fast as it can process the data and call the frameCallback() function that was set in the constructor after each frame is drawn. <note>See also: <a href="../Scene/">Scene</a>, <a href="../Camera/">Camera</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>stop(): void</th>
+                    <td>Stops rendering the current animation.</td>
+                </tr>
+                <tr>
+                    <th>private buildDrawData(s: Float32Array, p: Float32Array, l: Float32Array): ArrayBuffer</th>
+                    <td>Builds and returns the frame draw data from the given pre-render data Arrays. Outputs an ArrayBuffer in the same format as specified in Renderer.draw(). <note>See also: <a href="../Renderer/">Renderer</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private callbackCheck(): void</th>
+                    <td>Called after each pre-render callback to check if all the pre-render data is ready to be built and sent to be rendered.</td>
+                </tr>
+                <tr>
+                    <th>private draw(data: ArrayBuffer): void</th>
+                    <td>Draws the given data by sending it to the RenderWorker if it exists, or drawing it in the main thread otherwise.</td>
+                </tr>
+                <tr>
+                    <th>private requestPreRender(instance?: FrameInstance): void</th>
+                    <td>Requests a pre-render from the workers for the given FrameInstance or the instanceQueue if <i>instance</i> is not set. <note>See also: <a href="../FrameInstance/">FrameInstance</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>private renderSync(): void</th>
+                    <td>Syncs the pre-render workers with the render worker to ensure that the pre-renderers are working at the same pace as the renderer.</td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>

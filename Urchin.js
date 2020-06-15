@@ -2425,10 +2425,10 @@ var Renderer = (function () {
             Renderer.draw(this.lastDraw, this.ctx);
         }
     };
-    Renderer.prototype.project = function (v, camera, superSampling) {
-        if (superSampling === void 0) { superSampling = false; }
-        var w = this.canvas.width / (superSampling ? 1 : this.superSampling);
-        var h = this.canvas.height / (superSampling ? 1 : this.superSampling);
+    Renderer.prototype.project = function (v, camera, superSamplePosition) {
+        if (superSamplePosition === void 0) { superSamplePosition = false; }
+        var w = this.canvas.width / (superSamplePosition ? 1 : this.superSampling);
+        var h = this.canvas.height / (superSamplePosition ? 1 : this.superSampling);
         var worldPos = camera.getWorldTransform();
         return Renderer.project(v.sub(worldPos.position).quaternionRotate(worldPos.orientation.conjugate()), camera.fov, w, h);
     };
@@ -2721,7 +2721,7 @@ var RenderWorker = (function (_super) {
 var PerformanceRenderer = (function (_super) {
     __extends(PerformanceRenderer, _super);
     function PerformanceRenderer(_a) {
-        var _b = _a === void 0 ? {} : _a, canvas = _b.canvas, fullscreen = _b.fullscreen, superSampling = _b.superSampling, backgroundColor = _b.backgroundColor, showPerformance = _b.showPerformance, _c = _b.offscreenDraw, offscreenDraw = _c === void 0 ? true : _c, frameCallback = _b.frameCallback;
+        var _b = _a === void 0 ? {} : _a, canvas = _b.canvas, _c = _b.fullscreen, fullscreen = _c === void 0 ? false : _c, superSampling = _b.superSampling, backgroundColor = _b.backgroundColor, showPerformance = _b.showPerformance, _d = _b.offscreenDraw, offscreenDraw = _d === void 0 ? true : _d, frameCallback = _b.frameCallback;
         var _this = _super.call(this, { canvas: canvas, fullscreen: false, backgroundColor: backgroundColor, showPerformance: showPerformance, superSampling: superSampling }) || this;
         _this.preRendering = false;
         _this.drawing = false;
@@ -2836,10 +2836,10 @@ var PerformanceRenderer = (function (_super) {
             this.draw(this.lastDraw);
         }
     };
-    PerformanceRenderer.prototype.project = function (v, camera, superSampling) {
-        if (superSampling === void 0) { superSampling = false; }
-        var w = this.width / (superSampling ? 1 : this.superSampling);
-        var h = this.height / (superSampling ? 1 : this.superSampling);
+    PerformanceRenderer.prototype.project = function (v, camera, superSamplePosition) {
+        if (superSamplePosition === void 0) { superSamplePosition = false; }
+        var w = this.width / (superSamplePosition ? 1 : this.superSampling);
+        var h = this.height / (superSamplePosition ? 1 : this.superSampling);
         var worldPos = camera.getWorldTransform();
         return Renderer.project(v.sub(worldPos.position).quaternionRotate(worldPos.orientation.conjugate()), camera.fov, w, h);
     };

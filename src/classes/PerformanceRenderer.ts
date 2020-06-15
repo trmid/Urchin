@@ -26,7 +26,7 @@ class PerformanceRenderer extends Renderer {
 
     constructor({
         canvas,
-        fullscreen,
+        fullscreen = false,
         superSampling,
         backgroundColor,
         showPerformance,
@@ -77,7 +77,7 @@ class PerformanceRenderer extends Renderer {
         this.callbackCheck();
     }
 
-    renderSync() {
+    private renderSync() {
         if (!this.preRendering) {
             setTimeout(function (renderer: PerformanceRenderer) {
                 if (renderer.scene && renderer.camera) {
@@ -101,7 +101,7 @@ class PerformanceRenderer extends Renderer {
         }
     }
 
-    callbackCheck() {
+    private callbackCheck() {
         this.callbackCount++;
         if (this.callbackCount == 3) {
             this.preRendering = false;
@@ -140,7 +140,7 @@ class PerformanceRenderer extends Renderer {
         this.camera = undefined;
     }
 
-    requestPreRender(instance = this.instanceQueue) {
+    private requestPreRender(instance = this.instanceQueue) {
         if (!this.preRendering && instance) {
             this.preRendering = true;
             this.sortingWorker.assign(instance.fragments);
@@ -165,14 +165,14 @@ class PerformanceRenderer extends Renderer {
         }
     }
 
-    project(v: Vector, camera: Camera, superSampling = false) {
-        let w = this.width / (superSampling ? 1 : this.superSampling);
-        let h = this.height / (superSampling ? 1 : this.superSampling);
+    project(v: Vector, camera: Camera, superSamplePosition = false) {
+        let w = this.width / (superSamplePosition ? 1 : this.superSampling);
+        let h = this.height / (superSamplePosition ? 1 : this.superSampling);
         let worldPos = camera.getWorldTransform();
         return Renderer.project(v.sub(worldPos.position).quaternionRotate(worldPos.orientation.conjugate()), camera.fov, w, h);
     }
 
-    draw(data: ArrayBuffer) {
+    private draw(data: ArrayBuffer) {
         this.drawing = true;
         if (this.renderWorker) {
             this.renderWorker.assign(data);
@@ -185,7 +185,7 @@ class PerformanceRenderer extends Renderer {
         }
     }
 
-    buildDrawData(s: Float32Array, p: Float32Array, l: Float32Array) {
+    private buildDrawData(s: Float32Array, p: Float32Array, l: Float32Array) {
         this.stats.startTimer();
         let buffer = new ArrayBuffer(4 * (Renderer.DRAW_HEADER_SIZE + Renderer.DRAW_FRAG_SIZE * s.length));
         let headerView = new Float32Array(buffer, 0, Renderer.DRAW_HEADER_SIZE);
