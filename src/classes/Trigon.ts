@@ -69,6 +69,13 @@ class Trigon {
         return this.quaternionRotate(transform.orientation).scale(transform.scaleVector).translate(transform.position);
     }
 
+    inverseNormal() {
+        let temp = this.v0;
+        this.v0 = this.v1;
+        this.v1 = temp;
+        return this;
+    }
+
     copy() {
         return new Trigon(this.v0.copy(), this.v1.copy(), this.v2.copy());
     }
@@ -98,7 +105,7 @@ class Trigon {
     }
 
     static qRotate(t: Trigon, q: Quaternion) {
-        return this.quaternionRotate(t, q);
+        return Trigon.quaternionRotate(t, q);
     }
 
     static quaternionRotate(t: Trigon, q: Quaternion) {
@@ -119,6 +126,10 @@ class Trigon {
 
     static getCenter(t: Trigon) {
         return t.getCenter();
+    }
+
+    static inverseNormal(t: Trigon) {
+        return t.copy().inverseNormal();
     }
 
     static copy(t: Trigon) {

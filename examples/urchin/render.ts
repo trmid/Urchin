@@ -34,13 +34,13 @@ window.addEventListener("load", function () {
     let urchinMesh = new Mesh();
 
     // Create the inside sphere
-    let c0 = Mesh.sphere({ resolution: 3, radius: 0.1 });
+    let c0 = Mesh.sphere({ subdivisions: 3, radius: 0.1 });
     // Create a duplicate sphere, rotated 0.3 radians around the Z-Axis
     let c1 = Mesh.rotateZ(c0, 0.3);
     // Create a larger sphere (Where the urchin spines will end)
     let c2 = Mesh.scale(c0, 10);
 
-    // Add the inner shere for a solid center for the urchin
+    // Add the inner sphere for a solid center for the urchin
     urchinMesh.addTrigon(c0.trigons);
 
     // Add the spines (double-faced)

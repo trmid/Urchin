@@ -85,7 +85,7 @@ window.addEventListener("load", function () {
     var renderer = new PerformanceRenderer({
         canvas: canvas,
         frameCallback: draw,
-        backgroundColor: new Color(0, 0.05)
+        backgroundColor: new Color(0, 0.2)
     });
     if (canvas) {
         canvas.addEventListener("mouseover", function () { timer.startTimer(); renderer.start(scene, camera); });

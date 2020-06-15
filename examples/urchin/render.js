@@ -6,7 +6,7 @@ window.addEventListener("load", function () {
         fov: 22
     });
     var urchinMesh = new Mesh();
-    var c0 = Mesh.sphere({ resolution: 3, radius: 0.1 });
+    var c0 = Mesh.sphere({ subdivisions: 3, radius: 0.1 });
     var c1 = Mesh.rotateZ(c0, 0.3);
     var c2 = Mesh.scale(c0, 10);
     urchinMesh.addTrigon(c0.trigons);

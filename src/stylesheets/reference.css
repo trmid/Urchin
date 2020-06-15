@@ -123,6 +123,10 @@ div {
     overflow-x: auto;
 }
 
+.no-break td, .no-break th{
+    display: table-cell;
+}
+
 .value-table{
     table-layout: fixed;
 }

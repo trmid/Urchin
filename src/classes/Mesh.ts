@@ -87,8 +87,7 @@ class Mesh {
 
     inverseNormals() {
         for (let i = 0; i < this.trigons.length; i++) {
-            let t = this.trigons[i];
-            this.trigons[i] = new Trigon(t.v1, t.v0, t.v2);
+            this.trigons[i].inverseNormal();
         }
         return this;
     }
@@ -102,7 +101,7 @@ class Mesh {
     }
 
     static rotateAxis(m: Mesh, axis: number, angle: number) {
-        return m.rotateAxis(axis, angle);
+        return m.copy().rotateAxis(axis, angle);
     }
 
     static rotateX(m: Mesh, angle: number) {
@@ -138,7 +137,9 @@ class Mesh {
     }
 
     static addTrigon(m: Mesh, t: Trigon | Array<Trigon>) {
-        return m.addTrigon(t);
+        let mesh = m.copy();
+        mesh.addTrigon(t);
+        return mesh;
     }
 
     static generateFromArrayData(v: Array<number>) {
@@ -239,7 +240,7 @@ class Mesh {
     }
 
     static cylinder(options: { resolution?: number, outerRadius?: number, innerRadius?: number, height?: number } = {}) {
-        if (options.resolution === undefined) options.resolution = 6;
+        if (options.resolution === undefined) options.resolution = 16;
         if (options.innerRadius === undefined) options.innerRadius = 0;
         if (options.outerRadius === undefined) options.outerRadius = 0.5;
         if (options.height === undefined) options.height = 1;
@@ -268,12 +269,14 @@ class Mesh {
                 Vector.mult(c0, new Vector(inR, inR, -h / 2.0)),    //6
                 Vector.mult(c1, new Vector(inR, inR, -h / 2.0))     //7
             ];
-            let ends = [
+            let outerEnds = [
                 new Trigon(p[0], p[1], p[2]),
+                new Trigon(p[5], p[4], p[6])
+            ];
+            let innerEnds = [
                 new Trigon(p[2], p[1], p[3]),
-                new Trigon(p[5], p[4], p[6]),
                 new Trigon(p[5], p[6], p[7])
-            ]
+            ];
             let outer = [
                 new Trigon(p[0], p[4], p[5]),
                 new Trigon(p[5], p[1], p[0])
@@ -283,7 +286,10 @@ class Mesh {
                 new Trigon(p[7], p[6], p[2])
             ];
             if (hasEnds) {
-                cylinder.addTrigon(ends);
+                cylinder.addTrigon(outerEnds);
+                if (hasCenter) {
+                    cylinder.addTrigon(innerEnds);
+                }
             }
             if (hasSides) {
                 cylinder.addTrigon(outer);
@@ -297,10 +303,10 @@ class Mesh {
 
     }
 
-    static sphere(options: { resolution?: number, radius?: number } = {}) {
-        if (options.resolution === undefined) options.resolution = 3;
+    static sphere(options: { subdivisions?: number, radius?: number } = {}) {
+        if (options.subdivisions === undefined) options.subdivisions = 3;
         if (options.radius === undefined) options.radius = 0.5;
-        if (options.resolution < 1) options.resolution = 1;
+        if (options.subdivisions < 1) options.subdivisions = 1;
 
         let sphere = new Mesh();
 
@@ -355,9 +361,9 @@ class Mesh {
         // Generate initial Ico Sphere Mesh
         sphere.generateFromArrayData(vectorArray);
 
-        if (options.resolution > 1) {
-            // Iteratively Refine Ico Sphere resolution
-            for (let i = 1; i < options.resolution; i++) {
+        if (options.subdivisions > 1) {
+            // Iteratively Refine Ico Sphere subdivisions
+            for (let i = 1; i < options.subdivisions; i++) {
                 // Store current trigons and clear mesh
                 let trigons = sphere.trigons;
                 sphere.trigons = new Array<Trigon>();
@@ -380,5 +386,43 @@ class Mesh {
 
         sphere.scale(options.radius);
         return sphere;
+    }
+
+    static uvSphere(options: { resolution?: number, radius?: number } = {}) {
+        if (options.resolution === undefined) options.resolution = 16;
+        if (options.radius === undefined) options.radius = 0.5;
+        if (options.resolution < 3) options.resolution = 3;
+
+        let sphere = new Mesh();
+        let circle = Mesh.circle({ resolution: options.resolution, radius: 1 });
+        let lastCircle = circle.copy();
+        let numLayers = Math.ceil(options.resolution / 4);
+        for (let a = 0; a < numLayers; a++) {
+            let angle = Math.PI / 2 * (a + 1) * 1.0 / numLayers;
+            let height = Math.sin(angle);
+            let layerCircle = circle
+                .copy()
+                .scale(Math.cos(angle))
+                .translate(new Vector(0, 0, height));
+
+            for (let i = 0; i < circle.trigons.length; i++) {
+                let t0_t = lastCircle.trigons[i];
+                let t1_t = layerCircle.trigons[i];
+                let t0_b = Trigon.scale(t0_t, new Vector(1, 1, -1));
+                let t1_b = Trigon.scale(t1_t, new Vector(1, 1, -1));
+
+                sphere.addTrigon(new Trigon(t0_t.v1, t0_t.v2, t1_t.v2));
+                sphere.addTrigon(new Trigon(t0_b.v2, t0_b.v1, t1_b.v1));
+                if (a + 1 != numLayers) {
+                    sphere.addTrigon(new Trigon(t1_t.v2, t1_t.v1, t0_t.v1));
+                    sphere.addTrigon(new Trigon(t1_b.v1, t1_b.v2, t0_b.v2));
+                }
+            }
+
+            lastCircle = layerCircle;
+        }
+
+        // Scale and return the sphere
+        return sphere.scale(options.radius);
     }
 }

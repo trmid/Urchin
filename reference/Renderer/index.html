@@ -2,39 +2,231 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - Renderer</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>Renderer</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            The Renderer object is used to render frames completely in the main thread of JavaScript as well as provide key static functions that enable frame drawing and screen projection. The Renderer class does not rely on WebWorkers like its child class, PerformanceRenderer, so it can offer a better level of compatibility with older browsers; however, it is NOT recommended to animate large Scenes in real time with Renderer since it has the potential to lock up the main thread and cause event loss in the event loop.
+        </p>
+        <p>
+            If you are planning to continuously animate a large Scene, it is recommended to use the PerformanceRenderer object instead.
+        </p>
+        <p>
+            <note>See also: <a href="../PerformanceRenderer/">PerformanceRenderer</a>, <a href="../Scene/">Scene</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>Renderer( ): Renderer</th>
+                    <td>Initializes with default attribute values.</td>
+                </tr>
+                <tr>
+                    <th>Renderer( { canvas?: HTMLCanvasElement, backgroundColor?: Color, fullscreen?: boolean, superSampling?: number, showPerformance?: boolean } ): Renderer</th>
+                    <td>Initializes with the given attribute values. Default values are<br><br>
+                        <table class="value-table">
+                            <tr>
+                                <th>canvas</th>
+                                <td>
+                                    A new canvas element (720x480) that is appended to the document body.
+                                </td>
+                                <td>
+                                    The HTMLCanvasElement that will be used to create a CanvasRenderingContext2D.
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>backgroundColor</th>
+                                <td>
+                                    new Color("SILVER")
+                                </td>
+                                <td>
+                                    The background color that will be drawn over the previous image data on the canvas. If a completely transparent color is provided, then the canvas will be cleared before drawing. <note>See also: <a href="../Color/">Color</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>fullscreen</th>
+                                <td>
+                                    false
+                                </td>
+                                <td>
+                                    If true, the canvas element will be resized to fit the size of the window on initialization as well as every time the window is resized.
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>superSampling</th>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    The ratio of canvas pixels to screen pixels that will be rendered. If this value is not equal to 1, then the provided canvas element will be given a fixed pixel size based on its current width and height, and then its width and height values will be multiplied by the superSampling value.
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>showPerformance</th>
+                                <td>
+                                    false
+                                </td>
+                                <td>
+                                    If true, the performance statistics from the Renderer's Stats object will be displayed on the window. <note>See also: <a href="../Stats/">Stats</a></note>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Constants</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>Renderer.DRAW_HEADER_SIZE = 6</th>
+                    <td>The number of Float32 values that are needed for constructing the header of the frame draw data.</td>
+                </tr>
+                <tr>
+                    <th>Renderer.DRAW_FRAG_SIZE = 14</th>
+                    <td>The number of Float32 values that are needed for constructing each Fragment as frame draw data.</td>
+                </tr>
+            </table>
+        </div>
+        <h3>Variables</h3>
+        <div>
+            <table class="code">
+                <tr>
+                    <th>backgroundColor: Color</th>
+                    <td>The background color that will be drawn over the previous image data on the canvas. If a completely transparent color is provided, then the canvas will be cleared before drawing. <note>See also: <a href="../Color/">Color</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>protected canvas: HTMLCanvasElement</th>
+                    <td>The HTMLCanvasElement that will be used to create a CanvasRenderingContext2D. <note>Note: This value should not be changed after initialization.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>protected ctx: CanvasRenderingContext2D</th>
+                    <td>The CanvasRenderingContext2D that will be used to render the frame image. <note>Note: This value should not be changed after initialization.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>protected lastDraw: ArrayBuffer</th>
+                    <td>The ArrayBuffer that stores the last frame's draw data. This is typically used to re-draw a frame if a fullscreen render is resized.
+                    </td>
+                </tr>
+                <tr>
+                    <th>protected stats: Stats</th>
+                    <td>The Stats object used to record and display performance statistics for the renderer. <note>See also: <a href="../Stats/">Stats</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>protected superSampling: number</th>
+                    <td>The ratio of canvas pixels to screen pixels that will be rendered. <note>Note: This value should not be changed after initialization.</note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>project(v: Vector, camera: Camera, superSamplePosition?: boolean): Vector</th>
+                    <td>Projects a given 3D Vector onto screen coordinates as seen through the given Camera. If <i>superSamplePosition</i> is true, then the image pixel coordinates are returned instead of canvas screen coordinates. <i>superSamplePosition</i> is false by default. <note>See also: <a href="../Vector/">Vector</a>, <a href="../Camera/">Camera</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>render(scene: Scene, camera: Camera): void</th>
+                    <td>Renders one frame of the Scene from the perspective of the given Camera. <note>See also: <a href="../Scene/">Scene</a>, <a href="../Camera/">Camera</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>resize(width?: number, height?: number): void</th>
+                    <td>Resizes the canvas image size to the given values or the window size if values are omitted. </td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
+                <tr>
+                    <th>Renderer.draw(data: ArrayBuffer, ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D): void</th>
+                    <td>
+                        Saves the context and draws the fragment data provided to the canvas before restoring the context at the end.<br><br><i>data</i> format:<br><br>
 
+                        <table class="value-table no-break">
+                            <tr>
+                                <th>Content</th>
+                                <th>Size (# of Float32)</th>
+                                <th>Data Order</th>
+                            </tr>
+                            <tr>
+                                <th colspan="3" style="text-align: center;">HEADER DATA</th>
+                            </tr>
+                            <tr>
+                                <th>Background Color</th>
+                                <td>4</td>
+                                <td>red, green, blue, alpha</td>
+                            </tr>
+                            <tr>
+                                <th>Dimensions</th>
+                                <td>2</td>
+                                <td>width, height</td>
+                            </tr>
+                            <tr>
+                                <th colspan="3" style="text-align: center;">FRAGMENT DATA (per fragment)</th>
+                            </tr>
+                            <tr>
+                                <th>Screen Vertex 0</th>
+                                <td>2</td>
+                                <td>x, y</td>
+                            </tr>
+                            <tr>
+                                <th>Screen Vertex 1</th>
+                                <td>2</td>
+                                <td>x, y</td>
+                            </tr>
+                            <tr>
+                                <th>Screen Vertex 2</th>
+                                <td>2</td>
+                                <td>x, y</td>
+                            </tr>
+                            <tr>
+                                <th>Fill Color</th>
+                                <td>4</td>
+                                <td>red, green, blue, alpha</td>
+                            </tr>
+                            <tr>
+                                <th>Wire Color</th>
+                                <td>4</td>
+                                <td>red, green, blue, alpha</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Renderer.getCameraInstance(scene: Scene, camera: Camera): FrameInstance</th>
+                    <td>Returns the FrameInstance of the Scene as seen through the given Camera. <note>See also: <a href="../FrameInstance/">FrameInstance</a>, <a href="../Scene/">Scene</a>, <a href="../Camera/">Camera</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Renderer.light(frag: Fragment, lights: List&lt;Light&gt;): Material</th>
+                    <td>Returns a new Material for a Fragment after being lit by a List of Lights. <note>See also: <a href="../Fragment/">Fragment</a>, <a href="../List/">List</a>, <a href="../Light/">Light</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Renderer.project(v: Vector, fov: number, w: number, h: number): Vector</th>
+                    <td>Projects a given 3D Vector onto screen coordinates with reference to the width (w) and height (h) given. The vector will be viewed from the origin looking down the positive X-Axis with the given fov. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Renderer.sortFragments(fragments: List&lt;Fragment&gt;): List&lt;Fragment&gt;</th>
+                    <td>Uses a custom bucket-sort algorithm to return a sorted List of Fragments based on their priority in the List. <note>See also: <a href="../Fragment/">Fragment</a>, <a href="../List/">List</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>

@@ -16,7 +16,7 @@ class Material {
     } = {}) {
         this.fill = fill;
         if (wire !== null) this.wire = wire;
-        else this.wire = this.fill.copy();
+        else this.wire = this.fill;
         this.lit = lit;
     }
 

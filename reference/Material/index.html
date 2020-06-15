@@ -2,39 +2,122 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - Material</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>Material</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            A Material object is used to store appearance data for MeshUrbjects. Each Material has a color for the faces of the mesh (fill) and another color for the edges of the faces (wire) as well as an attribute to determine whether the colors of the Material should be affected by lights in the Scene.
+        </p>
+        <p>
+            <note>See also: <a href="../Color/">Color</a>, <a href="../MeshUrbject/">MeshUrbject</a>, <a href="../Scene/">Scene</a>, <a href="../Light/">Light</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>Material( ): Material</th>
+                    <td>Initializes with default attribute values.</td>
+                </tr>
+                <tr>
+                    <th>Material( { fill?: Color, wire?: Color, lit?: boolean} ): Material</th>
+                    <td>Initializes with the given attribute values. Default values are:<br><br>
+                        <table class="value-table">
+                            <tr>
+                                <th>fill</th>
+                                <td>new Color(200, 200, 200, 1.0)</td>
+                                <td>The fill color of the Material that will fill in the faces of the Mesh in a MeshUrbject. <a href="../Color/">Color</a>, <note>See also: <a href="../MeshUrbject/">MeshUrbject</a>, <a href="../Mesh/">Mesh</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>wire</th>
+                                <td>Equal to fill color if not set.</td>
+                                <td>The wire color of the Material that will outline the faces of the Mesh in a MeshUrbject. <a href="../Color/">Color</a>, <note>See also: <a href="../MeshUrbject/">MeshUrbject</a>, <a href="../Mesh/">Mesh</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>lit</th>
+                                <td>true</td>
+                                <td>Determines if the Material is affected by lights in the Scene. <note>See also: <a href="../Scene/">Scene</a>, <a href="../Light/">Light</a></note>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>fill: Color</th>
+                    <td>The fill color of the Material that will fill in the faces of the Mesh in a MeshUrbject. <note>See also: <a href="../Color/">Color</a>, <a href="../MeshUrbject/">MeshUrbject</a>, <a href="../Mesh/">Mesh</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>wire: Color</th>
+                    <td>The wire color of the Material that will outline the faces of the Mesh in a MeshUrbject. <note>See also: <a href="../Color/">Color</a>, <a href="../MeshUrbject/">MeshUrbject</a>, <a href="../Mesh/">Mesh</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>lit: boolean</th>
+                    <td>Determines if the Material is affected by lights in the Scene. <note>See also: <a href="../Scene/">Scene</a>, <a href="../Light/">Light</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>copy(): Material</th>
+                    <td>Returns a copy of the Material object.</td>
+                </tr>
+                <tr>
+                    <th>setColor(c: Color): Material</th>
+                    <td>Sets the fill and wire color of the Material to the given color. Returns <i>this</i>. <note>See also: <a href="../Color/">Color</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>setFill(c: Color): Material</th>
+                    <td>Sets the fill color of the Material to the given color. Returns <i>this</i>. <note>See also: <a href="../Color/">Color</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>setWire(c: Color): Material</th>
+                    <td>Sets the wire color of the Material to the given color. Returns <i>this</i>. <note>See also: <a href="../Color/">Color</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
-
+                <tr>
+                    <th>Material.copy(m: Material): Material</th>
+                    <td>Returns a copy of the Material or creates a new Material from an object that has all of the public attributes from the Material class.</td>
+                </tr>
+                <tr>
+                    <th>Material.setColor(m: Material, c: Color): Material</th>
+                    <td>Copies the Material and sets the fill and wire color of the copy to the given color. Returns the new Material. <note>See also: <a href="../Color/">Color</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Material.setFill(m: Material, c: Color): Material</th>
+                    <td>Copies the Material and sets the fill color of the copy to the given color. Returns the new Material. <note>See also: <a href="../Color/">Color</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Material.setWire(m: Material, c: Color): Material</th>
+                    <td>Copies the Material and sets the wire color of the copy to the given color. Returns the new Material. <note>See also: <a href="../Color/">Color</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>

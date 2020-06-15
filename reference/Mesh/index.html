@@ -2,39 +2,197 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - Mesh</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>Mesh</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            A Mesh is an object used to represent a group of points in 3D space that can be manipulated as a whole. In Urchin, all Mesh objects are made up of an array of Trigon objects.
+        </p>
+        <p>
+            Mesh objects can be constructed and added to one or more MeshUrbjects to be rendered. When a MeshUrbject is rotated or transformed in some way, the underlying Mesh data is read, but not modified. This promotes a system that is resistant to <a href="https://en.wikipedia.org/wiki/Round-off_error">Round-off Errors</a>.
+        </p>
+        <p>
+            <note>See also: <a href="../Trigon/">Trigon</a>, <a href="../MeshUrbject/">MeshUrbject</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>Mesh( ): Mesh</th>
+                    <td>Constructs an empty Mesh object.</td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>trigons: Array&lt;Trigon&gt;</th>
+                    <td>An array of the Trigons that make up the faces of the Mesh. <note>See also: <a href="../Trigon/">Trigon</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>addTrigon(t: Trigon | Array&lt;Trigon&gt;): Trigon | Array&lt;Trigon&gt;</th>
+                    <td>Adds the given Trigon or Array of Trigons to the Mesh and returns the added Trigon(s). <note>Note: All Trigons are copied before they are added to the Mesh.<br><br>See also: <a href="../Trigon/">Trigon</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>copy(): Mesh</th>
+                    <td>Returns a copy of the Mesh.</td>
+                </tr>
+                <tr>
+                    <th>generateFromArrayData(v: Array&lt;number&gt;): Mesh</th>
+                    <td>Generates Trigons from the Array of vector components given (Every 3 numbers in the given array should make up a 3D point in the order: X, Y, Z, and every 3 Vectors make up a different Trigon) and adds them to the Mesh. Returns <i>this</i>. <note>See also: <a href="../Trigon/">Trigon</a>, <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>inverseNormals(): Mesh</th>
+                    <td>Swaps two vectors in every Trigon in the Mesh to effectively inverse the normal vector of each face. Returns <i>this</i>. <note>Note: An inverse Mesh is essentially "inside-out" compared to its original version. <br><br>See also: <a href="../Trigon/">Trigon</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>qRotate(q: Quaternion): Mesh</th>
+                    <td>Shorthand for quaternionRotate().</td>
+                </tr>
+                <tr>
+                    <th>quaternionRotate(q: Quaternion): Mesh</th>
+                    <td>Rotates the Mesh by the given quaternion and returns <i>this</i>. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>rotateAxis(axis: number | Vector, angle: number): Mesh</th>
+                    <td>Rotates the Mesh around the given axis by the given angle in radians and returns <i>this</i>. One of the following number constants can also be given as the axis: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS). <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>rotateX(angle: number): Mesh</th>
+                    <td>Rotates the Mesh around the X-Axis by the given angle in radians and returns <i>this</i>.</td>
+                </tr>
+                <tr>
+                    <th>rotateY(angle: number): Mesh</th>
+                    <td>Rotates the Mesh around the Y-Axis by the given angle in radians and returns <i>this</i>.</td>
+                </tr>
+                <tr>
+                    <th>rotateZ(angle: number): Mesh</th>
+                    <td>Rotates the Mesh around the Z-Axis by the given angle in radians and returns <i>this</i>.</td>
+                </tr>
+                <tr>
+                    <th>scale(s: number | Vector): Mesh</th>
+                    <td>Scales the Mesh by the given number or vector and returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>transform(M: Array&lt;Array&lt;number&gt;&gt;): Mesh</th>
+                    <td>Transforms the Mesh by the given 3 or 4 dimensional transformation matrix and returns <i>this</i>.</td>
+                </tr>
+                <tr>
+                    <th>translate(v: Vector): Mesh</th>
+                    <td>Translates the Mesh by the given vector and returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
-
+                <tr>
+                    <th>Mesh.addTrigon(m: Mesh, t: Trigon | Array&lt;Trigon&gt;): Trigon | Array&lt;Trigon&gt;</th>
+                    <td>Adds the given Trigon or Array of Trigons to a <strong>copy</strong> of the Mesh and returns the new Mesh. <note>Note: All Trigons are copied before they are added to the Mesh.<br><br>See also: <a href="../Trigon/">Trigon</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mesh.circle(options?: { resolution?: number, radius?: number }): Mesh</th>
+                    <td>Constructs a "circle" with the given radius at the origin, facing in the positive Z-Axis. <i>radius</i> has a default value of 0.5. <i>resolution</i> has a default value of 16 and a minimum value of 3 and determines the number of Trigons that will make up the circle. <note>Note: This construction can also be classified as a unit polygon with the number of sides equal to the resolution.</note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mesh.copy(m: Mesh): Mesh</th>
+                    <td>Returns a copy of the given Mesh or object that has all of the public attributes of a Mesh.</td>
+                </tr>
+                <tr>
+                    <th>Mesh.cube(): Mesh</th>
+                    <td>Constructs a unit cube Mesh centered at the Origin.</td>
+                </tr>
+                <tr>
+                    <th>Mesh.cylinder(options?: { resolution?: number, outerRadius?: number, innerRadius?: number, height?: number}): Mesh</th>
+                    <td>Constructs a cylinder Mesh with the given values. The <i>resolution</i> works the similar to Mesh.circle() to determine the number of sides for the cylinder and has a default value of 16 and a minimum value of 3. <i>outerRadius</i> determines the outer radius of the cylinder and has a default value of 0.5. If <i>innerRadius</i> is set, a tube-like Mesh is constructed instead, with the inner radius equal to the value given. The <i>height</i> value determines the height of the cylinder and has a default value of 1.</td>
+                </tr>
+                <tr>
+                    <th>Mesh.generateFromArrayData(v: Array&lt;number&gt;): Mesh</th>
+                    <td>Returns a new Mesh with generated Trigons from the Array of vector components given (Every 3 numbers in the given array should make up a 3D point in the order: X, Y, Z, and every 3 Vectors make up a different Trigon). <note>See also: <a href="../Trigon/">Trigon</a>, <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mesh.inverseNormals(m: Mesh): Mesh</th>
+                    <td>Creates a <strong>copy</strong> of the given Mesh and swaps two vectors in every Trigon in the Mesh to effectively inverse the normal vector of each face. <note>Note: An inverse Mesh is essentially "inside-out" compared to its original version. <br><br>See also: <a href="../Trigon/">Trigon</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mesh.plane(): Mesh</th>
+                    <td>Constructs a unit plane Mesh from two Trigons, centered at the origin . By default, the plane is facing in the positive Z-Axis.</td>
+                </tr>
+                <tr>
+                    <th>Mesh.qRotate(m: Mesh, q: Quaternion): Mesh</th>
+                    <td>Shorthand for Mesh.quaternionRotate().</td>
+                </tr>
+                <tr>
+                    <th>Mesh.quaternionRotate(m: Mesh, q: Quaternion): Mesh</th>
+                    <td>Rotates a <strong>copy</strong> of the Mesh by the given quaternion and returns the new Mesh. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mesh.rotateAxis(m: Mesh, axis: number | Vector, angle: number): Mesh</th>
+                    <td>Rotates a <strong>copy</strong> of the Mesh around the given axis by the given angle in radians and returns the new Mesh. One of the following number constants can also be given as the axis: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS). <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mesh.rotateX(m: Mesh, angle: number): Mesh</th>
+                    <td>Rotates a <strong>copy</strong> of the Mesh around the X-Axis by the given angle in radians and returns the new Mesh.</td>
+                </tr>
+                <tr>
+                    <th>Mesh.rotateY(m: Mesh, angle: number): Mesh</th>
+                    <td>Rotates a <strong>copy</strong> of the Mesh around the Y-Axis by the given angle in radians and returns the new Mesh.</td>
+                </tr>
+                <tr>
+                    <th>Mesh.rotateZ(m: Mesh, angle: number): Mesh</th>
+                    <td>Rotates a <strong>copy</strong> of the Mesh around the Z-Axis by the given angle in radians and returns the new Mesh.</td>
+                </tr>
+                <tr>
+                    <th>Mesh.scale(m: Mesh, s: number | Vector): Mesh</th>
+                    <td>Scales a <strong>copy</strong> of the Mesh by the given number or vector and returns the new Mesh. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mesh.sphere(options?: { subdivisions?: number, radius?: number }): Mesh</th>
+                    <td>Constructs an ico-sphere with the given radius or a default radius of 0.5. The <i>subdivisions</i> attribute has a default value of 3 and a minimum value of 1 and dictates how many times the constructor will iteratively refine a <a href="https://en.wikipedia.org/wiki/Geodesic_polyhedron">Geodesic Polyhedron</a> which adds 3-times the Trigon count each iteration. <note><a href="../Trigon/">Trigon</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mesh.transform(m: Mesh, M: Array&lt;Array&lt;number&gt;&gt;): Mesh</th>
+                    <td>Transforms a <strong>copy</strong> of the Mesh by the given 3 or 4 dimensional transformation matrix and returns the new Mesh.</td>
+                </tr>
+                <tr>
+                    <th>Mesh.translate(m: Mesh, v: Vector): Mesh</th>
+                    <td>Translates a <strong>copy</strong> of the Mesh by the given vector and returns the new Mesh. <note>See also: <a href="../Vector/">Vector</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mesh.uvSphere(options?: { resolution?: number, radius?: number } ): Mesh</th>
+                    <td>Constructs a UV Sphere with the given radius or a default radius of 0.5. The <i>resolution</i> attribute has a default value of 16 and a minimum value of 3 and works similarly to the resolution in Mesh.circle() by determining the amount of sides to an XY-plane cross-section of the sphere. <note>Note: By default, the north and south poles of the sphere are located on the Z-Axis.</note>
+                    </td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>

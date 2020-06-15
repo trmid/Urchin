@@ -182,7 +182,7 @@ window.addEventListener("load", function () {
     let renderer = new PerformanceRenderer({
         canvas: canvas,
         frameCallback: draw,
-        backgroundColor: new Color(0, 0.05)
+        backgroundColor: new Color(0, 0.2)
     });
 
 

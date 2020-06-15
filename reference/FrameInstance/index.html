@@ -2,39 +2,66 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - FrameInstance</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>FrameInstance</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            A FrameInstance is a render-level object that is used to store all Fragments and Lights that affect the Scene in the current render frame from the camera's point of view.
+        </p>
+        <p>
+            <note>See also: <a href="../Light/">Light</a>, <a href="../List/">List</a>, <a href="../Fragment/">Fragment</a>, <a href="../Camera/">Camera</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>FrameInstance(fragments: List&lt;Fragment&gt;, lights: List&lt;Light&gt;, camera: Camera): FrameInstance</th>
+                    <td>Initializes with the given attribute values.</td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>fragments: List&lt;Fragment&gt;</th>
+                    <td>A list of all Fragments in the FrameInstance. <note>See also: <a href="../List/">List</a>, <a href="../Fragment/">Fragment</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>lights: List&lt;Light&gt;</th>
+                    <td>A list of all Lights in the FrameInstance. <note>See also: <a href="../List/">List</a>, <a href="../Light/">Light</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>camera: Camera</th>
+                    <td>The Camera object used to render the frame. <note>See also: <a href="../Camera/">Camera</a></td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>copy(): FrameInstance</th>
+                    <td>Returns a copy of the FrameInstance object.</td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
-
+                <tr>
+                    <th>FrameInstance.copy(f: FrameInstance): FrameInstance</th>
+                    <td>Returns a copy of the given FrameInstance object.</td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>

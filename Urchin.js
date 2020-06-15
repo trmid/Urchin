@@ -730,7 +730,7 @@ var Material = (function () {
         if (wire !== null)
             this.wire = wire;
         else
-            this.wire = this.fill.copy();
+            this.wire = this.fill;
         this.lit = lit;
     }
     Material.prototype.setColor = function (c) {
@@ -1094,6 +1094,12 @@ var Trigon = (function () {
     Trigon.prototype.applyTransform = function (transform) {
         return this.quaternionRotate(transform.orientation).scale(transform.scaleVector).translate(transform.position);
     };
+    Trigon.prototype.inverseNormal = function () {
+        var temp = this.v0;
+        this.v0 = this.v1;
+        this.v1 = temp;
+        return this;
+    };
     Trigon.prototype.copy = function () {
         return new Trigon(this.v0.copy(), this.v1.copy(), this.v2.copy());
     };
@@ -1116,7 +1122,7 @@ var Trigon = (function () {
         return t.copy().rotateZ(angle);
     };
     Trigon.qRotate = function (t, q) {
-        return this.quaternionRotate(t, q);
+        return Trigon.quaternionRotate(t, q);
     };
     Trigon.quaternionRotate = function (t, q) {
         return t.copy().quaternionRotate(q);
@@ -1132,6 +1138,9 @@ var Trigon = (function () {
     };
     Trigon.getCenter = function (t) {
         return t.getCenter();
+    };
+    Trigon.inverseNormal = function (t) {
+        return t.copy().inverseNormal();
     };
     Trigon.copy = function (t) {
         return new Trigon(Vector.copy(t.v0), Vector.copy(t.v1), Vector.copy(t.v2));
@@ -1818,8 +1827,7 @@ var Mesh = (function () {
     };
     Mesh.prototype.inverseNormals = function () {
         for (var i = 0; i < this.trigons.length; i++) {
-            var t = this.trigons[i];
-            this.trigons[i] = new Trigon(t.v1, t.v0, t.v2);
+            this.trigons[i].inverseNormal();
         }
         return this;
     };
@@ -1831,7 +1839,7 @@ var Mesh = (function () {
         return copy;
     };
     Mesh.rotateAxis = function (m, axis, angle) {
-        return m.rotateAxis(axis, angle);
+        return m.copy().rotateAxis(axis, angle);
     };
     Mesh.rotateX = function (m, angle) {
         return m.copy().rotateX(angle);
@@ -1858,7 +1866,9 @@ var Mesh = (function () {
         return m.copy().scale(s);
     };
     Mesh.addTrigon = function (m, t) {
-        return m.addTrigon(t);
+        var mesh = m.copy();
+        mesh.addTrigon(t);
+        return mesh;
     };
     Mesh.generateFromArrayData = function (v) {
         var m = new Mesh();
@@ -1945,7 +1955,7 @@ var Mesh = (function () {
     Mesh.cylinder = function (options) {
         if (options === void 0) { options = {}; }
         if (options.resolution === undefined)
-            options.resolution = 6;
+            options.resolution = 16;
         if (options.innerRadius === undefined)
             options.innerRadius = 0;
         if (options.outerRadius === undefined)
@@ -1974,10 +1984,12 @@ var Mesh = (function () {
                 Vector.mult(c0, new Vector(inR, inR, -h / 2.0)),
                 Vector.mult(c1, new Vector(inR, inR, -h / 2.0))
             ];
-            var ends = [
+            var outerEnds = [
                 new Trigon(p[0], p[1], p[2]),
+                new Trigon(p[5], p[4], p[6])
+            ];
+            var innerEnds = [
                 new Trigon(p[2], p[1], p[3]),
-                new Trigon(p[5], p[4], p[6]),
                 new Trigon(p[5], p[6], p[7])
             ];
             var outer = [
@@ -1989,7 +2001,10 @@ var Mesh = (function () {
                 new Trigon(p[7], p[6], p[2])
             ];
             if (hasEnds) {
-                cylinder.addTrigon(ends);
+                cylinder.addTrigon(outerEnds);
+                if (hasCenter) {
+                    cylinder.addTrigon(innerEnds);
+                }
             }
             if (hasSides) {
                 cylinder.addTrigon(outer);
@@ -2003,12 +2018,12 @@ var Mesh = (function () {
     };
     Mesh.sphere = function (options) {
         if (options === void 0) { options = {}; }
-        if (options.resolution === undefined)
-            options.resolution = 3;
+        if (options.subdivisions === undefined)
+            options.subdivisions = 3;
         if (options.radius === undefined)
             options.radius = 0.5;
-        if (options.resolution < 1)
-            options.resolution = 1;
+        if (options.subdivisions < 1)
+            options.subdivisions = 1;
         var sphere = new Mesh();
         var t = (1 + Math.sqrt(5)) / 2;
         var p = [
@@ -2056,8 +2071,8 @@ var Mesh = (function () {
             vectorArray.push(v.z);
         }
         sphere.generateFromArrayData(vectorArray);
-        if (options.resolution > 1) {
-            for (var i = 1; i < options.resolution; i++) {
+        if (options.subdivisions > 1) {
+            for (var i = 1; i < options.subdivisions; i++) {
                 var trigons = sphere.trigons;
                 sphere.trigons = new Array();
                 for (var n = 0; n < trigons.length; n++) {
@@ -2075,6 +2090,41 @@ var Mesh = (function () {
         }
         sphere.scale(options.radius);
         return sphere;
+    };
+    Mesh.uvSphere = function (options) {
+        if (options === void 0) { options = {}; }
+        if (options.resolution === undefined)
+            options.resolution = 16;
+        if (options.radius === undefined)
+            options.radius = 0.5;
+        if (options.resolution < 3)
+            options.resolution = 3;
+        var sphere = new Mesh();
+        var circle = Mesh.circle({ resolution: options.resolution, radius: 1 });
+        var lastCircle = circle.copy();
+        var numLayers = Math.ceil(options.resolution / 4);
+        for (var a = 0; a < numLayers; a++) {
+            var angle = Math.PI / 2 * (a + 1) * 1.0 / numLayers;
+            var height = Math.sin(angle);
+            var layerCircle = circle
+                .copy()
+                .scale(Math.cos(angle))
+                .translate(new Vector(0, 0, height));
+            for (var i = 0; i < circle.trigons.length; i++) {
+                var t0_t = lastCircle.trigons[i];
+                var t1_t = layerCircle.trigons[i];
+                var t0_b = Trigon.scale(t0_t, new Vector(1, 1, -1));
+                var t1_b = Trigon.scale(t1_t, new Vector(1, 1, -1));
+                sphere.addTrigon(new Trigon(t0_t.v1, t0_t.v2, t1_t.v2));
+                sphere.addTrigon(new Trigon(t0_b.v2, t0_b.v1, t1_b.v1));
+                if (a + 1 != numLayers) {
+                    sphere.addTrigon(new Trigon(t1_t.v2, t1_t.v1, t0_t.v1));
+                    sphere.addTrigon(new Trigon(t1_b.v1, t1_b.v2, t0_b.v2));
+                }
+            }
+            lastCircle = layerCircle;
+        }
+        return sphere.scale(options.radius);
     };
     return Mesh;
 }());
@@ -2366,9 +2416,11 @@ var Renderer = (function () {
         this.lastDraw = data;
         this.stats.setStat("Draw Time", this.stats.readCheckpoint(), 1.0 / 10, 3);
     };
-    Renderer.prototype.resize = function () {
-        this.canvas.width = window.innerWidth * this.superSampling;
-        this.canvas.height = window.innerHeight * this.superSampling;
+    Renderer.prototype.resize = function (width, height) {
+        if (width === void 0) { width = window.innerWidth; }
+        if (height === void 0) { height = window.innerHeight; }
+        this.canvas.width = width * this.superSampling;
+        this.canvas.height = height * this.superSampling;
         if (this.lastDraw && this.ctx) {
             Renderer.draw(this.lastDraw, this.ctx);
         }
@@ -2768,9 +2820,11 @@ var PerformanceRenderer = (function (_super) {
             this.instanceQueue = instance;
         }
     };
-    PerformanceRenderer.prototype.resize = function () {
-        this.width = window.innerWidth * this.superSampling;
-        this.height = window.innerHeight * this.superSampling;
+    PerformanceRenderer.prototype.resize = function (width, height) {
+        if (width === void 0) { width = window.innerWidth; }
+        if (height === void 0) { height = window.innerHeight; }
+        this.width = width * this.superSampling;
+        this.height = height * this.superSampling;
         if (this.renderWorker) {
             this.renderWorker.resize(this.width, this.height);
         }

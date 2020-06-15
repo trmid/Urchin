@@ -2,39 +2,64 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - Fragment</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>Fragment</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            A Fragment is a render-level object that is used to store individual Trigons with their respective render data without the overhead of creating an entirely new MeshUrbject.
+        </p>
+        <p>
+            <note>See also: <a href="../Trigon/">Trigon</a>, <a href="../Material/">Material</a>, <a href="../FrameInstance/">FrameInstance</a>, <a href="../MeshUrbject/">MeshUrbject</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>Fragment(trigon: Trigon, material: Material, group: number): Fragment</th>
+                    <td>Initializes with the given attribute values.</td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>trigon: Trigon</th>
+                    <td>A Trigon in the top-level Scene spatial domain.</td>
+                </tr>
+                <tr>
+                    <th>material: Material</th>
+                    <td>The Material object used to render the Fragment.</td>
+                </tr>
+                <tr>
+                    <th>group: number</th>
+                    <td>The render group that the Fragment belongs to.</td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>copy(): Fragment</th>
+                    <td>Returns a copy of the Fragment object.</td>
+                </tr>
             </table>
         </div>
         <h3>Static Functions</h3>
         <div class="code">
             <table>
-
+                <tr>
+                    <th>Fragment.copy(f: Fragment): Fragment</th>
+                    <td>Returns a copy of the given Fragment or a new Fragment from an object that contains all of the public attributes in the Fragment class.</td>
+                </tr>
             </table>
         </div>
         <p><a href="../../">Home</a></p>

@@ -8,8 +8,8 @@ class Renderer {
     static DRAW_HEADER_SIZE = 6;
     static DRAW_FRAG_SIZE = 14;
 
-    public canvas: HTMLCanvasElement;
     public backgroundColor: Color;
+    protected canvas: HTMLCanvasElement;
     protected lastDraw: ArrayBuffer;
     protected ctx: CanvasRenderingContext2D;
     protected stats: Stats;
@@ -130,17 +130,17 @@ class Renderer {
 
     }
 
-    resize() {
-        this.canvas.width = window.innerWidth * this.superSampling;
-        this.canvas.height = window.innerHeight * this.superSampling;
+    resize(width = window.innerWidth, height = window.innerHeight) {
+        this.canvas.width = width * this.superSampling;
+        this.canvas.height = height * this.superSampling;
         if (this.lastDraw && this.ctx) {
             Renderer.draw(this.lastDraw, this.ctx);
         }
     }
 
-    project(v: Vector, camera: Camera, superSampling = false) {
-        let w = this.canvas.width / (superSampling ? 1 : this.superSampling);
-        let h = this.canvas.height / (superSampling ? 1 : this.superSampling);
+    project(v: Vector, camera: Camera, superSamplePosition = false) {
+        let w = this.canvas.width / (superSamplePosition ? 1 : this.superSampling);
+        let h = this.canvas.height / (superSamplePosition ? 1 : this.superSampling);
         let worldPos = camera.getWorldTransform();
         return Renderer.project(v.sub(worldPos.position).quaternionRotate(worldPos.orientation.conjugate()), camera.fov, w, h);
     }
@@ -246,7 +246,7 @@ class Renderer {
                 t.quaternionRotate(Quaternion.conjugate(camera.orientation)); // Rotate the point opposite of the camera's rotation
                 let viewAngle = Math.min(Math.min(Vector.angleBetween(cameraDir, t.v0), Vector.angleBetween(cameraDir, t.v1)), Vector.angleBetween(cameraDir, t.v2));
                 if (viewAngle <= (180 * Math.PI / 360)) {
-                    frags.addLast(current.data, dist); // Add dist as priority so we don't have to calulate it during fragment sorting
+                    frags.addLast(current.data, dist); // Add dist as priority so we don't have to calculate it during fragment sorting
                 }
             }
             current = current.nxt;

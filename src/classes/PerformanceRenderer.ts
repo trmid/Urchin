@@ -151,9 +151,9 @@ class PerformanceRenderer extends Renderer {
         }
     }
 
-    resize() {
-        this.width = window.innerWidth * this.superSampling;
-        this.height = window.innerHeight * this.superSampling;
+    resize(width = window.innerWidth, height = window.innerHeight) {
+        this.width = width * this.superSampling;
+        this.height = height * this.superSampling;
         if (this.renderWorker) {
             this.renderWorker.resize(this.width, this.height);
         } else {
