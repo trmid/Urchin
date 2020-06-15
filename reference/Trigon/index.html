@@ -29,86 +29,92 @@
         </div>
         <h3>Variables</h3>
         <div>
-            <table class="code">
-                <tr>
-                    <th>v0: Vector</th>
-                    <td>The first point of the triangle. <note>See also: <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>v1: Vector</th>
-                    <td>The second point of the triangle. <note>See also: <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>v2: Vector</th>
-                    <td>The third point of the triangle. <note>See also: <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-            </table>
+            <h4>Public Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>v0: Vector</th>
+                        <td>The first point of the triangle. <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>v1: Vector</th>
+                        <td>The second point of the triangle. <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>v2: Vector</th>
+                        <td>The third point of the triangle. <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
-            <table class="code">
-                <tr>
-                    <th>applyTransform(transform: Urbject): Trigon</th>
-                    <td>Transforms the Trigon to be in the spacial domain of the given Urbject and returns <i>this</i>. <note>Note: This is NOT the same as transform(). <br><br>See also: <a href="../Urbject/">Urbject</a> </note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>copy(): Trigon</th>
-                    <td>Returns a copy of the Trigon.</td>
-                </tr>
-                <tr>
-                    <th>getCenter(): Vector</th>
-                    <td>Returns the calculated average of all points in the triangle. <note>See also: <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>getNormal(): Vector</th>
-                    <td>Returns the calculated normal vector of the triangle's face according to the <a href="https://en.wikipedia.org/wiki/Right-hand_rule">Right-hand Rule</a>. <note>See also: <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>inverseNormal(): Trigon</th>
-                    <td>Inverses the Trigon by swapping the first and second Vector and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>qRotate(q: Quaternion): Trigon</th>
-                    <td>Shorthand for quaternionRotate()</td>
-                </tr>
-                <tr>
-                    <th>quaternionRotate(q: Quaternion): Trigon</th>
-                    <td>Rotates the Trigon by the given quaternion and returns <i>this</i>. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>rotateAxis(axis: number | Vector, angle: number): Trigon</th>
-                    <td>Rotates the Trigon around the axis specified by the given angle in radians and returns <i>this</i>. One of the following number constants can also be given as the axis: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS). <note>See also: <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>rotateX(angle: number): Trigon</th>
-                    <td>Rotates the Trigon around the X-Axis by the given angle in radians and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>rotateY(angle: number): Trigon</th>
-                    <td>Rotates the Trigon around the Y-Axis by the given angle in radians and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>rotateZ(angle: number): Trigon</th>
-                    <td>Rotates the Trigon around the Z-Axis by the given angle in radians and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>transform(M: Array&lt;Array&lt;number&gt;&gt;): Trigon</th>
-                    <td>Transforms the Trigon by the given 3 or 4 dimensional transformation matrix and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>translate(v: Vector): Trigon</th>
-                    <td>Translates the Trigon by the given vector and returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-            </table>
+            <h4>Public Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>applyTransform(transform: Urbject): Trigon</th>
+                        <td>Transforms the Trigon to be in the spacial domain of the given Urbject and returns <i>this</i>. <note>Note: This is NOT the same as transform(). <br><br>See also: <a href="../Urbject/">Urbject</a> </note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>copy(): Trigon</th>
+                        <td>Returns a copy of the Trigon.</td>
+                    </tr>
+                    <tr>
+                        <th>getCenter(): Vector</th>
+                        <td>Returns the calculated average of all points in the triangle. <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>getNormal(): Vector</th>
+                        <td>Returns the calculated normal vector of the triangle's face according to the <a href="https://en.wikipedia.org/wiki/Right-hand_rule">Right-hand Rule</a>. <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>inverseNormal(): Trigon</th>
+                        <td>Inverses the Trigon by swapping the first and second Vector and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>qRotate(q: Quaternion): Trigon</th>
+                        <td>Shorthand for quaternionRotate()</td>
+                    </tr>
+                    <tr>
+                        <th>quaternionRotate(q: Quaternion): Trigon</th>
+                        <td>Rotates the Trigon by the given quaternion and returns <i>this</i>. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>rotateAxis(axis: number | Vector, angle: number): Trigon</th>
+                        <td>Rotates the Trigon around the axis specified by the given angle in radians and returns <i>this</i>. One of the following number constants can also be given as the axis: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS). <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>rotateX(angle: number): Trigon</th>
+                        <td>Rotates the Trigon around the X-Axis by the given angle in radians and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>rotateY(angle: number): Trigon</th>
+                        <td>Rotates the Trigon around the Y-Axis by the given angle in radians and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>rotateZ(angle: number): Trigon</th>
+                        <td>Rotates the Trigon around the Z-Axis by the given angle in radians and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>transform(M: Array&lt;Array&lt;number&gt;&gt;): Trigon</th>
+                        <td>Transforms the Trigon by the given 3 or 4 dimensional transformation matrix and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>translate(v: Vector): Trigon</th>
+                        <td>Translates the Trigon by the given vector and returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Static Functions</h3>
         <div class="code">

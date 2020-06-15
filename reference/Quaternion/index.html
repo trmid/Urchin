@@ -38,103 +38,109 @@
             </table>
         </div>
         <h3>Variables</h3>
-        <div class="code">
-            <table class="code">
-                <tr>
-                    <th>public a: number</th>
-                    <td>The scalar component of the quaternion.</td>
-                </tr>
-                <tr>
-                    <th>public i: number</th>
-                    <td>The real number to be multiplied by the imaginary <i>i</i> unit of the vector component of the quaternion.</td>
-                </tr>
-                <tr>
-                    <th>public j: number</th>
-                    <td>The real number to be multiplied by the imaginary <i>j</i> unit of the vector component of the quaternion.</td>
-                </tr>
-                <tr>
-                    <th>public k: number</th>
-                    <td>The real number to be multiplied by the imaginary <i>k</i> unit of the vector component of the quaternion.</td>
-                </tr>
-            </table>
+        <div>
+            <h4>Public Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>a: number</th>
+                        <td>The scalar component of the quaternion.</td>
+                    </tr>
+                    <tr>
+                        <th>i: number</th>
+                        <td>The real number to be multiplied by the imaginary <i>i</i> unit of the vector component of the quaternion.</td>
+                    </tr>
+                    <tr>
+                        <th>j: number</th>
+                        <td>The real number to be multiplied by the imaginary <i>j</i> unit of the vector component of the quaternion.</td>
+                    </tr>
+                    <tr>
+                        <th>k: number</th>
+                        <td>The real number to be multiplied by the imaginary <i>k</i> unit of the vector component of the quaternion.</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
-            <table class="code">
-                <tr>
-                    <th>add(q: Quaternion): Quaternion</th>
-                    <td>Adds the given quaternion to the current quaternion and returns the result. <note>Note: This will not result in the addition of two rotations. To combine rotational quaternions, use quaternionRotate().</note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>conjugate(): Quaternion</th>
-                    <td>Conjugates the current vector and returns the result. <note>Note: The conjugation of a quaternion is the same as negating the vector portion (i, j, k) of the quaternion. Conjugating a rotational quaternion results in the opposite of the given rotation.</note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>copy(): Quaternion</th>
-                    <td>Returns a copy of the current quaternion.</td>
-                </tr>
-                <tr>
-                    <th>div(a: number): Quaternion</th>
-                    <td>Divides each component of the current quaternion by the given number and returns the result.</td>
-                </tr>
-                <tr>
-                    <th>getRotationMatrix(): Array&lt;Array&lt;number&gt;&gt;</th>
-                    <td>Returns the 3-dimensional rotation matrix achieved by the current quaternion.</td>
-                </tr>
-                <tr>
-                    <th>mag(): number</th>
-                    <td>Returns the magnitude of the quaternion.</td>
-                </tr>
-                <tr>
-                    <th>normalize(): Quaternion</th>
-                    <td>Normalizes the quaternion and returns the result.</td>
-                </tr>
-                <tr>
-                    <th>mult(a: number): Quaternion</th>
-                    <td>Multiplies each component of the current quaternion by the given number and returns the result. <note>Note: To multiply two quaternions, see quaternionMult().</note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>qMult(q: Quaternion): Quaternion</th>
-                    <td>Shorthand for quaternionMult()</td>
-                </tr>
-                <tr>
-                    <th>quaternionMult(q: Quaternion): Quaternion</th>
-                    <td>Multiplies the current quaternion by the given quaternion and returns the result. <note>Note: This is NOT the same as multiplying each individual component of the quaternions together and is NOT commutative. i.e. q0.quaternionMult(q1) &#8800; q1.quaternionMult(q0)</note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>qRotate(q: Quaternion): Quaternion</th>
-                    <td>Shorthand for quaternionRotate()</td>
-                </tr>
-                <tr>
-                    <th>quaternionRotate(q: Quaternion): Quaternion</th>
-                    <td>Multiplies the given rotational quaternion with the current rotational quaternion and returns the result. The resulting quaternion is effectively the same as applying the current rotational quaternion and then the given rotational quaternion.</td>
-                </tr>
-                <tr>
-                    <th>rotateAxis(axis: number | Vector, angle: number): Quaternion</th>
-                    <td>Rotates the current quaternion by the given angle in radians around the given axis and returns the result.</td>
-                </tr>
-                <tr>
-                    <th>rotateX(a: number): Quaternion</th>
-                    <td>Rotates the current quaternion by the given angle in radians around the X-axis and returns the result.</td>
-                </tr>
-                <tr>
-                    <th>rotateY(a: number): Quaternion</th>
-                    <td>Rotates the current quaternion by the given angle in radians around the Y-axis and returns the result.</td>
-                </tr>
-                <tr>
-                    <th>rotateZ(a: number): Quaternion</th>
-                    <td>Rotates the current quaternion by the given angle in radians around the Z-axis and returns the result.</td>
-                </tr>
-                <tr>
-                    <th>sub(q: Quaternion): Quaternion</th>
-                    <td>Subtracts the given quaternion from the current quaternion and returns the result. <note>Note: This will not result in the subtraction of two rotations. To combine rotational quaternions, use quaternionRotate() and conjugate().</note>
-                    </td>
-                </tr>
-            </table>
+            <h4>Public Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>add(q: Quaternion): Quaternion</th>
+                        <td>Adds the given quaternion to the current quaternion and returns the result. <note>Note: This will not result in the addition of two rotations. To combine rotational quaternions, use quaternionRotate().</note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>conjugate(): Quaternion</th>
+                        <td>Conjugates the current vector and returns the result. <note>Note: The conjugation of a quaternion is the same as negating the vector portion (i, j, k) of the quaternion. Conjugating a rotational quaternion results in the opposite of the given rotation.</note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>copy(): Quaternion</th>
+                        <td>Returns a copy of the current quaternion.</td>
+                    </tr>
+                    <tr>
+                        <th>div(a: number): Quaternion</th>
+                        <td>Divides each component of the current quaternion by the given number and returns the result.</td>
+                    </tr>
+                    <tr>
+                        <th>getRotationMatrix(): Array&lt;Array&lt;number&gt;&gt;</th>
+                        <td>Returns the 3-dimensional rotation matrix achieved by the current quaternion.</td>
+                    </tr>
+                    <tr>
+                        <th>mag(): number</th>
+                        <td>Returns the magnitude of the quaternion.</td>
+                    </tr>
+                    <tr>
+                        <th>normalize(): Quaternion</th>
+                        <td>Normalizes the quaternion and returns the result.</td>
+                    </tr>
+                    <tr>
+                        <th>mult(a: number): Quaternion</th>
+                        <td>Multiplies each component of the current quaternion by the given number and returns the result. <note>Note: To multiply two quaternions, see quaternionMult().</note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>qMult(q: Quaternion): Quaternion</th>
+                        <td>Shorthand for quaternionMult()</td>
+                    </tr>
+                    <tr>
+                        <th>quaternionMult(q: Quaternion): Quaternion</th>
+                        <td>Multiplies the current quaternion by the given quaternion and returns the result. <note>Note: This is NOT the same as multiplying each individual component of the quaternions together and is NOT commutative. i.e. q0.quaternionMult(q1) &#8800; q1.quaternionMult(q0)</note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>qRotate(q: Quaternion): Quaternion</th>
+                        <td>Shorthand for quaternionRotate()</td>
+                    </tr>
+                    <tr>
+                        <th>quaternionRotate(q: Quaternion): Quaternion</th>
+                        <td>Multiplies the given rotational quaternion with the current rotational quaternion and returns the result. The resulting quaternion is effectively the same as applying the current rotational quaternion and then the given rotational quaternion.</td>
+                    </tr>
+                    <tr>
+                        <th>rotateAxis(axis: number | Vector, angle: number): Quaternion</th>
+                        <td>Rotates the current quaternion by the given angle in radians around the given axis and returns the result.</td>
+                    </tr>
+                    <tr>
+                        <th>rotateX(a: number): Quaternion</th>
+                        <td>Rotates the current quaternion by the given angle in radians around the X-axis and returns the result.</td>
+                    </tr>
+                    <tr>
+                        <th>rotateY(a: number): Quaternion</th>
+                        <td>Rotates the current quaternion by the given angle in radians around the Y-axis and returns the result.</td>
+                    </tr>
+                    <tr>
+                        <th>rotateZ(a: number): Quaternion</th>
+                        <td>Rotates the current quaternion by the given angle in radians around the Z-axis and returns the result.</td>
+                    </tr>
+                    <tr>
+                        <th>sub(q: Quaternion): Quaternion</th>
+                        <td>Subtracts the given quaternion from the current quaternion and returns the result. <note>Note: This will not result in the subtraction of two rotations. To combine rotational quaternions, use quaternionRotate() and conjugate().</note>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Static Functions</h3>
         <div class="code">

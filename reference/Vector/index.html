@@ -26,23 +26,6 @@
                 </tr>
             </table>
         </div>
-        <h3>Variables</h3>
-        <div class="code">
-            <table class="code">
-                <tr>
-                    <th>public x: number</th>
-                    <td>The position of the vector along the X-axis.</td>
-                </tr>
-                <tr>
-                    <th>public y: number</th>
-                    <td>The position of the vector along the Y-axis.</td>
-                </tr>
-                <tr>
-                    <th>public z: number</th>
-                    <td>The position of the vector along the Z-axis.</td>
-                </tr>
-            </table>
-        </div>
         <h3>Constants</h3>
         <div>
             <table class="code">
@@ -60,143 +43,166 @@
                 </tr>
             </table>
         </div>
+        <h3>Variables</h3>
+        <div>
+            <h4>Public Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>x: number</th>
+                        <td>The position of the vector along the X-axis.</td>
+                    </tr>
+                    <tr>
+                        <th>y: number</th>
+                        <td>The position of the vector along the Y-axis.</td>
+                    </tr>
+                    <tr>
+                        <th>z: number</th>
+                        <td>The position of the vector along the Z-axis.</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <h3>Functions</h3>
         <div class="table-scroll">
-            <table class="code">
-                <tr>
-                    <th>add(a: number | Vector): Vector</th>
-                    <td>Adds a number or Vector to the current vector and returns <i>this</i>. If the given value is a number, it is added to all components of the current Vector.</td>
-                </tr>
-                <tr>
-                    <th>addX(a: number): Vector</th>
-                    <td>Adds the number to the X value of the current vector. Returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>addY(a: number): Vector</th>
-                    <td>Adds the number to the Y value of the current vector. Returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>addZ(a: number): Vector</th>
-                    <td>Adds the number to the Z value of the current vector. Returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>angleBetween(v: Vector): number</th>
-                    <td>Returns the angle in radians between the current vector and given vector. Range: [0, PI].</td>
-                </tr>
-                <tr>
-                    <th>closest(V: Array&lt;Vector&gt;): Vector</th>
-                    <td>Returns the vector in the given array that is the smallest distance from the current vector.</td>
-                </tr>
-                <tr>
-                    <th>copy(): Vector</th>
-                    <td>Returns a copy of the current vector.</td>
-                </tr>
-                <tr>
-                    <th>cross(v: Vector): Vector</th>
-                    <td>Applies the cross product of the current vector by the given vector and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>div(a: number | Vector): Vector</th>
-                    <td>Divides a number or Vector from the current Vector and returns <i>this</i>. If the value is a number, it is divided from all components of the current vector. Prints an error if the given number is zero or if any components of the given Vector are zero.</td>
-                </tr>
-                <tr>
-                    <th>divX(a: number): Vector</th>
-                    <td>Divides the number from the X value of the current vector. Returns <i>this</i>. Prints an error if the given number is zero.</td>
-                </tr>
-                <tr>
-                    <th>divY(a: number): Vector</th>
-                    <td>Divides the number from the Y value of the current vector. Returns <i>this</i>. Prints an error if the given number is zero.</td>
-                </tr>
-                <tr>
-                    <th>divZ(a: number): Vector</th>
-                    <td>Divides the number from the Z value of the current vector. Returns <i>this</i>. Prints an error if the given number is zero.</td>
-                </tr>
-                <tr>
-                    <th>dot(v: Vector): number</th>
-                    <td>Returns the dot product of the current vector and given vector.</td>
-                </tr>
-                <tr>
-                    <th>equals(v: Vector): boolean</th>
-                    <td>Returns true if the current vector has the same X, Y, Z components as the given vector.</td>
-                </tr>
-                <tr>
-                    <th>furthest(V: Array&lt;Vector&gt;): Vector</th>
-                    <td>Returns the vector in the given array that is the largest distance from the current vector.</td>
-                </tr>
-                <tr>
-                    <th>mag(): number</th>
-                    <td>Returns the magnitude of the current vector.</td>
-                </tr>
-                <tr>
-                    <th>mult(a: number | Vector)</th>
-                    <td>Multiplies the current Vector by a number or Vector and returns <i>this</i>. If the value is a number, it is multiplied to all components of the current vector.</td>
-                </tr>
-                <tr>
-                    <th>multX(a: number)</th>
-                    <td>Multiplies the X component of the current Vector by a number and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>multY(a: number)</th>
-                    <td>Multiplies the Y component of the current Vector by a number and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>multZ(a: number)</th>
-                    <td>Multiplies the Z component of the current Vector by a number and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>neg(): Vector</th>
-                    <td>Negates all components of the current vector and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>normalize(): Vector</th>
-                    <td>Normalizes the current vector so that its magnitude is 1. Returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>qRotate(q: Quaternion): Vector</th>
-                    <td>Shorthand for quaternionRotate()</td>
-                </tr>
-                <tr>
-                    <th>quaternionRotate(q: Quaternion): Vector</th>
-                    <td>Applies the given quaternion rotation to the current vector and returns <i>this</i>. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>rotateAxis(axis: number | Vector, angle: number): Vector</th>
-                    <td>Rotates the current vector around the given axis by the angle in radians and returns <i>this</i>. One of the following number constants can also be given as the axis: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS).</td>
-                </tr>
-                <tr>
-                    <th>rotateX(xAngle: number): Vector</th>
-                    <td>Rotates the current vector around the X-axis by the given angle in radians and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>rotateY(yAngle: number): Vector</th>
-                    <td>Rotates the current vector around the Y-axis by the given angle in radians and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>rotateZ(zAngle: number): Vector</th>
-                    <td>Rotates the current vector around the Z-axis by the given angle in radians and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>sub(a: number | Vector): Vector</th>
-                    <td>Subtracts a number or Vector from the current Vector and returns <i>this</i>. If the value is a number, it is subtracted from all components of the current vector.</td>
-                </tr>
-                <tr>
-                    <th>subX(a: number): Vector</th>
-                    <td>Subtracts the number from the X value of the current vector. Returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>subY(a: number): Vector</th>
-                    <td>Subtracts the number from the Y value of the current vector. Returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>subZ(a: number): Vector</th>
-                    <td>Subtracts the number from the Z value of the current vector. Returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>transform(M: Array&lt;Array&lt;number&gt;&gt;): Vector</th>
-                    <td>Applies the given 3 or 4 dimensional matrix transformation to the current vector and returns <i>this</i>.</td>
-                </tr>
-            </table>
+            <h4>Public Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>add(a: number | Vector): Vector</th>
+                        <td>Adds a number or Vector to the current vector and returns <i>this</i>. If the given value is a number, it is added to all components of the current Vector.</td>
+                    </tr>
+                    <tr>
+                        <th>addX(a: number): Vector</th>
+                        <td>Adds the number to the X value of the current vector. Returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>addY(a: number): Vector</th>
+                        <td>Adds the number to the Y value of the current vector. Returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>addZ(a: number): Vector</th>
+                        <td>Adds the number to the Z value of the current vector. Returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>angleBetween(v: Vector): number</th>
+                        <td>Returns the angle in radians between the current vector and given vector. Range: [0, PI].</td>
+                    </tr>
+                    <tr>
+                        <th>closest(V: Array&lt;Vector&gt;): Vector</th>
+                        <td>Returns the vector in the given array that is the smallest distance from the current vector.</td>
+                    </tr>
+                    <tr>
+                        <th>copy(): Vector</th>
+                        <td>Returns a copy of the current vector.</td>
+                    </tr>
+                    <tr>
+                        <th>cross(v: Vector): Vector</th>
+                        <td>Applies the cross product of the current vector by the given vector and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>div(a: number | Vector): Vector</th>
+                        <td>Divides a number or Vector from the current Vector and returns <i>this</i>. If the value is a number, it is divided from all components of the current vector. Prints an error if the given number is zero or if any components of the given Vector are zero.</td>
+                    </tr>
+                    <tr>
+                        <th>divX(a: number): Vector</th>
+                        <td>Divides the number from the X value of the current vector. Returns <i>this</i>. Prints an error if the given number is zero.</td>
+                    </tr>
+                    <tr>
+                        <th>divY(a: number): Vector</th>
+                        <td>Divides the number from the Y value of the current vector. Returns <i>this</i>. Prints an error if the given number is zero.</td>
+                    </tr>
+                    <tr>
+                        <th>divZ(a: number): Vector</th>
+                        <td>Divides the number from the Z value of the current vector. Returns <i>this</i>. Prints an error if the given number is zero.</td>
+                    </tr>
+                    <tr>
+                        <th>dot(v: Vector): number</th>
+                        <td>Returns the dot product of the current vector and given vector.</td>
+                    </tr>
+                    <tr>
+                        <th>equals(v: Vector): boolean</th>
+                        <td>Returns true if the current vector has the same X, Y, Z components as the given vector.</td>
+                    </tr>
+                    <tr>
+                        <th>furthest(V: Array&lt;Vector&gt;): Vector</th>
+                        <td>Returns the vector in the given array that is the largest distance from the current vector.</td>
+                    </tr>
+                    <tr>
+                        <th>mag(): number</th>
+                        <td>Returns the magnitude of the current vector.</td>
+                    </tr>
+                    <tr>
+                        <th>mult(a: number | Vector)</th>
+                        <td>Multiplies the current Vector by a number or Vector and returns <i>this</i>. If the value is a number, it is multiplied to all components of the current vector.</td>
+                    </tr>
+                    <tr>
+                        <th>multX(a: number)</th>
+                        <td>Multiplies the X component of the current Vector by a number and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>multY(a: number)</th>
+                        <td>Multiplies the Y component of the current Vector by a number and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>multZ(a: number)</th>
+                        <td>Multiplies the Z component of the current Vector by a number and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>neg(): Vector</th>
+                        <td>Negates all components of the current vector and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>normalize(): Vector</th>
+                        <td>Normalizes the current vector so that its magnitude is 1. Returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>qRotate(q: Quaternion): Vector</th>
+                        <td>Shorthand for quaternionRotate()</td>
+                    </tr>
+                    <tr>
+                        <th>quaternionRotate(q: Quaternion): Vector</th>
+                        <td>Applies the given quaternion rotation to the current vector and returns <i>this</i>. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>rotateAxis(axis: number | Vector, angle: number): Vector</th>
+                        <td>Rotates the current vector around the given axis by the angle in radians and returns <i>this</i>. One of the following number constants can also be given as the axis: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS).</td>
+                    </tr>
+                    <tr>
+                        <th>rotateX(xAngle: number): Vector</th>
+                        <td>Rotates the current vector around the X-axis by the given angle in radians and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>rotateY(yAngle: number): Vector</th>
+                        <td>Rotates the current vector around the Y-axis by the given angle in radians and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>rotateZ(zAngle: number): Vector</th>
+                        <td>Rotates the current vector around the Z-axis by the given angle in radians and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>sub(a: number | Vector): Vector</th>
+                        <td>Subtracts a number or Vector from the current Vector and returns <i>this</i>. If the value is a number, it is subtracted from all components of the current vector.</td>
+                    </tr>
+                    <tr>
+                        <th>subX(a: number): Vector</th>
+                        <td>Subtracts the number from the X value of the current vector. Returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>subY(a: number): Vector</th>
+                        <td>Subtracts the number from the Y value of the current vector. Returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>subZ(a: number): Vector</th>
+                        <td>Subtracts the number from the Z value of the current vector. Returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>transform(M: Array&lt;Array&lt;number&gt;&gt;): Vector</th>
+                        <td>Applies the given 3 or 4 dimensional matrix transformation to the current vector and returns <i>this</i>.</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Static Functions</h3>
         <div class="code">

@@ -6,15 +6,15 @@
 class FocalPointController extends Controller {
 
     controlFace: HTMLElement | Window;
+    sensitivity: number;
+    friction: number;
+    zoomMultiplier: number;
+    focalPoint: Vector;
+    minDist: number;
+    maxDist: number;
 
     private velocity = new Vector();
     private dist: number;
-    private sensitivity: number;
-    private friction: number;
-    private zoomMultiplier: number;
-    private focalPoint: Vector;
-    private minDist: number;
-    private maxDist: number;
     private dMouse = new Vector();
     private mousePressed: boolean;
     private timer: Stats;

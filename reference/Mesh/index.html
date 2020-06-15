@@ -32,77 +32,83 @@
         </div>
         <h3>Variables</h3>
         <div>
-            <table class="code">
-                <tr>
-                    <th>trigons: Array&lt;Trigon&gt;</th>
-                    <td>An array of the Trigons that make up the faces of the Mesh. <note>See also: <a href="../Trigon/">Trigon</a></note>
-                    </td>
-                </tr>
-            </table>
+            <h4>Public Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>trigons: Array&lt;Trigon&gt;</th>
+                        <td>An array of the Trigons that make up the faces of the Mesh. <note>See also: <a href="../Trigon/">Trigon</a></note>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
-            <table class="code">
-                <tr>
-                    <th>addTrigon(t: Trigon | Array&lt;Trigon&gt;): Trigon | Array&lt;Trigon&gt;</th>
-                    <td>Adds the given Trigon or Array of Trigons to the Mesh and returns the added Trigon(s). <note>Note: All Trigons are copied before they are added to the Mesh.<br><br>See also: <a href="../Trigon/">Trigon</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>copy(): Mesh</th>
-                    <td>Returns a copy of the Mesh.</td>
-                </tr>
-                <tr>
-                    <th>generateFromArrayData(v: Array&lt;number&gt;): Mesh</th>
-                    <td>Generates Trigons from the Array of vector components given (Every 3 numbers in the given array should make up a 3D point in the order: X, Y, Z, and every 3 Vectors make up a different Trigon) and adds them to the Mesh. Returns <i>this</i>. <note>See also: <a href="../Trigon/">Trigon</a>, <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>inverseNormals(): Mesh</th>
-                    <td>Swaps two vectors in every Trigon in the Mesh to effectively inverse the normal vector of each face. Returns <i>this</i>. <note>Note: An inverse Mesh is essentially "inside-out" compared to its original version. <br><br>See also: <a href="../Trigon/">Trigon</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>qRotate(q: Quaternion): Mesh</th>
-                    <td>Shorthand for quaternionRotate().</td>
-                </tr>
-                <tr>
-                    <th>quaternionRotate(q: Quaternion): Mesh</th>
-                    <td>Rotates the Mesh by the given quaternion and returns <i>this</i>. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>rotateAxis(axis: number | Vector, angle: number): Mesh</th>
-                    <td>Rotates the Mesh around the given axis by the given angle in radians and returns <i>this</i>. One of the following number constants can also be given as the axis: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS). <note>See also: <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>rotateX(angle: number): Mesh</th>
-                    <td>Rotates the Mesh around the X-Axis by the given angle in radians and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>rotateY(angle: number): Mesh</th>
-                    <td>Rotates the Mesh around the Y-Axis by the given angle in radians and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>rotateZ(angle: number): Mesh</th>
-                    <td>Rotates the Mesh around the Z-Axis by the given angle in radians and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>scale(s: number | Vector): Mesh</th>
-                    <td>Scales the Mesh by the given number or vector and returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>transform(M: Array&lt;Array&lt;number&gt;&gt;): Mesh</th>
-                    <td>Transforms the Mesh by the given 3 or 4 dimensional transformation matrix and returns <i>this</i>.</td>
-                </tr>
-                <tr>
-                    <th>translate(v: Vector): Mesh</th>
-                    <td>Translates the Mesh by the given vector and returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
-                    </td>
-                </tr>
-            </table>
+            <h4>Public Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>addTrigon(t: Trigon | Array&lt;Trigon&gt;): Trigon | Array&lt;Trigon&gt;</th>
+                        <td>Adds the given Trigon or Array of Trigons to the Mesh and returns the added Trigon(s). <note>Note: All Trigons are copied before they are added to the Mesh.<br><br>See also: <a href="../Trigon/">Trigon</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>copy(): Mesh</th>
+                        <td>Returns a copy of the Mesh.</td>
+                    </tr>
+                    <tr>
+                        <th>generateFromArrayData(v: Array&lt;number&gt;): Mesh</th>
+                        <td>Generates Trigons from the Array of vector components given (Every 3 numbers in the given array should make up a 3D point in the order: X, Y, Z, and every 3 Vectors make up a different Trigon) and adds them to the Mesh. Returns <i>this</i>. <note>See also: <a href="../Trigon/">Trigon</a>, <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>inverseNormals(): Mesh</th>
+                        <td>Swaps two vectors in every Trigon in the Mesh to effectively inverse the normal vector of each face. Returns <i>this</i>. <note>Note: An inverse Mesh is essentially "inside-out" compared to its original version. <br><br>See also: <a href="../Trigon/">Trigon</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>qRotate(q: Quaternion): Mesh</th>
+                        <td>Shorthand for quaternionRotate().</td>
+                    </tr>
+                    <tr>
+                        <th>quaternionRotate(q: Quaternion): Mesh</th>
+                        <td>Rotates the Mesh by the given quaternion and returns <i>this</i>. <note>See also: <a href="../Quaternion/">Quaternion</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>rotateAxis(axis: number | Vector, angle: number): Mesh</th>
+                        <td>Rotates the Mesh around the given axis by the given angle in radians and returns <i>this</i>. One of the following number constants can also be given as the axis: (Vector.X_AXIS, Vector.Y_AXIS, Vector.Z_AXIS). <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>rotateX(angle: number): Mesh</th>
+                        <td>Rotates the Mesh around the X-Axis by the given angle in radians and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>rotateY(angle: number): Mesh</th>
+                        <td>Rotates the Mesh around the Y-Axis by the given angle in radians and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>rotateZ(angle: number): Mesh</th>
+                        <td>Rotates the Mesh around the Z-Axis by the given angle in radians and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>scale(s: number | Vector): Mesh</th>
+                        <td>Scales the Mesh by the given number or vector and returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>transform(M: Array&lt;Array&lt;number&gt;&gt;): Mesh</th>
+                        <td>Transforms the Mesh by the given 3 or 4 dimensional transformation matrix and returns <i>this</i>.</td>
+                    </tr>
+                    <tr>
+                        <th>translate(v: Vector): Mesh</th>
+                        <td>Translates the Mesh by the given vector and returns <i>this</i>. <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Static Functions</h3>
         <div class="code">

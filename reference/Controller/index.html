@@ -2,40 +2,61 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - Controller</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>Controller</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            Controller is an abstract class that provides a template and common platform for different Urbject Controllers in Urchin.
+        </p>
+        <p>
+            <note>See also: <a href="../DefaultCameraController/">DefaultCameraController</a>, <a href="../FocalPointController/">FocalPointController</a>, <a href="../Urbject/">Urbject</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>Controller( type: number ): Controller</th>
+                    <td>Initializes with the given type constant. Controller types are listed below under "Constants" and are handled by children classes.</td>
+                </tr>
             </table>
         </div>
         <h3>Constants</h3>
         <div>
             <table class="code">
-
+                <tr>
+                    <th>Controller.EMPTY = 0</th>
+                    <td>A non-explicit value for the default controller type.</td>
+                </tr>
+                <tr>
+                    <th>Controller.DEFAULT_CAMERA = 1</th>
+                    <td>A non-explicit value for the DefaultCameraController type. <note>See also: <a href="../DefaultCameraController/">DefaultCameraController</a></note>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Controller.FOCAL_POINT = 2</th>
+                    <td>A non-explicit value for the FocalPointController type. <note>See also: <a href="../FocalPointController/">FocalPointController</a></note>
+                    </td>
+                </tr>
             </table>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
-            <table class="code">
-
-            </table>
-        </div>
-        <h3>Static Functions</h3>
-        <div class="code">
-            <table>
-
-            </table>
+            <h4>Public Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>move(target: any): void</th>
+                        <td>Abstract function that all controller classes should override.</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <p><a href="../../">Home</a></p>
         <p>

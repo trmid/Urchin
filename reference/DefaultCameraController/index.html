@@ -2,40 +2,228 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - DefaultCameraController</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>DefaultCameraController</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            A DefaultCameraController is an extension of Controller that provides a simple way to move a Camera Urbject with mouse and keyboard controls.
+        </p>
+        <p>
+            <note>See also: <a href="../Controller/">Controller</a>, <a href="../Camera/">Camera</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>DefaultCameraController( ): DefaultCameraController</th>
+                    <td>Initializes a fully working Controller with default attribute values.</td>
+                </tr>
+                <tr>
+                    <th>DefaultCameraController( { minSpeed?: number, maxSpeed?: number, accelerationTime?: number, accelerationType?: number, controlFace?: HTMLElement | Window } ): DefaultCameraController</th>
+                    <td>
+                        Initializes with the given attribute values. Default values are:
+                        <br><br>
+                        <table class="value-table">
+                            <tr>
+                                <th>minSpeed</th>
+                                <td>0.5</td>
+                                <td>The minimum speed in units per second that the Camera starts moving at.</td>
+                            </tr>
+                            <tr>
+                                <th>maxSpeed</th>
+                                <td>2</td>
+                                <td>The maximum speed in units per second that the Camera will accelerate to.</td>
+                            </tr>
+                            <tr>
+                                <th>accelerationTime</th>
+                                <td>1.0</td>
+                                <td>The time in seconds that is will take for the Camera to reach its max speed.</td>
+                            </tr>
+                            <tr>
+                                <th>accelerationType</th>
+                                <td>Interpolate.EASE_OUT</td>
+                                <td>The type of Interpolation that the speed of the Camera will use to reach its max speed. <note>See also: <a href="../Interpolate/">Interpolate</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>controlFace</th>
+                                <td>window</td>
+                                <td>The HTML element that will be used to listen for user inputs.</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
-            <table class="code">
-
-            </table>
+            <h4>Public Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>accelerationTime: number</th>
+                        <td>The time in seconds that is will take for the Camera to reach its max speed.</td>
+                    </tr>
+                    <tr>
+                        <th>accelerationType: number</th>
+                        <td>The type of Interpolation that the speed of the Camera will use to reach its max speed. <note>See also: <a href="../Interpolate/">Interpolate</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>controlFace: HTMLElement | Window</th>
+                        <td>The HTML element that will be used to listen for user inputs.</td>
+                    </tr>
+                    <tr>
+                        <th>maxSpeed: number</th>
+                        <td>The maximum speed in units per second that the Camera will accelerate to.</td>
+                    </tr>
+                    <tr>
+                        <th>minSpeed: number</th>
+                        <td>The minimum speed in units per second that the Camera starts moving at.</td>
+                    </tr>
+                </table>
+            </div>
+            <h4>Private Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>b: boolean</th>
+                        <td>Whether the 'back' key is currently being pressed.</td>
+                    </tr>
+                    <tr>
+                        <th>d: boolean</th>
+                        <td>Whether the 'down' key is currently being pressed.</td>
+                    </tr>
+                    <tr>
+                        <th>dFov: number</th>
+                        <td>The change in FOV based on mouse wheel inputs since the last move() call. <note>See also: <a href="../Camera/">Camera</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>f: boolean</th>
+                        <td>Whether the 'forward' key is currently being pressed.</td>
+                    </tr>
+                    <tr>
+                        <th>l: boolean</th>
+                        <td>Whether the 'left' key is currently being pressed.</td>
+                    </tr>
+                    <tr>
+                        <th>lastMove: number</th>
+                        <td>Timestamp in milliseconds to keep track of the time since the last move() call.</td>
+                    </tr>
+                    <tr>
+                        <th>mousePressed: boolean</th>
+                        <td>Whether a mouse button is currently being pressed.</td>
+                    </tr>
+                    <tr>
+                        <th>r: boolean</th>
+                        <td>Whether the 'right' key is currently being pressed.</td>
+                    </tr>
+                    <tr>
+                        <th>speed: number</th>
+                        <td>The current speed of the Camera. <note>See also: <a href="../Camera/">Camera</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>startMove: number</th>
+                        <td>Timestamp in milliseconds to keep track of the start of a Controller move.</td>
+                    </tr>
+                    <tr>
+                        <th>u: boolean</th>
+                        <td>Whether the 'up' key is currently being pressed.</td>
+                    </tr>
+                    <tr>
+                        <th>x: number</th>
+                        <td>The horizontal difference in screen position of the mouse since the last move() call.</td>
+                    </tr>
+                    <tr>
+                        <th>y: number</th>
+                        <td>The vertical difference in screen position of the mouse since the last move() call.</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
-            <table class="code">
-
-            </table>
-        </div>
-        <h3>Static Functions</h3>
-        <div class="code">
-            <table>
-
-            </table>
+            <h4>Public Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>keyDown(e: KeyboardEvent): void</th>
+                        <td>Registers keyDown events.</td>
+                    </tr>
+                    <tr>
+                        <th>keyUp(e: KeyboardEvent): void</th>
+                        <td>Registers keyUp events.</td>
+                    </tr>
+                    <tr>
+                        <th>mouseDown(e: MouseEvent): void</th>
+                        <td>Registers mouseDown events.</td>
+                    </tr>
+                    <tr>
+                        <th>mouseMove(e: MouseEvent): void</th>
+                        <td>Registers mouseMove events.</td>
+                    </tr>
+                    <tr>
+                        <th>mouseUp(e: MouseEvent): void</th>
+                        <td>Registers mouseUp events.</td>
+                    </tr>
+                    <tr>
+                        <th>move(target: Camera): void</th>
+                        <td>
+                            Moves the Camera Urbject with the Controller based on the user inputs since the last time the move function was called.
+                            Moving the mouse while a mouse button is pressed will rotate the camera and pressing the following keys will move the camera:
+                            <br><br>
+                            <table class="value-table small-table no-break">
+                                <tr>
+                                    <th>W</th>
+                                    <td>Forward</td>
+                                </tr>
+                                <tr>
+                                    <th>A</th>
+                                    <td>Left</td>
+                                </tr>
+                                <tr>
+                                    <th>S</th>
+                                    <td>Backwards</td>
+                                </tr>
+                                <tr>
+                                    <th>D</th>
+                                    <td>Right</td>
+                                </tr>
+                                <tr>
+                                    <th>E</th>
+                                    <td>Up</td>
+                                </tr>
+                                <tr>
+                                    <th>Q</th>
+                                    <td>Down</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>mouseWheel(e: WheelEvent): void</th>
+                        <td>Registers mouse wheel events.</td>
+                    </tr>
+                </table>
+            </div>
+            <h4>Private Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>getSpeed(t: number): number</th>
+                        <td>Returns the interpolation between the minimum speed and maximum speed based off of the time in milliseconds given.</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <p><a href="../../">Home</a></p>
         <p>

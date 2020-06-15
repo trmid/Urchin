@@ -2,40 +2,172 @@
 <html>
 
 <head>
-    <title>Urchin Reference - </title>
+    <title>Urchin Reference - FocalPointController</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../src/stylesheets/reference.css">
 </head>
 
 <body>
-    <h1></h1>
+    <h1>FocalPointController</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p></p>
+        <p>
+            A FocalPointController is an extension of Controller that provides a simple way to move a Camera Urbject around a fixed point with mouse events.
+        </p>
+        <p>
+            <note>See also: <a href="../Controller/">Controller</a>, <a href="../Camera/">Camera</a></note>
+        </p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
-
+                <tr>
+                    <th>FocalPointController( ): FocalPointController</th>
+                    <td>Initializes a fully working Controller with default attribute values.</td>
+                </tr>
+                <tr>
+                    <th>FocalPointController( { sensitivity?: number, friction?: number, zoomMultiplier?: number, focalPoint?: Vector, minDist?: number, maxDist?: number, controlFace?: HTMLElement | Window } ): FocalPointController</th>
+                    <td>
+                        Initializes with the given attribute values. Default values are:
+                        <br><br>
+                        <table class="value-table">
+                            <tr>
+                                <th>sensitivity</th>
+                                <td>1</td>
+                                <td>The sensitivity multiplier of mouse movements for the controller.</td>
+                            </tr>
+                            <tr>
+                                <th>friction</th>
+                                <td>0.1</td>
+                                <td>The amount of friction that slows down the Camera movement over time. Range: [0, 1]</td>
+                            </tr>
+                            <tr>
+                                <th>zoomMultiplier</th>
+                                <td>1</td>
+                                <td>The zoom multiplier of mouse wheel movements for the controller.</td>
+                            </tr>
+                            <tr>
+                                <th>focalPoint</th>
+                                <td>new Vector()</td>
+                                <td>The focal point in 3D space for the controller. The Camera will always be looking directly at this point. <note>See also: <a href="../Vector/">Vector</a>, <a href="../Camera/">Camera</a></note>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>minDist</th>
+                                <td>1</td>
+                                <td>The minimum distance in units that the camera can be from the focalPoint.</td>
+                            </tr>
+                            <tr>
+                                <th>maxDist</th>
+                                <td>20</td>
+                                <td>The maximum distance in units that the camera can be from the focalPoint.</td>
+                            </tr>
+                            <tr>
+                                <th>controlFace</th>
+                                <td>window</td>
+                                <td>The HTML element that will be used to listen for user inputs.</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
             </table>
         </div>
-        <h3>Constants</h3>
+        <h3>Variables</h3>
         <div>
-            <table class="code">
-
-            </table>
+            <h4>Public Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>controlFace: HTMLElement | Window</th>
+                        <td>The HTML element that will be used to listen for user inputs.</td>
+                    </tr>
+                    <tr>
+                        <th>focalPoint: Vector</th>
+                        <td>The focal point in 3D space for the controller. The Camera will always be looking directly at this point. <note>See also: <a href="../Vector/">Vector</a>, <a href="../Camera/">Camera</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>friction: number</th>
+                        <td>The amount of friction that slows down the Camera movement over time. Expected range: [0, 1]</td>
+                    </tr>
+                    <tr>
+                        <th>maxDist: number</th>
+                        <td>The maximum distance in units that the camera can be from the focalPoint.</td>
+                    </tr>
+                    <tr>
+                        <th>minDist: number</th>
+                        <td>The minimum distance in units that the camera can be from the focalPoint.</td>
+                    </tr>
+                    <tr>
+                        <th>sensitivity: number</th>
+                        <td>The sensitivity multiplier of mouse movements for the controller.</td>
+                    </tr>
+                    <tr>
+                        <th>zoomMultiplier: number</th>
+                        <td>The zoom multiplier of mouse wheel movements for the controller.</td>
+                    </tr>
+                </table>
+            </div>
+            <h4>Private Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>dist: number</th>
+                        <td>The current distance of the Camera from the focalPoint.</td>
+                    </tr>
+                    <tr>
+                        <th>dMouse: Vector</th>
+                        <td>The relative mouse distance from its last position when move() was called. <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>mousePressed: boolean</th>
+                        <td>The state of a mouse button being pressed.</td>
+                    </tr>
+                    <tr>
+                        <th>timer: Stats</th>
+                        <td>The Stats object used to find the time since the last move() call. <note>See also: <a href="../Stats/">Stats</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>velocity: Vector</th>
+                        <td>The Current mouse "velocity" that is effecting the controller rotation. <note>See also: <a href="../Vector/">Vector</a></note>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
-            <table class="code">
+            <h4>Public Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>mouseDown(e: MouseEvent): void</th>
+                        <td>Registers mouseDown events.</td>
+                    </tr>
+                    <tr>
+                        <th>mouseMove(e: MouseEvent): void</th>
+                        <td>Registers mouseMove events.</td>
+                    </tr>
+                    <tr>
+                        <th>mouseUp(e: MouseEvent): void</th>
+                        <td>Registers mouseUp events.</td>
+                    </tr>
+                    <tr>
+                        <th>move(target: Camera): void</th>
+                        <td>
+                            Moves the Camera Urbject with the Controller based on the user mouse inputs recorded since the last move() call. Moving the mouse up will move the Camera down and below the focalPoint. Likewise, moving the mouse down will move the Camera up and above the focalPoint. Moving the mouse left will rotate the Camera to the right around the focalPoint and moving the mouse right will do the opposite.<br><br>
 
-            </table>
-        </div>
-        <h3>Static Functions</h3>
-        <div class="code">
-            <table>
-
-            </table>
+                            This function should be called every animation frame for the best results.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>wheel(e: WheelEvent): void</th>
+                        <td>Registers mouse wheel events.</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <p><a href="../../">Home</a></p>
         <p>

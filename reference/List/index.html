@@ -30,65 +30,76 @@
         </div>
         <h3>Variables</h3>
         <div>
-            <table class="code">
-                <tr>
-                    <th>count: number</th>
-                    <td>The number of nodes in the list.</td>
-                </tr>
-                <tr>
-                    <th>head: ListNode&lt;T&gt;</th>
-                    <td>The first node in the list.</td>
-                </tr>
-                <tr>
-                    <th>minPriority: number</th>
-                    <td>The minimum priority value of some node in the list.</td>
-                </tr>
-                <tr>
-                    <th>maxPriority: number</th>
-                    <td>The maximum priority value of some node in the list.</td>
-                </tr>
-                <tr>
-                    <th>tail: ListNode&lt;T&gt;</th>
-                    <td>The last node in the list.</td>
-                </tr>
-            </table>
+            <h4>Public Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>count: number</th>
+                        <td>The number of nodes in the list.</td>
+                    </tr>
+                    <tr>
+                        <th>head: ListNode&lt;T&gt;</th>
+                        <td>The first node in the list.</td>
+                    </tr>
+                    <tr>
+                        <th>minPriority: number</th>
+                        <td>The minimum priority value of some node in the list.</td>
+                    </tr>
+                    <tr>
+                        <th>maxPriority: number</th>
+                        <td>The maximum priority value of some node in the list.</td>
+                    </tr>
+                    <tr>
+                        <th>tail: ListNode&lt;T&gt;</th>
+                        <td>The last node in the list.</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
-            <table class="code">
-                <tr>
-                    <th>private updatePriority(priority: number): void</th>
-                    <td>A private function used by the list to updated the minPriority and maxPriority values when a new addition is made to the list.</td>
-                </tr>
-                <tr>
-                    <th>addByPriority(data: T | any, priority?: number): void</th>
-                    <td>Creates a ListNode with the given data and priority and adds it to the list based on the node's priority. Higher priority nodes (those with greater values) will be at the front of the list while lower priority nodes will be at the end. The default value for priority is 0.</td>
-                </tr>
-                <tr>
-                    <th>addFirst(data: T | any, priority?: number): void</th>
-                    <td>Creates a ListNode with the given data and priority and adds it to the beginning of the list. The default value for priority is 0.</td>
-                </tr>
-                <tr>
-                    <th>addLast(data: T | any, priority?: number): void</th>
-                    <td>Creates a ListNode with the given data and priority and adds it to the end of the list. The default value for priority is 0.</td>
-                </tr>
-                <tr>
-                    <th>addListByPriority(list: List&lt;T&gt;): void</th>
-                    <td>Adds all of the nodes from the given list to the current list based on priority.</td>
-                </tr>
-                <tr>
-                    <th>copy(): List&lt;T&gt;</th>
-                    <td>Returns a copy of the list. Any data in the ListNodes will be a copy of the original data when possible.</td>
-                </tr>
-                <tr>
-                    <th>linkFirst(list List&lt;T&gt;): void</th>
-                    <td>Links the given list to the beginning of the current list and updates the count, minPriority and maxPriority values.</td>
-                </tr>
-                <tr>
-                    <th>linkLast(list List&lt;T&gt;): void</th>
-                    <td>Links the given list to the end of the current list and updates the count, minPriority, and maxPriority values.</td>
-                </tr>
-            </table>
+            <h4>Public Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>addByPriority(data: T | any, priority?: number): void</th>
+                        <td>Creates a ListNode with the given data and priority and adds it to the list based on the node's priority. Higher priority nodes (those with greater values) will be at the front of the list while lower priority nodes will be at the end. The default value for priority is 0.</td>
+                    </tr>
+                    <tr>
+                        <th>addFirst(data: T | any, priority?: number): void</th>
+                        <td>Creates a ListNode with the given data and priority and adds it to the beginning of the list. The default value for priority is 0.</td>
+                    </tr>
+                    <tr>
+                        <th>addLast(data: T | any, priority?: number): void</th>
+                        <td>Creates a ListNode with the given data and priority and adds it to the end of the list. The default value for priority is 0.</td>
+                    </tr>
+                    <tr>
+                        <th>addListByPriority(list: List&lt;T&gt;): void</th>
+                        <td>Adds all of the nodes from the given list to the current list based on priority.</td>
+                    </tr>
+                    <tr>
+                        <th>copy(): List&lt;T&gt;</th>
+                        <td>Returns a copy of the list. Any data in the ListNodes will be a copy of the original data when possible.</td>
+                    </tr>
+                    <tr>
+                        <th>linkFirst(list List&lt;T&gt;): void</th>
+                        <td>Links the given list to the beginning of the current list and updates the count, minPriority and maxPriority values.</td>
+                    </tr>
+                    <tr>
+                        <th>linkLast(list List&lt;T&gt;): void</th>
+                        <td>Links the given list to the end of the current list and updates the count, minPriority, and maxPriority values.</td>
+                    </tr>
+                </table>
+            </div>
+            <h4>Private Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>updatePriority(priority: number): void</th>
+                        <td>A private function used by the list to updated the minPriority and maxPriority values when a new addition is made to the list.</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <p><a href="../../">Home</a></p>
         <p>

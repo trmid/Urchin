@@ -97,57 +97,68 @@
         </div>
         <h3>Variables</h3>
         <div>
-            <table class="code">
-                <tr>
-                    <th>backgroundColor: Color</th>
-                    <td>The background color that will be drawn over the previous image data on the canvas. If a completely transparent color is provided, then the canvas will be cleared before drawing. <note>See also: <a href="../Color/">Color</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>protected canvas: HTMLCanvasElement</th>
-                    <td>The HTMLCanvasElement that will be used to create a CanvasRenderingContext2D. <note>Note: This value should not be changed after initialization.</note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>protected ctx: CanvasRenderingContext2D</th>
-                    <td>The CanvasRenderingContext2D that will be used to render the frame image. <note>Note: This value should not be changed after initialization.</note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>protected lastDraw: ArrayBuffer</th>
-                    <td>The ArrayBuffer that stores the last frame's draw data. This is typically used to re-draw a frame if a fullscreen render is resized.
-                    </td>
-                </tr>
-                <tr>
-                    <th>protected stats: Stats</th>
-                    <td>The Stats object used to record and display performance statistics for the renderer. <note>See also: <a href="../Stats/">Stats</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>protected superSampling: number</th>
-                    <td>The ratio of canvas pixels to screen pixels that will be rendered. <note>Note: This value should not be changed after initialization.</note>
-                    </td>
-                </tr>
-            </table>
+            <h4>Public Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>backgroundColor: Color</th>
+                        <td>The background color that will be drawn over the previous image data on the canvas. If a completely transparent color is provided, then the canvas will be cleared before drawing. <note>See also: <a href="../Color/">Color</a></note>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <h4>Protected Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>canvas: HTMLCanvasElement</th>
+                        <td>The HTMLCanvasElement that will be used to create a CanvasRenderingContext2D. <note>Note: This value should not be changed after initialization.</note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>ctx: CanvasRenderingContext2D</th>
+                        <td>The CanvasRenderingContext2D that will be used to render the frame image. <note>Note: This value should not be changed after initialization.</note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>lastDraw: ArrayBuffer</th>
+                        <td>The ArrayBuffer that stores the last frame's draw data. This is typically used to re-draw a frame if a fullscreen render is resized.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>stats: Stats</th>
+                        <td>The Stats object used to record and display performance statistics for the renderer. <note>See also: <a href="../Stats/">Stats</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>superSampling: number</th>
+                        <td>The ratio of canvas pixels to screen pixels that will be rendered. <note>Note: This value should not be changed after initialization.</note>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
-            <table class="code">
-                <tr>
-                    <th>project(v: Vector, camera: Camera, superSamplePosition?: boolean): Vector</th>
-                    <td>Projects a given 3D Vector onto screen coordinates as seen through the given Camera. If <i>superSamplePosition</i> is true, then the image pixel coordinates are returned instead of canvas screen coordinates. <i>superSamplePosition</i> is false by default. <note>See also: <a href="../Vector/">Vector</a>, <a href="../Camera/">Camera</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>render(scene: Scene, camera: Camera): void</th>
-                    <td>Renders one frame of the Scene from the perspective of the given Camera. <note>See also: <a href="../Scene/">Scene</a>, <a href="../Camera/">Camera</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>resize(width?: number, height?: number): void</th>
-                    <td>Resizes the canvas image size to the given values or the window size if values are omitted. </td>
-                </tr>
-            </table>
+            <h4>Public Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>project(v: Vector, camera: Camera, superSamplePosition?: boolean): Vector</th>
+                        <td>Projects a given 3D Vector onto screen coordinates as seen through the given Camera. If <i>superSamplePosition</i> is true, then the image pixel coordinates are returned instead of canvas screen coordinates. <i>superSamplePosition</i> is false by default. <note>See also: <a href="../Vector/">Vector</a>, <a href="../Camera/">Camera</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>render(scene: Scene, camera: Camera): void</th>
+                        <td>Renders one frame of the Scene from the perspective of the given Camera. <note>See also: <a href="../Scene/">Scene</a>, <a href="../Camera/">Camera</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>resize(width?: number, height?: number): void</th>
+                        <td>Resizes the canvas image size to the given values or the window size if values are omitted. </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Static Functions</h3>
         <div class="code">

@@ -75,36 +75,42 @@
         </div>
         <h3>Variables</h3>
         <div>
-            <table class="code">
-                <tr>
-                    <th>brightness: number</th>
-                    <td>The brightness of the light. Any value over 1 is considered "overexposed".</td>
-                </tr>
-                <tr>
-                    <th>color: Color</th>
-                    <td>The color of the light. <note>See also: <a href="../Color/">Color</a></note>
-                    </td>
-                </tr>
-            </table>
+            <h4>Public Variables</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>brightness: number</th>
+                        <td>The brightness of the light. Any value over 1 is considered "overexposed".</td>
+                    </tr>
+                    <tr>
+                        <th>color: Color</th>
+                        <td>The color of the light. <note>See also: <a href="../Color/">Color</a></note>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Functions</h3>
         <div class="table-scroll">
-            <table class="code">
-                <tr>
-                    <th>copy(options?: { shallow: boolean } ): DirectionalLight</th>
-                    <td>Returns a copy of the DirectionalLight. If <i>shallow</i> is true, the children of this Urbject will not be included in the copy.</td>
-                </tr>
-                <tr>
-                    <th>getInstance(camera: Camera): FrameInstance</th>
-                    <td>Returns the FrameInstance of the Urbject with this light added. <note>See also: <a href="../Urbject/">Urbject</a>, <a href="../FrameInstance/">FrameInstance</a></note>
-                    </td>
-                </tr>
-                <tr>
-                    <th>intensityOn(t: Trigon): number</th>
-                    <td>Returns the intensity of the light on the given Trigon, taking into account the normal orientation of the Trigon. Any Trigons with a normal vector that faces more than 90 degrees away from the light will not be lit. <note>See also: <a href="../Trigon/">Trigon</a></note>
-                    </td>
-                </tr>
-            </table>
+            <h4>Public Functions</h4>
+            <div>
+                <table class="code">
+                    <tr>
+                        <th>copy(options?: { shallow: boolean } ): DirectionalLight</th>
+                        <td>Returns a copy of the DirectionalLight. If <i>shallow</i> is true, the children of this Urbject will not be included in the copy.</td>
+                    </tr>
+                    <tr>
+                        <th>getInstance(camera: Camera): FrameInstance</th>
+                        <td>Returns the FrameInstance of the Urbject with this light added. <note>See also: <a href="../Urbject/">Urbject</a>, <a href="../FrameInstance/">FrameInstance</a></note>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>intensityOn(t: Trigon): number</th>
+                        <td>Returns the intensity of the light on the given Trigon, taking into account the normal orientation of the Trigon. Any Trigons with a normal vector that faces more than 90 degrees away from the light will not be lit. <note>See also: <a href="../Trigon/">Trigon</a></note>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <h3>Static Functions</h3>
         <div class="code">

@@ -119,7 +119,7 @@ class DefaultCameraController extends Controller {
 
     }
 
-    getSpeed(t: number) {
+    private getSpeed(t: number) {
         t = (t / 1000.0) / this.accelerationTime;
         return Interpolate.range(t, this.minSpeed, this.maxSpeed, this.accelerationType);
     }
