@@ -31,7 +31,8 @@ class PerformanceRenderer extends Renderer {
         backgroundColor,
         showPerformance,
         offscreenDraw = true,
-        frameCallback
+        frameCallback,
+        suspendOnBlur = true
     }: {
         canvas?: HTMLCanvasElement,
         fullscreen?: boolean,
@@ -39,9 +40,10 @@ class PerformanceRenderer extends Renderer {
         backgroundColor?: Color,
         showPerformance?: boolean,
         offscreenDraw?: boolean,
-        frameCallback?: Function
+        frameCallback?: Function,
+        suspendOnBlur?: boolean
     } = {}) {
-        super({ canvas: canvas, fullscreen: false, backgroundColor: backgroundColor, showPerformance: showPerformance, superSampling: superSampling });
+        super({ canvas: canvas, fullscreen: false, backgroundColor: backgroundColor, showPerformance: showPerformance, superSampling: superSampling, suspendOnBlur: suspendOnBlur });
         this.width = this.canvas.width;
         this.height = this.canvas.height;
         if (fullscreen) {
@@ -60,6 +62,15 @@ class PerformanceRenderer extends Renderer {
         this.lightingWorker = new LightingWorker(function (data) { p.lightCallback(data) }, showPerformance);
         this.projectingWorker = new ProjectingWorker(function (data) { p.projectCallback(data) }, showPerformance);
         this.frameCallback = frameCallback;
+        if (suspendOnBlur) {
+            let renderer = this;
+            window.addEventListener("focus", function () {
+                setTimeout(function () {
+                    console.log("resuming...");
+                    renderer.requestPreRender();
+                }, 0);
+            });
+        }
     }
 
     sortCallback(data: Float32Array) {
@@ -116,6 +127,8 @@ class PerformanceRenderer extends Renderer {
     }
 
     render(scene: Scene, camera: Camera) {
+        if (this.stats.suspended) return;
+
         // GET INSTANCE
         let instance = Renderer.getCameraInstance(scene, camera);
 
@@ -141,7 +154,8 @@ class PerformanceRenderer extends Renderer {
     }
 
     private requestPreRender(instance = this.instanceQueue) {
-        if (!this.preRendering && instance) {
+        console.log(this.stats.suspended);
+        if (!this.preRendering && instance && !this.stats.suspended) {
             this.preRendering = true;
             this.sortingWorker.assign(instance.fragments);
             this.lightingWorker.assign(instance);

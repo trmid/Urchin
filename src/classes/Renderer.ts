@@ -26,18 +26,20 @@ class Renderer {
         fullscreen = false,
         superSampling = 1,
         backgroundColor = new Color("silver"),
-        showPerformance = false
+        showPerformance = false,
+        suspendOnBlur = true
     }: {
         canvas?: HTMLCanvasElement,
         fullscreen?: boolean,
         superSampling?: number,
         backgroundColor?: Color,
-        showPerformance?: boolean
+        showPerformance?: boolean,
+        suspendOnBlur?: boolean
     } = {}) {
         this.backgroundColor = backgroundColor;
         this.canvas = canvas;
         this.superSampling = superSampling;
-        this.stats = new Stats({ show: showPerformance });
+        this.stats = new Stats({ show: showPerformance, suspendOnBlur: suspendOnBlur });
         if (fullscreen) {
             this.canvas.setAttribute("style", this.canvas.getAttribute("style") + ";position: fixed; width: 100%; height: 100%;");
             let renderer = this;
@@ -51,6 +53,8 @@ class Renderer {
     }
 
     render(scene: Scene, camera: Camera) {
+        if (this.stats.suspended) return;
+
         if (this.lastDraw) {
             let frameTime = this.stats.readTimer();
             let fps = 1000.0 / frameTime;
