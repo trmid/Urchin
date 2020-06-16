@@ -1,7 +1,7 @@
 /// <reference path="../../src/index.ts" />
 
 /****************************************
- * Point to the current location of the library for our Web Workers to find it. Default is "/Urchin/Urchin.js"
+ * Point to the current location of the library for our Web Workers to find it.
  */
 
 URCHIN_PATH = "../../Urchin.js";
