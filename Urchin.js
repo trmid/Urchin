@@ -5,7 +5,7 @@
  * Copyright Trevor Richard
  *
  * Released under the MIT license
- * http://urchin3d.org/LICENSE
+ * http://urchin3d.org/license
  */
 var URCHIN_PATH = "/Urchin.js";
 var Vector = (function () {
@@ -2348,11 +2348,11 @@ var Renderer = (function () {
             canvas.height = 480;
             document.body.append(canvas);
             return canvas;
-        })() : _c, _d = _b.fullscreen, fullscreen = _d === void 0 ? false : _d, _e = _b.superSampling, superSampling = _e === void 0 ? 1 : _e, _f = _b.backgroundColor, backgroundColor = _f === void 0 ? new Color("silver") : _f, _g = _b.showPerformance, showPerformance = _g === void 0 ? false : _g;
+        })() : _c, _d = _b.fullscreen, fullscreen = _d === void 0 ? false : _d, _e = _b.superSampling, superSampling = _e === void 0 ? 1 : _e, _f = _b.backgroundColor, backgroundColor = _f === void 0 ? new Color("silver") : _f, _g = _b.showPerformance, showPerformance = _g === void 0 ? false : _g, _h = _b.suspendOnBlur, suspendOnBlur = _h === void 0 ? true : _h;
         this.backgroundColor = backgroundColor;
         this.canvas = canvas;
         this.superSampling = superSampling;
-        this.stats = new Stats({ show: showPerformance });
+        this.stats = new Stats({ show: showPerformance, suspendOnBlur: suspendOnBlur });
         if (fullscreen) {
             this.canvas.setAttribute("style", this.canvas.getAttribute("style") + ";position: fixed; width: 100%; height: 100%;");
             var renderer_1 = this;
@@ -2366,6 +2366,8 @@ var Renderer = (function () {
         }
     }
     Renderer.prototype.render = function (scene, camera) {
+        if (this.stats.suspended)
+            return;
         if (this.lastDraw) {
             var frameTime = this.stats.readTimer();
             var fps = 1000.0 / frameTime;
@@ -2731,8 +2733,8 @@ var RenderWorker = (function (_super) {
 var PerformanceRenderer = (function (_super) {
     __extends(PerformanceRenderer, _super);
     function PerformanceRenderer(_a) {
-        var _b = _a === void 0 ? {} : _a, canvas = _b.canvas, _c = _b.fullscreen, fullscreen = _c === void 0 ? false : _c, superSampling = _b.superSampling, backgroundColor = _b.backgroundColor, showPerformance = _b.showPerformance, _d = _b.offscreenDraw, offscreenDraw = _d === void 0 ? true : _d, frameCallback = _b.frameCallback;
-        var _this = _super.call(this, { canvas: canvas, fullscreen: false, backgroundColor: backgroundColor, showPerformance: showPerformance, superSampling: superSampling }) || this;
+        var _b = _a === void 0 ? {} : _a, canvas = _b.canvas, _c = _b.fullscreen, fullscreen = _c === void 0 ? false : _c, superSampling = _b.superSampling, backgroundColor = _b.backgroundColor, showPerformance = _b.showPerformance, _d = _b.offscreenDraw, offscreenDraw = _d === void 0 ? true : _d, frameCallback = _b.frameCallback, _e = _b.suspendOnBlur, suspendOnBlur = _e === void 0 ? true : _e;
+        var _this = _super.call(this, { canvas: canvas, fullscreen: false, backgroundColor: backgroundColor, showPerformance: showPerformance, superSampling: superSampling, suspendOnBlur: suspendOnBlur }) || this;
         _this.preRendering = false;
         _this.drawing = false;
         _this.callbackCount = 0;
@@ -2755,6 +2757,15 @@ var PerformanceRenderer = (function (_super) {
         _this.lightingWorker = new LightingWorker(function (data) { p.lightCallback(data); }, showPerformance);
         _this.projectingWorker = new ProjectingWorker(function (data) { p.projectCallback(data); }, showPerformance);
         _this.frameCallback = frameCallback;
+        if (suspendOnBlur) {
+            var renderer_3 = _this;
+            window.addEventListener("focus", function () {
+                setTimeout(function () {
+                    console.log("resuming...");
+                    renderer_3.requestPreRender();
+                }, 0);
+            });
+        }
         return _this;
     }
     PerformanceRenderer.prototype.sortCallback = function (data) {
@@ -2805,6 +2816,8 @@ var PerformanceRenderer = (function (_super) {
         }
     };
     PerformanceRenderer.prototype.render = function (scene, camera) {
+        if (this.stats.suspended)
+            return;
         var instance = Renderer.getCameraInstance(scene, camera);
         this.requestPreRender(instance);
     };
@@ -2820,7 +2833,8 @@ var PerformanceRenderer = (function (_super) {
     };
     PerformanceRenderer.prototype.requestPreRender = function (instance) {
         if (instance === void 0) { instance = this.instanceQueue; }
-        if (!this.preRendering && instance) {
+        console.log(this.stats.suspended);
+        if (!this.preRendering && instance && !this.stats.suspended) {
             this.preRendering = true;
             this.sortingWorker.assign(instance.fragments);
             this.lightingWorker.assign(instance);

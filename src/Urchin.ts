@@ -5,7 +5,7 @@
  * Copyright Trevor Richard
  *
  * Released under the MIT license
- * http://urchin3d.org/LICENSE
+ * http://urchin3d.org/license
  */
 
 var URCHIN_PATH = "/Urchin.js";

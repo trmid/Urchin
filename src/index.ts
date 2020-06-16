@@ -5,7 +5,7 @@
  * Copyright Trevor Richard
  *
  * Complete library released under the MIT license
- * http://urchin3d.org/LICENSE
+ * http://urchin3d.org/license
  */
 /// <reference path="Urchin.ts" />
 /// <reference path="classes/Camera.ts" />
