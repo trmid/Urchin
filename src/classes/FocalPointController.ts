@@ -112,8 +112,10 @@ class FocalPointController extends Controller {
     }
 
     wheel(e: WheelEvent) {
-        let zoomDir = e.deltaY / Math.abs(e.deltaY);
-        this.dist = Num.constrain(this.dist + zoomDir * this.zoomMultiplier, this.minDist || 0.001, this.maxDist);
+        if (e.deltaY) {
+            let zoomDir = Num.getSign(e.deltaY);
+            this.dist = Num.constrain(this.dist + zoomDir * this.zoomMultiplier, this.minDist || 0.001, this.maxDist);
+        }
     }
 
 }

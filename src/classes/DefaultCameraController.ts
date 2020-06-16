@@ -140,8 +140,10 @@ class DefaultCameraController extends Controller {
     }
 
     wheel(e: WheelEvent) {
-        let zoomDir = e.deltaY / Math.abs(e.deltaY);
-        this.dFov = zoomDir * 5.0;
+        if (e.deltaY) {
+            let zoomDir = Num.getSign(e.deltaY);
+            this.dFov = zoomDir * 5.0;
+        }
     }
 
     keyDown(e: KeyboardEvent) {

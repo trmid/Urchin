@@ -1519,8 +1519,10 @@ var DefaultCameraController = (function (_super) {
         }
     };
     DefaultCameraController.prototype.wheel = function (e) {
-        var zoomDir = e.deltaY / Math.abs(e.deltaY);
-        this.dFov = zoomDir * 5.0;
+        if (e.deltaY) {
+            var zoomDir = Num.getSign(e.deltaY);
+            this.dFov = zoomDir * 5.0;
+        }
     };
     DefaultCameraController.prototype.keyDown = function (e) {
         switch (e.key.toUpperCase()) {
@@ -3005,8 +3007,10 @@ var FocalPointController = (function (_super) {
         }
     };
     FocalPointController.prototype.wheel = function (e) {
-        var zoomDir = e.deltaY / Math.abs(e.deltaY);
-        this.dist = Num.constrain(this.dist + zoomDir * this.zoomMultiplier, this.minDist || 0.001, this.maxDist);
+        if (e.deltaY) {
+            var zoomDir = Num.getSign(e.deltaY);
+            this.dist = Num.constrain(this.dist + zoomDir * this.zoomMultiplier, this.minDist || 0.001, this.maxDist);
+        }
     };
     return FocalPointController;
 }(Controller));
