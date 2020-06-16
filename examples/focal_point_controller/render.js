@@ -67,7 +67,6 @@ window.addEventListener("load", function () {
     var canvas = document.getElementById("focal-point-controller-canvas") || undefined;
     var controller = new FocalPointController({
         focalPoint: new Vector(0, 0, 0),
-        friction: 0.03,
         minDist: 5,
         maxDist: 30,
         zoomMultiplier: 1,

@@ -21,7 +21,7 @@ class FocalPointController extends Controller {
 
     constructor({
         sensitivity = 1,
-        friction = 0.1,
+        friction = 0.9,
         zoomMultiplier = 1,
         focalPoint = new Vector(),
         minDist = 1,
@@ -60,7 +60,7 @@ class FocalPointController extends Controller {
         let t = this.timer.readTimer() / 1000.0;
 
         if (this.dMouse.mag()) {
-            this.velocity = this.dMouse.div(t * 100).mult(this.sensitivity);
+            this.velocity = this.dMouse.div(t).mult(this.sensitivity);
             this.dMouse = new Vector();
         }
 
@@ -71,13 +71,13 @@ class FocalPointController extends Controller {
         }
 
         let XYAxis = new Vector(pos.x, pos.y, 0).normalize().rotateZ(Math.PI / 2);
-        camera.position.rotateAxis(XYAxis, -this.velocity.y / 360.0);
+        camera.position.rotateAxis(XYAxis, -this.velocity.y * t / 360.0);
         if (Num.getSign(camera.position.x * pos.x) != 1)
             camera.position.x = pos.x;
         if (Num.getSign(camera.position.y * pos.y) != 1)
             camera.position.y = pos.y;
 
-        camera.position.rotateZ(-this.velocity.x / 360.0);
+        camera.position.rotateZ(-this.velocity.x * t / 360.0);
 
         camera.position
             .normalize()
@@ -90,7 +90,7 @@ class FocalPointController extends Controller {
 
         camera.orientation = Quaternion.fromVector(diffZ).rotateZ(diffXY.angleBetween(Vector.axis(Vector.X_AXIS)) * (diffXY.y > 0 ? 1 : -1));
 
-        this.velocity.mult(1 - this.friction);
+        this.velocity.mult(Math.pow(1 - this.friction, t));
 
         this.timer.startTimer();
 
@@ -112,8 +112,10 @@ class FocalPointController extends Controller {
     }
 
     wheel(e: WheelEvent) {
-        let zoomDir = e.deltaY / Math.abs(e.deltaY);
-        this.dist = Num.constrain(this.dist + zoomDir * this.zoomMultiplier, this.minDist || 0.001, this.maxDist);
+        if (e.deltaY) {
+            let zoomDir = Num.getSign(e.deltaY);
+            this.dist = Num.constrain(this.dist + zoomDir * this.zoomMultiplier, this.minDist || 0.001, this.maxDist);
+        }
     }
 
 }

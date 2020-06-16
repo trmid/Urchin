@@ -88,6 +88,7 @@ class Stats {
     }
 
     readTimer() {
+        if (this.suspended) return 0;
         let now = performance.now();
         if (!this.timer) this.timer = now;
         this.lastRead = now;
@@ -95,6 +96,7 @@ class Stats {
     }
 
     readCheckpoint() {
+        if (this.suspended) return 0;
         let now = performance.now();
         if (!this.lastRead) this.lastRead = now;
         let time = now - this.lastRead;

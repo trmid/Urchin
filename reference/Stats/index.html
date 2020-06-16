@@ -12,7 +12,8 @@
     <h1>Stats</h1>
     <p><a href="../../">Home</a></p>
     <div>
-        <p>Stats is a utility object that provides a simple way of timing events and displaying statistics for debugging purposes. The timing functionality can also be used to easily calculate frame times when animating.</p>
+        <p>Stats is a utility object that provides a simple way of timing events and displaying statistics for debugging
+            purposes. The timing functionality can also be used to easily calculate frame times when animating.</p>
         <h3>Constructors</h3>
         <div class="table-scroll">
             <table class="code">
@@ -21,8 +22,10 @@
                     <td>Initializes with default parameters and will not show the stats to the user.</td>
                 </tr>
                 <tr>
-                    <th>Stats( { show: boolean, suspendOnBlur: boolean } ): Stats</th>
-                    <td>Initializes with the <i>show</i> option determining the stats visibility to the user and the <i>suspendOnBlur</i> option determining whether the timers are suspended when the page isn't active.</td>
+                    <th>Stats( { show?: boolean, suspendOnBlur?: boolean } ): Stats</th>
+                    <td>Initializes with the <i>show</i> option (default <i>false</i>) determining the stats visibility
+                        to the user and the <i>suspendOnBlur</i> option (default <i>true</i>) determining whether the
+                        timers are suspended when the page isn't active.</td>
                 </tr>
             </table>
         </div>
@@ -33,7 +36,8 @@
                 <table class="code">
                     <tr>
                         <th>suspended: boolean</th>
-                        <td>The state of suspension for the Stats object. If <i>suspendOnBlur</i> was set in the constructor, then this will be false when the window is not active and true when it is.</td>
+                        <td>The state of suspension for the Stats object. If <i>suspendOnBlur</i> was set in the
+                            constructor, then this will be false when the window is not active and true when it is.</td>
                     </tr>
                 </table>
             </div>
@@ -46,7 +50,8 @@
                     </tr>
                     <tr>
                         <th>show: boolean</th>
-                        <td>Whether the stats will be added to the statBox or not on initialization. This is set in the constructor.</td>
+                        <td>Whether the stats will be added to the statBox or not on initialization. This is set in the
+                            constructor.</td>
                     </tr>
                     <tr>
                         <th>statBox: HTMLElement</th>
@@ -70,23 +75,33 @@
                 <table class="code">
                     <tr>
                         <th>getStat(name: string): string | number</th>
-                        <td>Returns the current value stored for the requested stat. If the stat doesn't exist, undefined is returned.</td>
+                        <td>Returns the current value stored for the requested stat. If the stat doesn't exist,
+                            undefined is returned.</td>
                     </tr>
                     <tr>
                         <th>readCheckpoint(): number</th>
-                        <td>Returns the time in milliseconds since the last readCheckpoint() call or the last readTimer() call.</td>
+                        <td>Returns the time in milliseconds since the last readCheckpoint() call or the last
+                            readTimer() call.</td>
                     </tr>
                     <tr>
                         <th>readTimer(): number</th>
                         <td>Returns the time in milliseconds since the timer was started with startTimer().</td>
                     </tr>
                     <tr>
-                        <th>setStat(name: string, value: string | number, bias?: number, fractionDigits?: number): void</th>
-                        <td>Sets the stat with the given name to the value specified. If the value type of the stat is a number, it will be averaged with the new value according to the bias value. <br><br>The bias is constrained to the range [0, 1]. The default value for the bias is 1, so only the given value will be considered. If the bias is less than 1, then the new value of the stat will be equal to <i>bias * newValue + (1-bias) * oldValue</i>.<br><br>The final value will then be converted to a fixed-decimal value with the number of fraction digits equal to the given value. The default value of <i>fractionDigits</i> is 3. </td>
+                        <th>setStat(name: string, value: string | number, bias?: number, fractionDigits?: number): void
+                        </th>
+                        <td>Sets the stat with the given name to the value specified. If the value type of the stat is a
+                            number, it will be averaged with the new value according to the bias value. <br><br>The bias
+                            is constrained to the range [0, 1]. The default value for the bias is 1, so only the given
+                            value will be considered. If the bias is less than 1, then the new value of the stat will be
+                            equal to <i>bias * newValue + (1-bias) * oldValue</i>.<br><br>The final value will then be
+                            converted to a fixed-decimal value with the number of fraction digits equal to the given
+                            value. The default value of <i>fractionDigits</i> is 3. </td>
                     </tr>
                     <tr>
                         <th>startTimer(): void</th>
-                        <td>Starts the timer at the call time. This uses the performance.now() function to store the current milliseconds.</td>
+                        <td>Starts the timer at the call time. This uses the performance.now() function to store the
+                            current milliseconds.</td>
                     </tr>
                 </table>
             </div>
@@ -95,11 +110,13 @@
                 <table class="code">
                     <tr>
                         <th>addSleepListener(): void</th>
-                        <td>Adds event listeners that will suspend the timer when the window blur event is triggered. The timers will reset when the focus event is triggered.</td>
+                        <td>Adds event listeners that will suspend the timer when the window blur event is triggered.
+                            The timers will reset when the focus event is triggered.</td>
                     </tr>
                     <tr>
                         <th>getStatBox(): void</th>
-                        <td>Gets the stat box (id="statBox") from the DOM. If it doesn't exist, it is created and appended to the document body.</td>
+                        <td>Gets the stat box (id="statBox") from the DOM. If it doesn't exist, it is created and
+                            appended to the document body.</td>
                     </tr>
                 </table>
             </div>
