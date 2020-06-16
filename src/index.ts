@@ -1,3 +1,12 @@
+/*
+ * Urchin Version 0.1
+ * A light-weight 3D renderer for realtime rendering in browser applications with the use of Canvas 2D.
+ *
+ * Copyright Trevor Richard
+ *
+ * Complete library released under the MIT license
+ * http://urchin3d.org/LICENSE
+ */
 /// <reference path="Urchin.ts" />
 /// <reference path="classes/Camera.ts" />
 /// <reference path="classes/Color.ts" />
