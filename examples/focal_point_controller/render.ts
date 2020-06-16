@@ -117,7 +117,6 @@ window.addEventListener("load", function () {
 
     let controller = new FocalPointController({
         focalPoint: new Vector(0, 0, 0),
-        friction: 0.03,
         minDist: 5,
         maxDist: 30,
         zoomMultiplier: 1,

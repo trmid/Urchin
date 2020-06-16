@@ -1647,6 +1647,8 @@ var Stats = (function () {
         this.lastRead = this.timer;
     };
     Stats.prototype.readTimer = function () {
+        if (this.suspended)
+            return 0;
         var now = performance.now();
         if (!this.timer)
             this.timer = now;
@@ -1654,6 +1656,8 @@ var Stats = (function () {
         return this.lastRead - this.timer;
     };
     Stats.prototype.readCheckpoint = function () {
+        if (this.suspended)
+            return 0;
         var now = performance.now();
         if (!this.lastRead)
             this.lastRead = now;
@@ -2949,7 +2953,7 @@ var PointLight = (function (_super) {
 var FocalPointController = (function (_super) {
     __extends(FocalPointController, _super);
     function FocalPointController(_a) {
-        var _b = _a === void 0 ? {} : _a, _c = _b.sensitivity, sensitivity = _c === void 0 ? 1 : _c, _d = _b.friction, friction = _d === void 0 ? 0.1 : _d, _e = _b.zoomMultiplier, zoomMultiplier = _e === void 0 ? 1 : _e, _f = _b.focalPoint, focalPoint = _f === void 0 ? new Vector() : _f, _g = _b.minDist, minDist = _g === void 0 ? 1 : _g, _h = _b.maxDist, maxDist = _h === void 0 ? 20 : _h, _j = _b.controlFace, controlFace = _j === void 0 ? window : _j;
+        var _b = _a === void 0 ? {} : _a, _c = _b.sensitivity, sensitivity = _c === void 0 ? 1 : _c, _d = _b.friction, friction = _d === void 0 ? 0.9 : _d, _e = _b.zoomMultiplier, zoomMultiplier = _e === void 0 ? 1 : _e, _f = _b.focalPoint, focalPoint = _f === void 0 ? new Vector() : _f, _g = _b.minDist, minDist = _g === void 0 ? 1 : _g, _h = _b.maxDist, maxDist = _h === void 0 ? 20 : _h, _j = _b.controlFace, controlFace = _j === void 0 ? window : _j;
         var _this = _super.call(this, Controller.FOCAL_POINT) || this;
         _this.velocity = new Vector();
         _this.dMouse = new Vector();
@@ -2971,7 +2975,7 @@ var FocalPointController = (function (_super) {
     FocalPointController.prototype.move = function (camera) {
         var t = this.timer.readTimer() / 1000.0;
         if (this.dMouse.mag()) {
-            this.velocity = this.dMouse.div(t * 100).mult(this.sensitivity);
+            this.velocity = this.dMouse.div(t).mult(this.sensitivity);
             this.dMouse = new Vector();
         }
         var pos = Vector.sub(camera.position, this.focalPoint);
@@ -2979,19 +2983,19 @@ var FocalPointController = (function (_super) {
             this.dist = pos.mag();
         }
         var XYAxis = new Vector(pos.x, pos.y, 0).normalize().rotateZ(Math.PI / 2);
-        camera.position.rotateAxis(XYAxis, -this.velocity.y / 360.0);
+        camera.position.rotateAxis(XYAxis, -this.velocity.y * t / 360.0);
         if (Num.getSign(camera.position.x * pos.x) != 1)
             camera.position.x = pos.x;
         if (Num.getSign(camera.position.y * pos.y) != 1)
             camera.position.y = pos.y;
-        camera.position.rotateZ(-this.velocity.x / 360.0);
+        camera.position.rotateZ(-this.velocity.x * t / 360.0);
         camera.position
             .normalize()
             .mult(this.dist)
             .add(this.focalPoint);
         var diff = Vector.sub(this.focalPoint, camera.position), diffXY = new Vector(diff.x, diff.y, 0), diffZ = new Vector(diffXY.mag(), 0, diff.z);
         camera.orientation = Quaternion.fromVector(diffZ).rotateZ(diffXY.angleBetween(Vector.axis(Vector.X_AXIS)) * (diffXY.y > 0 ? 1 : -1));
-        this.velocity.mult(1 - this.friction);
+        this.velocity.mult(Math.pow(1 - this.friction, t));
         this.timer.startTimer();
     };
     FocalPointController.prototype.mouseDown = function (e) {

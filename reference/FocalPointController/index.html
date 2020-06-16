@@ -13,7 +13,8 @@
     <p><a href="../../">Home</a></p>
     <div>
         <p>
-            A FocalPointController is an extension of Controller that provides a simple way to move a Camera Urbject around a fixed point with mouse events.
+            A FocalPointController is an extension of Controller that provides a simple way to move a Camera Urbject
+            around a fixed point with mouse events.
         </p>
         <p>
             <note>See also: <a href="../Controller/">Controller</a>, <a href="../Camera/">Camera</a></note>
@@ -26,7 +27,9 @@
                     <td>Initializes a fully working Controller with default attribute values.</td>
                 </tr>
                 <tr>
-                    <th>FocalPointController( { sensitivity?: number, friction?: number, zoomMultiplier?: number, focalPoint?: Vector, minDist?: number, maxDist?: number, controlFace?: HTMLElement | Window } ): FocalPointController</th>
+                    <th>FocalPointController( { sensitivity?: number, friction?: number, zoomMultiplier?: number,
+                        focalPoint?: Vector, minDist?: number, maxDist?: number, controlFace?: HTMLElement | Window } ):
+                        FocalPointController</th>
                     <td>
                         Initializes with the given attribute values. Default values are:
                         <br><br>
@@ -38,8 +41,9 @@
                             </tr>
                             <tr>
                                 <th>friction</th>
-                                <td>0.1</td>
-                                <td>The amount of friction that slows down the Camera movement over time. Range: [0, 1]</td>
+                                <td>0.9</td>
+                                <td>The amount of friction that slows down the Camera movement over time. Range: [0, 1]
+                                </td>
                             </tr>
                             <tr>
                                 <th>zoomMultiplier</th>
@@ -49,7 +53,9 @@
                             <tr>
                                 <th>focalPoint</th>
                                 <td>new Vector()</td>
-                                <td>The focal point in 3D space for the controller. The Camera will always be looking directly at this point. <note>See also: <a href="../Vector/">Vector</a>, <a href="../Camera/">Camera</a></note>
+                                <td>The focal point in 3D space for the controller. The Camera will always be looking
+                                    directly at this point. <note>See also: <a href="../Vector/">Vector</a>, <a
+                                            href="../Camera/">Camera</a></note>
                                 </td>
                             </tr>
                             <tr>
@@ -83,12 +89,15 @@
                     </tr>
                     <tr>
                         <th>focalPoint: Vector</th>
-                        <td>The focal point in 3D space for the controller. The Camera will always be looking directly at this point. <note>See also: <a href="../Vector/">Vector</a>, <a href="../Camera/">Camera</a></note>
+                        <td>The focal point in 3D space for the controller. The Camera will always be looking directly
+                            at this point. <note>See also: <a href="../Vector/">Vector</a>, <a
+                                    href="../Camera/">Camera</a></note>
                         </td>
                     </tr>
                     <tr>
                         <th>friction: number</th>
-                        <td>The amount of friction that slows down the Camera movement over time. Expected range: [0, 1]</td>
+                        <td>The amount of friction that slows down the Camera movement over time. Expected range: [0, 1]
+                        </td>
                     </tr>
                     <tr>
                         <th>maxDist: number</th>
@@ -117,7 +126,8 @@
                     </tr>
                     <tr>
                         <th>dMouse: Vector</th>
-                        <td>The relative mouse distance from its last position when move() was called. <note>See also: <a href="../Vector/">Vector</a></note>
+                        <td>The relative mouse distance from its last position when move() was called. <note>See also:
+                                <a href="../Vector/">Vector</a></note>
                         </td>
                     </tr>
                     <tr>
@@ -126,12 +136,14 @@
                     </tr>
                     <tr>
                         <th>timer: Stats</th>
-                        <td>The Stats object used to find the time since the last move() call. <note>See also: <a href="../Stats/">Stats</a></note>
+                        <td>The Stats object used to find the time since the last move() call. <note>See also: <a
+                                    href="../Stats/">Stats</a></note>
                         </td>
                     </tr>
                     <tr>
                         <th>velocity: Vector</th>
-                        <td>The Current mouse "velocity" that is effecting the controller rotation. <note>See also: <a href="../Vector/">Vector</a></note>
+                        <td>The Current mouse "velocity" that is effecting the controller rotation. <note>See also: <a
+                                    href="../Vector/">Vector</a></note>
                         </td>
                     </tr>
                 </table>
@@ -157,7 +169,11 @@
                     <tr>
                         <th>move(target: Camera): void</th>
                         <td>
-                            Moves the Camera Urbject with the Controller based on the user mouse inputs recorded since the last move() call. Moving the mouse up will move the Camera down and below the focalPoint. Likewise, moving the mouse down will move the Camera up and above the focalPoint. Moving the mouse left will rotate the Camera to the right around the focalPoint and moving the mouse right will do the opposite.<br><br>
+                            Moves the Camera Urbject with the Controller based on the user mouse inputs recorded since
+                            the last move() call. Moving the mouse up will move the Camera down and below the
+                            focalPoint. Likewise, moving the mouse down will move the Camera up and above the
+                            focalPoint. Moving the mouse left will rotate the Camera to the right around the focalPoint
+                            and moving the mouse right will do the opposite.<br><br>
 
                             This function should be called every animation frame for the best results.
                         </td>
