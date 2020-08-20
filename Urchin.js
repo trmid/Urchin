@@ -2260,7 +2260,7 @@ var MeshUrbject = (function (_super) {
         }
         var frags = new List();
         var trigons = this.mesh.trigons;
-        var trigonRotation = this.orientation;
+        var trigonRotation = this.orientation.copy();
         switch (this.state) {
             default:
             case Urbject.DYNAMIC:
@@ -2833,7 +2833,6 @@ var PerformanceRenderer = (function (_super) {
     };
     PerformanceRenderer.prototype.requestPreRender = function (instance) {
         if (instance === void 0) { instance = this.instanceQueue; }
-        console.log(this.stats.suspended);
         if (!this.preRendering && instance && !this.stats.suspended) {
             this.preRendering = true;
             this.sortingWorker.assign(instance.fragments);

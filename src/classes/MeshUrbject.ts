@@ -51,7 +51,7 @@ class MeshUrbject extends Urbject {
         }
         let frags = new List<Fragment>();
         let trigons = this.mesh.trigons;
-        let trigonRotation = this.orientation;
+        let trigonRotation = this.orientation.copy();
         switch (this.state) {
             default:
             case Urbject.DYNAMIC:

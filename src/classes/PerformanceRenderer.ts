@@ -154,7 +154,6 @@ class PerformanceRenderer extends Renderer {
     }
 
     private requestPreRender(instance = this.instanceQueue) {
-        console.log(this.stats.suspended);
         if (!this.preRendering && instance && !this.stats.suspended) {
             this.preRendering = true;
             this.sortingWorker.assign(instance.fragments);
