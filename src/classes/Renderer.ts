@@ -149,7 +149,7 @@ class Renderer {
         return Renderer.project(v.sub(worldPos.position).quaternionRotate(worldPos.orientation.conjugate()), camera.fov, w, h);
     }
 
-    static draw(data: ArrayBuffer, ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D) {
+    static draw(data: ArrayBuffer, ctx: CanvasRenderingContext2D | OffscreenRenderingContext2D) {
         /**
          * TOTAL HEADER: 6 floats
          * (background color) r, g, b, a
@@ -216,41 +216,84 @@ class Renderer {
     static project(v: Vector, fov: number, w: number, h: number) {
         fov *= Math.PI * 2.0 / 360.0;
         let d = Math.sqrt(w * w + h * h);
-        let wFov = fov * w / d;
-        let hFov = fov * h / d;
-        let diffXZ = new Vector(v.x, 0, v.z);
-        let diffXY = new Vector(v.x, -v.y, 0);
-        let angleY = diffXZ.angleBetween(Vector.axis(Vector.X_AXIS));
-        let angleX = diffXY.angleBetween(Vector.axis(Vector.X_AXIS));
-        let screenPos = new Vector((v.y < 0 ? 1 : -1) * angleX / (wFov / 2), (v.z < 0 ? 1 : -1) * angleY / (hFov / 2), 0);
-        screenPos.mult(new Vector(w / 2, h / 2, 0));
-        screenPos.add(new Vector(w / 2, h / 2, 0));
+        let focalLength = 0.5*d / Math.tan(0.5*fov);
+        let focus = Vector.xAxis().mult(focalLength);
+        let magNormal = Vector.project(v, Vector.xAxis()).mag();
+        let posScale = focalLength / (magNormal || 0.000001),
+        screenPos = Vector.project2d(v, focus, focus, new Vector(0,0,-1)).mult(new Vector(-posScale, posScale)).add(new Vector(w/2.0, h/2.0));
         return screenPos;
     }
 
     static getCameraInstance(scene: Scene, camera: Camera) {
         let worldCamera = <Camera>(camera.getWorldTransform());
         worldCamera.fov = camera.fov;
+        worldCamera.nearClip = camera.nearClip;
         camera = worldCamera;
         let instance = scene.root.getInstance(camera);
         let frags = new List<Fragment>();
-        let cameraDir = Vector.axis(Vector.X_AXIS); // Direction the camera is facing (does not account for roll)
+        let cameraNormal = Vector.xAxis(); // Direction the camera is facing (does not account for roll)
         let current = instance.fragments.head;
+        const cameraDist = (v: Vector) => v.mag() * (v.angleBetween(cameraNormal) > Math.PI / 2 ? -1 : 1);
         while (current) {
             let t = Trigon.translate(current.data.trigon, Vector.neg(camera.position));
-            let m0 = t.v0.mag(), m1 = t.v1.mag(), m2 = t.v2.mag();
-            let far = m0 > m1 ? (m0 > m2 ? t.v0 : t.v2) : (m1 > m2 ? t.v1 : t.v2);
-            let near = m0 < m1 ? (m0 < m2 ? t.v0 : t.v2) : (m1 < m2 ? t.v1 : t.v2);
+            t.quaternionRotate(Quaternion.conjugate(camera.orientation)); // Rotate the point opposite of the camera's rotation
             let center = t.getCenter();
-            let diff = Vector.add(near, far).mult(0.5 * 0.95).add(Vector.mult(center, 0.05));
-            let dist = diff.mag();
             let normal = t.getNormal();
             let facingAngle = Vector.angleBetween(center, normal);
             if (facingAngle > Math.PI / 2) {
-                t.quaternionRotate(Quaternion.conjugate(camera.orientation)); // Rotate the point opposite of the camera's rotation
-                let viewAngle = Math.min(Math.min(Vector.angleBetween(cameraDir, t.v0), Vector.angleBetween(cameraDir, t.v1)), Vector.angleBetween(cameraDir, t.v2));
-                if (viewAngle <= (180 * Math.PI / 360)) {
-                    frags.addLast(current.data, dist); // Add dist as priority so we don't have to calculate it during fragment sorting
+                let d0 = cameraDist(Vector.project(t.v0, cameraNormal)), d1 = cameraDist(Vector.project(t.v1, cameraNormal)), d2 = cameraDist(Vector.project(t.v2, cameraNormal));
+                let far = d0 > d1 ? (d0 > d2 ? t.v0 : t.v2) : (d1 > d2 ? t.v1 : t.v2);
+                let near = d0 < d1 ? (d0 < d2 ? t.v0 : t.v2) : (d1 < d2 ? t.v1 : t.v2);
+                let diff = Vector.add(near, far).mult(0.5 * 0.95).add(Vector.mult(center, 0.05));
+                let dist = cameraDist(diff);
+
+                // Check near clip:
+                const nearClip = Vector.mult(cameraNormal, camera.nearClip);
+                let numClipped = 0;
+                if(d0 < camera.nearClip) numClipped++;
+                if(d1 < camera.nearClip) numClipped++;
+                if(d2 < camera.nearClip) numClipped++;
+                if(numClipped == 3) {
+                    // Completely clipped! don't include
+                } else if(numClipped == 2) {
+                    // Move clipping points to intersection points with clipping plane, then push new frag
+                    try {
+                        const queueFragment = (v0: Vector, v1: Vector, v2: Vector) => {
+                            const frag = new Fragment(new Trigon(
+                                Vector.planarIntersection(v2, v0, nearClip, cameraNormal),
+                                Vector.planarIntersection(v2, v1, nearClip, cameraNormal),
+                                v2.copy()
+                            ).quaternionRotate(camera.orientation).translate(camera.position), current.data.material, current.data.group);
+                            frags.addLast(frag, dist);
+                        };
+                        if(d0 < camera.nearClip && d1 < camera.nearClip) queueFragment(t.v0, t.v1, t.v2);
+                        else if(d1 < camera.nearClip && d2 < camera.nearClip) queueFragment(t.v1, t.v2, t.v0);
+                        else if(d2 < camera.nearClip && d0 < camera.nearClip) queueFragment(t.v2, t.v0, t.v1);
+                    } catch(err) {
+                        // intersection error, don't render fragment
+                    }
+                } else if(numClipped == 1) {
+                    // Calculate two new trigons based off two intersection points with clipping plane, then push both as new frags
+                    const queueSplitFragments = (clipped: Vector, next: Vector, last: Vector) => {
+                        try {
+                            const clip1 = Vector.planarIntersection(last, clipped, nearClip, cameraNormal);
+                            const clip2 = Vector.planarIntersection(clipped, next, nearClip, cameraNormal);
+                            const t1 = new Trigon(clip1, next, last);
+                            const t2 = new Trigon(clip1, clip2, next);
+                            for(const t of [t1,t2]) {
+                                const frag = new Fragment(Trigon.quaternionRotate(t, camera.orientation).translate(camera.position), current.data.material, current.data.group);
+                                frags.addLast(frag, dist);
+                            }
+                        } catch(err) {
+                            // intersection error, don't render fragment
+                        }
+                    };
+                    if(d0 < camera.nearClip) queueSplitFragments(t.v0, t.v1, t.v2);
+                    else if(d1 < camera.nearClip) queueSplitFragments(t.v1, t.v2, t.v0);
+                    else if(d2 < camera.nearClip) queueSplitFragments(t.v2, t.v0, t.v1);
+                } else {
+                    // Add frag to list
+                    frags.addLast(current.data, dist);
                 }
             }
             current = current.nxt;

@@ -247,6 +247,32 @@ class Vector {
         return Math.acos(Num.constrain(this.dot(v) / denominator, -1, 1));
     }
 
+    project(v: Vector) {
+        const theta = this.angleBetween(v);
+        const mag = this.mag();
+        const projected = Vector.normalize(v).mult(Math.cos(theta) * mag);
+        this.x = projected.x;
+        this.y = projected.y;
+        this.z = projected.z;
+        return this;
+    }
+
+    planarProject(origin: Vector, normal: Vector) {
+        const diff = Vector.sub(origin, this);
+        return this.add(Vector.project(diff, normal));
+    }
+
+    project2d(origin: Vector, normal: Vector, zAxis: Vector) {
+        const proj = Vector.planarProject(this, origin, normal).sub(origin);
+        const theta = proj.angleBetween(zAxis)
+        const theta2 = proj.angleBetween(Vector.rotateAxis(zAxis, normal, Math.PI / 2));
+        const mag = proj.mag();
+        this.x = Math.cos(theta2) * mag;
+        this.y = Math.cos(theta) * mag;
+        this.z = 0;
+        return this;
+    }
+
     equals(v: Vector) {
         return this.x == v.x && this.y == v.y && this.z == v.z;
     }
@@ -395,6 +421,30 @@ class Vector {
 
     static angleBetween(v0: Vector, v1: Vector) {
         return v0.angleBetween(v1);
+    }
+
+    static project(v0: Vector, v1: Vector) {
+        return v0.copy().project(v1);
+    }
+
+    static planarProject(v: Vector, origin: Vector, normal: Vector) {
+        return v.copy().planarProject(origin, normal);
+    }
+
+    static project2d(v: Vector, origin: Vector, normal: Vector, zAxis: Vector) {
+        return v.copy().project2d(origin, normal, zAxis);
+    }
+
+    static planarIntersection(p0: Vector, p1: Vector, planarPoint: Vector, planarNormal: Vector) {
+        let diff = Vector.sub(p0, p1);
+        let p1Projection = Vector.planarProject(p1, planarPoint, planarNormal);
+        let p1DistToPlane = Vector.sub(p1, p1Projection).mag();
+        let normalizedDist = Vector.project(diff, planarNormal).mag();
+        if(normalizedDist == 0) {
+            throw new Error("line within plane");
+        }
+        let t = p1DistToPlane / normalizedDist;
+        return Vector.add(p1, Vector.mult(diff, t));
     }
 
     static equals(v0: Vector, v1: Vector) {

@@ -12,7 +12,7 @@ class RenderWorker extends UrchinWorker {
         });
         this.callback = callback;
         this.sync = sync;
-        let offscreen = canvas.transferControlToOffscreen();
+        let offscreen = (<any>canvas).transferControlToOffscreen();
         this.worker.postMessage({ canvas: offscreen }, [offscreen]);
     }
 

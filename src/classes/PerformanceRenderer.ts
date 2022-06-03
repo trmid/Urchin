@@ -53,7 +53,7 @@ class PerformanceRenderer extends Renderer {
             this.resize();
         }
         var p = this;
-        if (offscreenDraw && this.canvas.transferControlToOffscreen) {
+        if (offscreenDraw && (<any>this.canvas).transferControlToOffscreen) {
             this.renderWorker = new RenderWorker(this.canvas, function () { p.renderCallback() }, function () { p.renderSync() }, showPerformance);
         } else {
             this.ctx = this.canvas.getContext('2d');

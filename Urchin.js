@@ -1,5 +1,5 @@
 /*!
- * Urchin Version 0.1
+ * Urchin Version 0.2
  * A light-weight 3D renderer for realtime rendering in browser applications with the use of Canvas 2D.
  *
  * Copyright Trevor Richard
@@ -7,7 +7,7 @@
  * Released under the MIT license
  * http://urchin3d.org/license
  */
-var URCHIN_PATH = "/Urchin.js";
+var URCHIN_PATH = "/urchin.js";
 var Vector = (function () {
     function Vector(x, y, z) {
         if (x === void 0) { x = 0; }
@@ -223,6 +223,29 @@ var Vector = (function () {
         }
         return Math.acos(Num.constrain(this.dot(v) / denominator, -1, 1));
     };
+    Vector.prototype.project = function (v) {
+        var theta = this.angleBetween(v);
+        var mag = this.mag();
+        var projected = Vector.normalize(v).mult(Math.cos(theta) * mag);
+        this.x = projected.x;
+        this.y = projected.y;
+        this.z = projected.z;
+        return this;
+    };
+    Vector.prototype.planarProject = function (origin, normal) {
+        var diff = Vector.sub(origin, this);
+        return this.add(Vector.project(diff, normal));
+    };
+    Vector.prototype.project2d = function (origin, normal, zAxis) {
+        var proj = Vector.planarProject(this, origin, normal).sub(origin);
+        var theta = proj.angleBetween(zAxis);
+        var theta2 = proj.angleBetween(Vector.rotateAxis(zAxis, normal, Math.PI / 2));
+        var mag = proj.mag();
+        this.x = Math.cos(theta2) * mag;
+        this.y = Math.cos(theta) * mag;
+        this.z = 0;
+        return this;
+    };
     Vector.prototype.equals = function (v) {
         return this.x == v.x && this.y == v.y && this.z == v.z;
     };
@@ -341,6 +364,26 @@ var Vector = (function () {
     };
     Vector.angleBetween = function (v0, v1) {
         return v0.angleBetween(v1);
+    };
+    Vector.project = function (v0, v1) {
+        return v0.copy().project(v1);
+    };
+    Vector.planarProject = function (v, origin, normal) {
+        return v.copy().planarProject(origin, normal);
+    };
+    Vector.project2d = function (v, origin, normal, zAxis) {
+        return v.copy().project2d(origin, normal, zAxis);
+    };
+    Vector.planarIntersection = function (p0, p1, planarPoint, planarNormal) {
+        var diff = Vector.sub(p0, p1);
+        var p1Projection = Vector.planarProject(p1, planarPoint, planarNormal);
+        var p1DistToPlane = Vector.sub(p1, p1Projection).mag();
+        var normalizedDist = Vector.project(diff, planarNormal).mag();
+        if (normalizedDist == 0) {
+            throw new Error("line within plane");
+        }
+        var t = p1DistToPlane / normalizedDist;
+        return Vector.add(p1, Vector.mult(diff, t));
     };
     Vector.equals = function (v0, v1) {
         return v0.equals(v1);
@@ -1368,7 +1411,7 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
@@ -1380,9 +1423,14 @@ var __extends = (this && this.__extends) || (function () {
 var Camera = (function (_super) {
     __extends(Camera, _super);
     function Camera(_a) {
-        var _b = _a === void 0 ? {} : _a, _c = _b.orientation, orientation = _c === void 0 ? Quaternion.fromAxisRotation(Vector.X_AXIS, 0) : _c, _d = _b.position, position = _d === void 0 ? new Vector(-10, 0, 0) : _d, scale = _b.scale, _e = _b.fov, fov = _e === void 0 ? 60 : _e, superCopy = _b.superCopy, state = _b.state, group = _b.group;
+        var _b = _a === void 0 ? {} : _a, _c = _b.orientation, orientation = _c === void 0 ? Quaternion.fromAxisRotation(Vector.X_AXIS, 0) : _c, _d = _b.position, position = _d === void 0 ? new Vector(-10, 0, 0) : _d, scale = _b.scale, _e = _b.fov, fov = _e === void 0 ? 60 : _e, _f = _b.nearClip, nearClip = _f === void 0 ? 1 : _f, superCopy = _b.superCopy, state = _b.state, group = _b.group;
         var _this = _super.call(this, { type: Urbject.CAMERA, position: position, orientation: orientation, scale: scale, superCopy: superCopy, state: state, group: group }) || this;
-        _this.fov = Num.constrain(fov, 1, 360);
+        if (fov <= 0 || fov >= 180)
+            throw new Error("The FOV must be between 0 and 180 non-inclusive.");
+        _this.fov = fov;
+        if (nearClip <= 0)
+            throw new Error("The near clipping distance must be greater than zero.");
+        _this.nearClip = nearClip;
         return _this;
     }
     Camera.prototype.copy = function (options) {
@@ -2496,43 +2544,91 @@ var Renderer = (function () {
     Renderer.project = function (v, fov, w, h) {
         fov *= Math.PI * 2.0 / 360.0;
         var d = Math.sqrt(w * w + h * h);
-        var wFov = fov * w / d;
-        var hFov = fov * h / d;
-        var diffXZ = new Vector(v.x, 0, v.z);
-        var diffXY = new Vector(v.x, -v.y, 0);
-        var angleY = diffXZ.angleBetween(Vector.axis(Vector.X_AXIS));
-        var angleX = diffXY.angleBetween(Vector.axis(Vector.X_AXIS));
-        var screenPos = new Vector((v.y < 0 ? 1 : -1) * angleX / (wFov / 2), (v.z < 0 ? 1 : -1) * angleY / (hFov / 2), 0);
-        screenPos.mult(new Vector(w / 2, h / 2, 0));
-        screenPos.add(new Vector(w / 2, h / 2, 0));
+        var focalLength = 0.5 * d / Math.tan(0.5 * fov);
+        var focus = Vector.xAxis().mult(focalLength);
+        var magNormal = Vector.project(v, Vector.xAxis()).mag();
+        var posScale = focalLength / (magNormal || 0.000001), screenPos = Vector.project2d(v, focus, focus, new Vector(0, 0, -1)).mult(new Vector(-posScale, posScale)).add(new Vector(w / 2.0, h / 2.0));
         return screenPos;
     };
     Renderer.getCameraInstance = function (scene, camera) {
         var worldCamera = (camera.getWorldTransform());
         worldCamera.fov = camera.fov;
+        worldCamera.nearClip = camera.nearClip;
         camera = worldCamera;
         var instance = scene.root.getInstance(camera);
         var frags = new List();
-        var cameraDir = Vector.axis(Vector.X_AXIS);
+        var cameraNormal = Vector.xAxis();
         var current = instance.fragments.head;
-        while (current) {
+        var cameraDist = function (v) { return v.mag() * (v.angleBetween(cameraNormal) > Math.PI / 2 ? -1 : 1); };
+        var _loop_1 = function () {
             var t = Trigon.translate(current.data.trigon, Vector.neg(camera.position));
-            var m0 = t.v0.mag(), m1 = t.v1.mag(), m2 = t.v2.mag();
-            var far = m0 > m1 ? (m0 > m2 ? t.v0 : t.v2) : (m1 > m2 ? t.v1 : t.v2);
-            var near = m0 < m1 ? (m0 < m2 ? t.v0 : t.v2) : (m1 < m2 ? t.v1 : t.v2);
+            t.quaternionRotate(Quaternion.conjugate(camera.orientation));
             var center = t.getCenter();
-            var diff = Vector.add(near, far).mult(0.5 * 0.95).add(Vector.mult(center, 0.05));
-            var dist = diff.mag();
             var normal = t.getNormal();
             var facingAngle = Vector.angleBetween(center, normal);
             if (facingAngle > Math.PI / 2) {
-                t.quaternionRotate(Quaternion.conjugate(camera.orientation));
-                var viewAngle = Math.min(Math.min(Vector.angleBetween(cameraDir, t.v0), Vector.angleBetween(cameraDir, t.v1)), Vector.angleBetween(cameraDir, t.v2));
-                if (viewAngle <= (180 * Math.PI / 360)) {
-                    frags.addLast(current.data, dist);
+                var d0 = cameraDist(Vector.project(t.v0, cameraNormal)), d1 = cameraDist(Vector.project(t.v1, cameraNormal)), d2 = cameraDist(Vector.project(t.v2, cameraNormal));
+                var far = d0 > d1 ? (d0 > d2 ? t.v0 : t.v2) : (d1 > d2 ? t.v1 : t.v2);
+                var near = d0 < d1 ? (d0 < d2 ? t.v0 : t.v2) : (d1 < d2 ? t.v1 : t.v2);
+                var diff = Vector.add(near, far).mult(0.5 * 0.95).add(Vector.mult(center, 0.05));
+                var dist_1 = cameraDist(diff);
+                var nearClip_1 = Vector.mult(cameraNormal, camera.nearClip);
+                var numClipped = 0;
+                if (d0 < camera.nearClip)
+                    numClipped++;
+                if (d1 < camera.nearClip)
+                    numClipped++;
+                if (d2 < camera.nearClip)
+                    numClipped++;
+                if (numClipped == 3) {
+                }
+                else if (numClipped == 2) {
+                    try {
+                        var queueFragment = function (v0, v1, v2) {
+                            var frag = new Fragment(new Trigon(Vector.planarIntersection(v2, v0, nearClip_1, cameraNormal), Vector.planarIntersection(v2, v1, nearClip_1, cameraNormal), v2.copy()).quaternionRotate(camera.orientation).translate(camera.position), current.data.material, current.data.group);
+                            frags.addLast(frag, dist_1);
+                        };
+                        if (d0 < camera.nearClip && d1 < camera.nearClip)
+                            queueFragment(t.v0, t.v1, t.v2);
+                        else if (d1 < camera.nearClip && d2 < camera.nearClip)
+                            queueFragment(t.v1, t.v2, t.v0);
+                        else if (d2 < camera.nearClip && d0 < camera.nearClip)
+                            queueFragment(t.v2, t.v0, t.v1);
+                    }
+                    catch (err) {
+                    }
+                }
+                else if (numClipped == 1) {
+                    var queueSplitFragments = function (clipped, next, last) {
+                        try {
+                            var clip1 = Vector.planarIntersection(last, clipped, nearClip_1, cameraNormal);
+                            var clip2 = Vector.planarIntersection(clipped, next, nearClip_1, cameraNormal);
+                            var t1 = new Trigon(clip1, next, last);
+                            var t2 = new Trigon(clip1, clip2, next);
+                            for (var _i = 0, _a = [t1, t2]; _i < _a.length; _i++) {
+                                var t_2 = _a[_i];
+                                var frag = new Fragment(Trigon.quaternionRotate(t_2, camera.orientation).translate(camera.position), current.data.material, current.data.group);
+                                frags.addLast(frag, dist_1);
+                            }
+                        }
+                        catch (err) {
+                        }
+                    };
+                    if (d0 < camera.nearClip)
+                        queueSplitFragments(t.v0, t.v1, t.v2);
+                    else if (d1 < camera.nearClip)
+                        queueSplitFragments(t.v1, t.v2, t.v0);
+                    else if (d2 < camera.nearClip)
+                        queueSplitFragments(t.v2, t.v0, t.v1);
+                }
+                else {
+                    frags.addLast(current.data, dist_1);
                 }
             }
             current = current.nxt;
+        };
+        while (current) {
+            _loop_1();
         }
         return new FrameInstance(frags, instance.lights, camera);
     };

@@ -1,5 +1,5 @@
 /*! 
- * Urchin Version 0.1
+ * Urchin Version 0.2
  * A light-weight 3D renderer for realtime rendering in browser applications with the use of Canvas 2D.
  *
  * Copyright Trevor Richard
@@ -8,4 +8,7 @@
  * http://urchin3d.org/license
  */
 
-var URCHIN_PATH = "/Urchin.js";
+var URCHIN_PATH = "/urchin.js";
+
+// Hotfix for IDEs that can't find this type:
+type OffscreenRenderingContext2D = any;
